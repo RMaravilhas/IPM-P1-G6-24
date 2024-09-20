@@ -6,7 +6,7 @@
         }
 
         header {
-            background-color: #ff6347;
+            background-color: #2baf8a;
             color: white;
             padding: 20px;
             text-align: center;
@@ -27,7 +27,7 @@
         }
 
         nav a:hover {
-            color: #ff6347;
+            color: #2baf8a;
         }
 
         .container {
@@ -37,7 +37,7 @@
         }
 
         h2 {
-            color: #ff6347;
+            color: #2baf8a;
             font-size: 1.8em;
             margin-bottom: 10px;
         }
