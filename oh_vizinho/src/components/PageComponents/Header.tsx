@@ -4,24 +4,29 @@ import LoginPage from '../../Pages/LoginPage';
 const Header: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
-  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false); // Controle do popup
+  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       setIsLoggedIn(true);
-      setUserName(token); // Exemplo, atualize para obter o nome do usuário conforme necessário
+      setUserName(token); 
     }
   }, []);
 
   const handleLoginClick = () => {
-    setIsLoginPopupOpen(true); // Abre o popup de login ao clicar
+    setIsLoginPopupOpen(true);
   };
 
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-    setUserName("NomeDoUsuario"); // Defina o nome conforme sua lógica de autenticação
-    setIsLoginPopupOpen(false); // Fecha o popup após login
+  const handleLogin = (username: string, password: string) => {
+    if (username === 'admin' && password === '1234') {
+      setIsLoggedIn(true);
+      setUserName(username);
+      sessionStorage.setItem('authToken', username); 
+      setIsLoginPopupOpen(false); 
+    } else {
+      alert('Usuário ou senha incorretos.');
+    }
   };
 
   const handleRegister = () => {
@@ -29,7 +34,7 @@ const Header: React.FC = () => {
   };
 
   const handleClosePopup = () => {
-    setIsLoginPopupOpen(false); // Fecha o popup de login
+    setIsLoginPopupOpen(false);
   };
 
   return (
@@ -65,9 +70,9 @@ const Header: React.FC = () => {
       {/* Popup de login */}
       <LoginPage
         isOpen={isLoginPopupOpen}
-        onClose={handleClosePopup} // Fecha o popup quando o usuário clica fora dele
-        login={handleLogin}       // Executa o login e fecha o popup
-        register={handleRegister}  // Redireciona para a página de registro
+        onClose={handleClosePopup}
+        login={handleLogin}       
+        register={handleRegister}  
       />
     </header>
   );
