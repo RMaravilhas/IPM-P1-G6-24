@@ -1,7 +1,7 @@
 import React from 'react';
-import CardContent from '../CardContent';
-import CardButton from '../CardButton';
-import CardImage from '../CardImage';
+import CardContent from './CardComponents/CardContent';
+import CardButton from './CardComponents/CardButton';
+import CardImage from './CardComponents/CardImage';
 
 export interface RecipeCardProps {
   image: string;
