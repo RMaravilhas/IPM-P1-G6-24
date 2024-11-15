@@ -43,6 +43,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         return false;
       if(query.vegan && !item.vegan)
         return false;
+      if(query.products){
+        const ingredients = item.ingredients.map((a:string) => a.toLowerCase());
+        const products = query.products.map(a => a.toLowerCase())
+        valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
+      }
       }
       else if(cardType == 'product'){
         if(query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
