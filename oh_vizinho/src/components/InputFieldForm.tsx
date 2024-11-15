@@ -6,21 +6,19 @@ interface InputFieldFormProps {
   id: string;
 }
 
-const InputFieldForm: React.FC<InputFieldFormProps> = ({label, placeholder, id}) => {
+const InputFieldForm: React.FC<InputFieldFormProps> = ({ label, placeholder, id }) => {
   return (
-    <>
-      <div className="flex items-center gap-2">
-        <label htmlFor={id} className="text-xl tracking-tight leading-tight text-black">
-          {label}
-        </label>
-        <input
-          type="text"
-          id={id}
-          className="flex-1 px-4 py-2 text-base font-semibold leading-tight bg-white rounded border border-lime-800 border-solid text-lime-800 text-opacity-30"
-          placeholder={placeholder}
-        />
-      </div>
-    </>
+    <div className="grid grid-cols-[200px_1fr] items-center gap-4">
+      <label htmlFor={id} className="text-xl tracking-tight leading-tight text-black">
+        {label}
+      </label>
+      <input
+        type="text"
+        id={id}
+        className="w-full px-4 py-2 text-base font-semibold leading-tight bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
+        placeholder={placeholder}
+      />
+    </div>
   );
 };
 

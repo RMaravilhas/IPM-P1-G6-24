@@ -23,23 +23,24 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = () => {
                 <InputFieldForm label='Nome do Produto:' id="produtoName" placeholder="Produto"/>
                 <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/29ad184c2c0f345f5b0015f682600371c63c52aedfc56bc72711cc62ac7878ae?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" alt="" className="object-contain shrink-0 self-start w-10 aspect-square" />
               </div>
-                <div className="flex flex-col items-start text-xl tracking-tight leading-tight text-black">
+                <div className="flex flex-col items-start text-xl tracking-tight leading-tight text-black mt-6">
                   <InputFieldForm label='Localização:' id="localização" placeholder="Localização"/>
-                  <div className="flex gap-2 self-stretch my-auto text-sm tracking-tight">
-                    <input
-                      type="checkbox"
-                      id="useMyLocation"
-                      className="flex shrink-0 w-5 h-5 bg-white rounded-md border border-lime-800 border-solid"
-                    />
-                    <label htmlFor="useMyLocation">Usar a minha localização</label>
-                  </div>
-                  <div className="flex gap-6 self-start mt-6">
-                    <div className="flex gap-4 self-stretch mt-12 max-md:mt-10">
-                      <NumberPicker label='Preço:'/>
-                      <NumberPicker label='Quantidade:'/>
+                  <div className="grid grid-cols-[200px_1fr] items-center gap-4">
+                    <a></a> {/* Used only to let the other div right align */}
+                    <div className="flex gap-2 self-stretch my-auto text-sm tracking-tight mt-2">
+                      <input
+                        type="checkbox"
+                        id="useMyLocation"
+                        className="flex shrink-0 w-5 h-5 bg-white rounded-md border border-lime-800 border-solid"
+                        />
+                      <label htmlFor="useMyLocation">Usar a minha localização</label>
                     </div>
-                  </div>
-                  <div className="flex ">
+                   </div>
+                   <div className="grid grid-cols-2  gap-4 mt-6">
+                      <NumberPicker label="Preço:" />
+                      <NumberPicker label="Quantidade:" />
+                    </div>
+                  <div className="flex mt-6">
                   <DatePicker label="Validade:" id="expiryDate" />
                   </div>
                 </div>
