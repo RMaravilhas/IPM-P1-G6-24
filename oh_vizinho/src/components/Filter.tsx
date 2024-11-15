@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 
 interface FilterProps {
   isOpen: boolean;
@@ -6,11 +6,29 @@ interface FilterProps {
 }
 
 const Filter: React.FC<FilterProps> = ({ isOpen, onClose }) => {
+  const ref = useRef<HTMLDivElement | null>(null); // Referência ao container do Filter
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        onClose(); // Fecha o popup
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside); // Adiciona o evento
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside); // Remove o evento
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+      <div ref={ref} className="bg-white p-6 rounded-lg shadow-lg w-80">
         <h2 className="text-xl font-bold mb-4">Filtros</h2>
         <form>
           <label className="block mb-2">
