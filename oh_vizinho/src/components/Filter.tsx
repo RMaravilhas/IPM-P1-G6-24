@@ -19,8 +19,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     lactoseFree: false,
     vegan: false,
   });
-
-  const [ingredientInput, setIngredientInput] = useState(''); // Estado para o valor do input de ingredientes
+  const [ingredientInput, setIngredientInput] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -39,14 +38,6 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
-
-  // Atualiza o parametro name
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setQuery((prevFilters) => ({
-      ...prevFilters,
-      name: event.target.value,
-    }));
-  };
 
   // Atualiza campos do filtro
   const handleFilterToggle = (key: keyof Query) => {
@@ -95,24 +86,12 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     onClose();
   };
 
-  // Renderizar filtros baseados no tipo
   if (filterType === 'recipe') {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div ref={ref} className="bg-white p-6 rounded-lg shadow-lg w-80">
           <h2 className="text-xl font-bold mb-4">Filtros ({filterType})</h2>
           <form onSubmit={(e) => e.preventDefault()}>
-            <label className="block mb-2">
-              <span className="text-gray-700">Buscar:</span>
-              <input
-                type="text"
-                value={query.name || ''}
-                onChange={handleNameChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
-                placeholder={`Filtrar ${filterType}`}
-              />
-            </label>
-
             {/* Campo para inserir ingredientes */}
             <label className="block mb-2">
               <span className="text-gray-700">Ingredientes:</span>
@@ -206,7 +185,6 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
       </div>
     );
   }
-
   return null;
 };
 

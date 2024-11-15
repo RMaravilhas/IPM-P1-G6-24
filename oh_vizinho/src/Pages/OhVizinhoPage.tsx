@@ -42,15 +42,20 @@ const OhVizinhoPage: React.FC = () => {
     }
   };
 
+  const handleFilterNameChange = (filterName: string) => {
+    setQuery({...query, name: filterName})
+  };
+
   const handleFilterChange = (filter: Query) => {
-    // Lógica de filtro
-    setQuery({...filter});
+    const name = query.name;
+    setQuery({...filter, name});
   };
 
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24">
-      <Header setIsAuthenticated={setIsAuthenticated} />
-      <PageHeading togglePopup={togglePopup} onViewChange={handleViewChange} />
+      <h1>{JSON.stringify(query)}</h1>
+      <Header setIsAuthenticated={setIsAuthenticated}/>
+      <PageHeading togglePopup={togglePopup} onViewChange={handleViewChange} filterName={handleFilterNameChange}/>
       
       {isAuthenticated || viewType === 'recipe' ? (
         <ProductGrid items={getItemsByType()} cardType={viewType} />
