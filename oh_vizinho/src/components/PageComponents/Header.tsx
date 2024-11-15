@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from '../../Pages/LoginPage';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  setIsAuthenticated: (value: boolean) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ setIsAuthenticated }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
@@ -10,9 +14,10 @@ const Header: React.FC = () => {
     const token = sessionStorage.getItem('authToken');
     if (token) {
       setIsLoggedIn(true);
-      setUserName(token); 
+      setUserName(token);
+      setIsAuthenticated(true); // Atualiza o estado global na página
     }
-  }, []);
+  }, [setIsAuthenticated]);
 
   const handleLoginClick = () => {
     setIsLoginPopupOpen(true);
@@ -22,11 +27,19 @@ const Header: React.FC = () => {
     if (username === 'admin' && password === '1234') {
       setIsLoggedIn(true);
       setUserName(username);
-      sessionStorage.setItem('authToken', username); 
-      setIsLoginPopupOpen(false); 
+      sessionStorage.setItem('authToken', username);
+      setIsAuthenticated(true); // Atualiza o estado global na página
+      setIsLoginPopupOpen(false);
     } else {
       alert('Usuário ou senha incorretos.');
     }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserName(null);
+    sessionStorage.removeItem('authToken'); // Remove o token de autenticação
+    setIsAuthenticated(false); // Atualiza o estado global na página
   };
 
   const handleRegister = () => {
@@ -53,6 +66,12 @@ const Header: React.FC = () => {
         {isLoggedIn ? (
           <>
             <div data-layername="userName" className="my-auto basis-auto">{userName}</div>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-500 text-white rounded-lg"
+            >
+              Logout
+            </button>
             <img 
               loading="lazy" 
               src="https://cdn.builder.io/api/v1/image/assets/TEMP/def97886f7fc40cbecb9bf0fdc4ff631c9da645840e7351d9cb6d7a9153d683b?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" 
@@ -67,7 +86,6 @@ const Header: React.FC = () => {
         )}
       </div>
 
-      {/* Popup de login */}
       <LoginPage
         isOpen={isLoginPopupOpen}
         onClose={handleClosePopup}

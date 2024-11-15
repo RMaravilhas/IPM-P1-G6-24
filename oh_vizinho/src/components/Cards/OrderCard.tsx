@@ -16,8 +16,8 @@ const OrderCard: React.FC<OrderCardProps> = ({ orderId, product, address, quanti
         <div data-layername="column" className="flex flex-col w-[55%] max-md:ml-0 max-md:w-full">
           <div className="flex flex-col w-full text-lg leading-tight text-black whitespace-nowrap max-md:mt-9">
             {/* <img loading="lazy" src={image} alt={name} className="object-contain aspect-[1.35] w-[189px]" /> */}
-            <div className="flex gap-2 justify-center px-2.5 py-1.5 mt-5 bg-white border border-solid border-black border-opacity-10">
-              <img src="email.png" alt="" className="object-contain shrink-0 aspect-square w-[25px]" />
+            <div className="flex overflow-hidden gap-6 px-5 py-1.5 mt-5 bg-white rounded-lg border border-lime-800 border-solid">
+              <img src="https://i.ibb.co/gvTpvtM/paper-plane.png" alt="" className="object-contain shrink-0 aspect-square w-[25px]" />
               <button data-layername="contactar" className="self-start">Contactar</button>
             </div>
           </div>

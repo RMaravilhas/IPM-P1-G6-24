@@ -28,7 +28,7 @@ export const productData = [
   
   export const recipeData = [
     {
-      image: "/bolo.jpg",
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
       title: "Sopa de Tomate",
       description: "Xesque",
       ingredientCount: 2,
