@@ -48,7 +48,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         const products = query.products.map(a => a.toLowerCase())
         valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
       }
-      }
       else if(cardType == 'product'){
         if(query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
@@ -63,14 +62,20 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
 
   return (
     <div className="mt-8 w-full max-w-[1248px] max-md:max-w-full">
-      <div className="flex gap-5 max-md:flex-col">
+      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1">
         {filterItems().map((item, index) => (
-          <div key={index} data-layername="column" className="flex flex-col w-[33%] max-md:ml-0 max-md:w-full">
+          <div 
+            key={index} 
+            data-layername="column" 
+            className="flex flex-col"
+          >
             {renderCard(item, index)}
           </div>
         ))}
       </div>
     </div>
+
+
   );
 };
 

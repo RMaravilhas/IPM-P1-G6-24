@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LoginPage from '../../Pages/LoginPage';
+import Button from '../Button';
 
 interface HeaderProps {
   setIsAuthenticated: (value: boolean) => void;
@@ -80,9 +81,9 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated }) => {
             />
           </>
         ) : (
-          <button onClick={handleLoginClick} className="px-4 py-2 bg-blue-500 text-white rounded-lg">
+          <Button onClick={handleLoginClick} primary>
             Login
-          </button>
+          </Button>
         )}
       </div>
 
