@@ -39,7 +39,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
 
   if (!isOpen) return null;
 
-  // Atualiza o estado interno quando o usuário interage com o campo "Buscar"
+  // Atualiza o parametro name
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery((prevFilters) => ({
       ...prevFilters,
@@ -47,7 +47,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     }));
   };
 
-  // Atualiza outros campos do estado interno
+  // Atualiza campos do filtro
   const handleFilterToggle = (key: keyof Query) => {
     setQuery((prevFilters) => ({
       ...prevFilters,
