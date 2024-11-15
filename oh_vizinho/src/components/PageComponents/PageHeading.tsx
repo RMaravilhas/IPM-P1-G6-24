@@ -66,9 +66,11 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange }) 
               <div data-layername="divider" className="shrink-0 mt-1 h-0.5 border-2 border-solid border-neutral-200" />
             </div>
           </form>
+          {selected == 'recipe' ? 
           <button data-layername="listChip" onClick={togglePopup} className="overflow-hidden px-7 py-2.5 font-semibold whitespace-nowrap bg-white rounded-3xl border border-solid border-stone-300 max-md:px-5">
             Filtrar
           </button>
+           : null}
         </div>
       </div>
       <div data-layername="divider" className="shrink-0 mt-7 max-w-full h-0 border-2 border-solid border-neutral-200 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] w-[1248px]" />
