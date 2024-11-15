@@ -41,7 +41,7 @@ const OhVizinhoPage: React.FC = () => {
   };
 
   const handleFilterChange = (filter: Query) => {
-
+    setQuery({...filter});
   };
 
   return (
