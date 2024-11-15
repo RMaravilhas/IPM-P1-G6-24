@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useState } from 'react';
-
 import { Query } from '../types/Query';
 
 interface FilterProps {
@@ -20,6 +19,8 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     lactoseFree: false,
     vegan: false,
   });
+
+  const [ingredientInput, setIngredientInput] = useState(''); // Estado para o valor do input de ingredientes
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -55,13 +56,47 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     }));
   };
 
-  // Envia os filtros completos para o componente pai
+  // Atualiza os ingredientes
+  const handleIngredientChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIngredientInput(event.target.value);
+  };
+
+  // Adiciona o ingrediente à lista de produtos
+  const addIngredient = (ingredient: string) => {
+    const ingredients = query.products;
+    if(query.products && !query.products.includes(ingredient))
+      ingredients?.push(ingredient);
+    setQuery((prevQuery) => ({
+      ...prevQuery,
+      products: ingredients,
+    }));
+  };
+
+  // Remove um ingrediente da lista
+  const removeIngredient = (ingredient: string) => {
+    const filteredIngredients = query.products?.filter(item => item !== ingredient);
+    setQuery((prevQuery) => ({
+      ...prevQuery,
+      products: filteredIngredients,
+    }));
+  };
+
+  // Função que lida com o pressionar tecla Enter
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && ingredientInput.trim()) {
+      addIngredient(ingredientInput);
+      setIngredientInput(''); // Limpa o input após adicionar
+    }
+  };
+
+  // Envia os filtros para o componente onde este está nested
   const handleApplyFilters = () => {
     onFilterChange(query);
     onClose();
   };
 
-  if(filterType == 'recipe')
+  // Renderizar filtros baseados no tipo
+  if (filterType === 'recipe') {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
         <div ref={ref} className="bg-white p-6 rounded-lg shadow-lg w-80">
@@ -78,7 +113,39 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
               />
             </label>
 
-            {/* Exemplo de checkbox para filtros booleanos */}
+            {/* Campo para inserir ingredientes */}
+            <label className="block mb-2">
+              <span className="text-gray-700">Ingredientes:</span>
+              <div className="flex">
+                <input
+                  type="text"
+                  value={ingredientInput}
+                  onChange={handleIngredientChange}
+                  onKeyDown={handleKeyPress} // Adiciona o evento de keypress
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                  placeholder="Adicionar ingrediente"
+                />
+              </div>
+            </label>
+
+            {/* Lista de ingredientes */}
+            <div className="mt-4 space-y-1">
+              {query.products && query.products.length > 0 && (
+                <ul>
+                  {query.products.map((ingredient, index) => (
+                    <li
+                      key={index}
+                      className="text-gray-700 cursor-pointer"
+                      onClick={() => removeIngredient(ingredient)}
+                    >
+                      <span className="text-red-500">❌</span>{ingredient}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Filtros de restrições alimentares */}
             <div className="mt-4 space-y-2">
               <label className="flex items-center">
                 <input
@@ -138,11 +205,9 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
         </div>
       </div>
     );
-    /**
-     * filtros para as ofertas e pedidos
-     */
-  else 
-    return null;
+  }
+
+  return null;
 };
 
 export default Filter;
