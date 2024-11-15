@@ -53,12 +53,11 @@ const OhVizinhoPage: React.FC = () => {
 
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24">
-      <h1>{JSON.stringify(query)}</h1>
       <Header setIsAuthenticated={setIsAuthenticated}/>
       <PageHeading togglePopup={togglePopup} onViewChange={handleViewChange} filterName={handleFilterNameChange} isAuthenticated={isAuthenticated}/>
       
       {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} />
+        <ProductGrid items={getItemsByType()} cardType={viewType} query={query}/>
       ) : (
         <div className="flex items-center justify-center h-[50vh] text-center">
           <p className="text-2xl font-semibold text-gray-500">
