@@ -1,42 +1,55 @@
 import React, { useState } from 'react';
+import Button from '../Button';
 
 interface PageHeadingProps {
   togglePopup: () => void;
+  toggleCreatePopup: () => void;
   onViewChange: (type: 'product' | 'recipe' | 'order') => void;
   filterName: (name: string) => void;
+  isAuthenticated: boolean;
 }
 
-const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, filterName }) => {
+const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, filterName, isAuthenticated, toggleCreatePopup }) => {
   const [selected, setSelected] = useState<'recipe' | 'product' | 'order'>('recipe');
   const [name, setName] = useState<string>(''); // Estado para armazenar o valor da pesquisa
+
 
   const handleSelect = (type: 'recipe' | 'product' | 'order') => {
     setSelected(type);
     onViewChange(type);
   };
 
-  // Função para enviar o nome para o filtro
   const addNameToQuery = () => {
     filterName(name);
   };
 
-  // Manipulador de mudança do campo de entrada (barra de pesquisa)
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
-  // Manipulador de pressionamento da tecla Enter na barra de pesquisa
   const handleSearchKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Impede o comportamento padrão de envio do formulário
-      addNameToQuery(); // Envia o nome para o filtro
+      event.preventDefault();
+      addNameToQuery();
     }
   };
 
-  // Manipulador do clique no botão "Filtrar" para evitar a atualização da página
   const handleFilterClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault(); // Impede que o formulário seja enviado
-    togglePopup(); // Chama a função para abrir o popup de filtro
+    event.preventDefault();
+    togglePopup();
+  };
+
+  const renderCreateButton = (selected: string) => {
+    if (!isAuthenticated) return null; // Verifica se o usuário está autenticado
+
+    switch (selected) {
+      case 'product':
+        return <Button secondary onClick={toggleCreatePopup}>Oferecer</Button>;
+      case 'order':
+        return <Button secondary onClick={toggleCreatePopup}>Pedir</Button>;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -79,6 +92,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
           </div>
         </nav>
         <div className="flex gap-6 text-base leading-tight text-center">
+          {renderCreateButton(selected)} {/* Chama renderCreateButton */}
           <form className="flex gap-3 self-start">
             <img loading="lazy" src="https://cdn.builder.io/api/v1/image/assets/TEMP/8f2b706baa8a6280aad87f218e314046f750e963a30f061d85b93262014e57b6?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" alt="" className="object-contain shrink-0 aspect-square w-[35px]" />
             <div className="flex flex-col self-start mt-2">
@@ -88,7 +102,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
                 type="text"
                 value={name}
                 onChange={handleSearchChange}
-                onKeyDown={handleSearchKeyPress} // Previne submissão ao pressionar Enter
+                onKeyDown={handleSearchKeyPress}
                 placeholder="Pesquisar . . ."
                 className="self-start bg-transparent border-none outline-none"
               />
@@ -97,9 +111,9 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
           </form>
           {selected === 'recipe' ? (
             <button
-              type="button" // Adicionado 'type="button"' para evitar o envio do formulário
+              type="button"
               data-layername="listChip"
-              onClick={handleFilterClick} // Chama a função de clique no filtro
+              onClick={handleFilterClick}
               className="overflow-hidden px-7 py-2.5 font-semibold whitespace-nowrap bg-white rounded-3xl border border-solid border-stone-300 max-md:px-5"
             >
               Filtrar
