@@ -6,9 +6,20 @@ import Filter from '../components/Filter';
 
 import { productData, recipeData, orderData } from '../data';
 
+import { Query } from '../types/Query';
+
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [viewType, setViewType] = useState<'product' | 'recipe' | 'order'>('recipe');
+  const [query, setQuery] = useState<Query>({
+    name: '',
+    products: [],
+    vegetarian: false,
+    spicy: false,
+    glutenFree: false,
+    lactoseFree: false,
+    vegan: false
+  });
 
   const togglePopup = () => setShowPopup(!showPopup);
 
@@ -24,9 +35,13 @@ const OhVizinhoPage: React.FC = () => {
         return recipeData;
       case 'order':
         return orderData;
-      default:
+      default: 
         return [];
     }
+  };
+
+  const handleFilterChange = (filter: Query) => {
+
   };
 
   return (
@@ -34,7 +49,7 @@ const OhVizinhoPage: React.FC = () => {
       <Header />
       <PageHeading togglePopup={togglePopup} onViewChange={handleViewChange} />
       <ProductGrid items={getItemsByType()} cardType={viewType} />
-      <Filter isOpen={showPopup} onClose={togglePopup} />
+      <Filter isOpen={showPopup} onClose={togglePopup} filterType={viewType} onFilterChange={handleFilterChange}/>
     </div>
   );
 };
