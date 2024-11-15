@@ -7,6 +7,7 @@ import Filter from '../components/Filter';
 import { productData, recipeData, orderData } from '../data';
 
 import { Query } from '../types/Query';
+import CreateProduct from './CreateProduct';
 
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -22,6 +23,12 @@ const OhVizinhoPage: React.FC = () => {
   });
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [products, setProducts] = useState<any[]>(productData);
+  const [recipes, setRecipes] = useState<any[]>(recipeData);
+  const [orders, setOrders] = useState<any[]>(orderData);
+
+  const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
+  const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
 
   const togglePopup = () => setShowPopup(!showPopup);
 
@@ -29,14 +36,26 @@ const OhVizinhoPage: React.FC = () => {
     setViewType(type);
   };
 
+  const toogleCreatePopup = () =>  {
+    if(viewType == 'product')
+      setCreateProductPopupOpen(!isCreateProductPopupOpen);
+    else
+      setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+  };
+
+  const createProduct = (productData: any) => {
+      setProducts([...products, productData]); 
+      setCreateProductPopupOpen(false); 
+  };
+
   const getItemsByType = () => {
     switch (viewType) {
       case 'product':
-        return productData;
+        return products;
       case 'recipe':
-        return recipeData;
+        return recipes;
       case 'order':
-        return orderData;
+        return orders;
       default: 
         return [];
     }
@@ -54,7 +73,13 @@ const OhVizinhoPage: React.FC = () => {
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24">
       <Header setIsAuthenticated={setIsAuthenticated}/>
-      <PageHeading togglePopup={togglePopup} onViewChange={handleViewChange} filterName={handleFilterNameChange} isAuthenticated={isAuthenticated}/>
+      <PageHeading 
+          togglePopup={togglePopup} 
+          onViewChange={handleViewChange} 
+          filterName={handleFilterNameChange} 
+          isAuthenticated={isAuthenticated} 
+          toggleCreatePopup={toogleCreatePopup}
+      />
       
       {isAuthenticated || viewType === 'recipe' ? (
         <ProductGrid items={getItemsByType()} cardType={viewType} query={query}/>
@@ -67,6 +92,11 @@ const OhVizinhoPage: React.FC = () => {
       )}
       
       <Filter isOpen={showPopup} onClose={togglePopup} filterType={viewType} onFilterChange={handleFilterChange} />
+      <CreateProduct 
+        isOpen={isCreateProductPopupOpen}
+        onClose={toogleCreatePopup}
+        create={createProduct}
+      />
     </div>
   );
 };

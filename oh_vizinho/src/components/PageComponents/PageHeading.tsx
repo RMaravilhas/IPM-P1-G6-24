@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import CreateProduct from '../../Pages/CreateProduct';
 
 interface PageHeadingProps {
   togglePopup: () => void;
+  toggleCreatePopup: () => void;
   onViewChange: (type: 'product' | 'recipe' | 'order') => void;
   filterName: (name: string) => void;
   isAuthenticated: boolean;
 }
 
-const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, filterName, isAuthenticated }) => {
+const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, filterName, isAuthenticated, toggleCreatePopup }) => {
   const [selected, setSelected] = useState<'recipe' | 'product' | 'order'>('recipe');
   const [name, setName] = useState<string>(''); // Estado para armazenar o valor da pesquisa
-  const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
+
 
   const handleSelect = (type: 'recipe' | 'product' | 'order') => {
     setSelected(type);
@@ -39,18 +39,14 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
     togglePopup();
   };
 
-  const toogleCreateProductPopup = () =>  {
-    setCreateProductPopupOpen(!isCreateProductPopupOpen);
-  };
-
   const renderCreateButton = (selected: string) => {
     if (!isAuthenticated) return null; // Verifica se o usuário está autenticado
 
     switch (selected) {
       case 'product':
-        return <Button secondary onClick={toogleCreateProductPopup}>Oferecer</Button>;
+        return <Button secondary onClick={toggleCreatePopup}>Oferecer</Button>;
       case 'order':
-        return <Button secondary onClick={() => alert('Criar Pedido')}>Pedir</Button>;
+        return <Button secondary onClick={toggleCreatePopup}>Pedir</Button>;
       default:
         return null;
     }
@@ -126,11 +122,6 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
         </div>
       </div>
       <div data-layername="divider" className="shrink-0 mt-7 max-w-full h-0 border-2 border-solid border-neutral-200 shadow-[0px_4px_4px_rgba(0,0,0,0.25)] w-[1248px]" />
-      <CreateProduct 
-        isOpen={isCreateProductPopupOpen}
-        onClose={toogleCreateProductPopup}
-        create={() => alert('Criar Produto')}
-      />
     </section>
   );
 };

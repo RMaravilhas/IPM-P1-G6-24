@@ -2,9 +2,11 @@ import React from 'react';
 
 interface NumberPickerProps {
   label: string;
+  value: number;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const NumberPicker: React.FC<NumberPickerProps> = ({ label }) => {
+const NumberPicker: React.FC<NumberPickerProps> = ({ label, value, onChange }) => {
   return (
     <div className="flex items-center gap-2">
       <label htmlFor="quantity" className="text-xl tracking-tight leading-tight text-black">
@@ -16,6 +18,8 @@ const NumberPicker: React.FC<NumberPickerProps> = ({ label }) => {
         min="0"
         defaultValue=""
         placeholder="0"
+        value={value}
+        onChange={onChange}
         className="w-20 px-2 py-1 ml-auto text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
       />
     </div>
