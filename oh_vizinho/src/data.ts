@@ -34,6 +34,11 @@ export const productData = [
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
       steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
     },
   ];
   
