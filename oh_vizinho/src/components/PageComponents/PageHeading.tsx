@@ -20,7 +20,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
   toggleCreatePopup,
   currentViewType,
 }) => {
-  const [name, setName] = useState<string>(''); // Estado para armazenar o valor da pesquisa
+  const [name, setName] = useState<string>('');
 
   const handleSelect = (type: CardType) => {
     onViewChange(type);
@@ -98,6 +98,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
                 value={name}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyPress}
+                onBlur={addNameToQuery}
                 placeholder="Pesquisar . . ."
                 className="self-start bg-transparent border-none outline-none"
               />
