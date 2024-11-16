@@ -12,6 +12,8 @@ import CreateProduct from './CreateProduct';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import { User } from '../types/User';
+import ProductDetails from './ProductDetails';
+import { Product } from '../types/Product';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
@@ -28,7 +30,7 @@ const OhVizinhoPage: React.FC = () => {
     vegan: false
   });
 
-  const [products, setProducts] = useState<any[]>(productData);
+
   const [recipes, setRecipes] = useState<any[]>(recipeData);
   const [orders, setOrders] = useState<any[]>(orderData);
   const [pantry, setPantry] = useState<any[]>(pantryData);
@@ -156,6 +158,24 @@ const OhVizinhoPage: React.FC = () => {
       setCreateProductPopupOpen(false); 
   };
 
+
+  //////////////////////////////////
+  // Product Details
+  //////////////////////////////////
+  const [products, setProducts] = useState<any[]>(productData);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
+  const handleOpenProductDetails = (product: Product) => {
+    setIsDetailsOpen(true);
+    setSelectedProduct(product);
+    
+  }
+  const handleCloseProductDetails = () =>  {
+    setIsDetailsOpen(false);
+    setSelectedProduct(null);
+  }
+
   //////////////////////////////////
   // Cards Filter
   //////////////////////////////////
@@ -190,7 +210,12 @@ const OhVizinhoPage: React.FC = () => {
       />
       
       {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} query={query}/>
+        <ProductGrid 
+          items={getItemsByType()} 
+          cardType={viewType} 
+          query={query}
+          onProductClick={handleOpenProductDetails}
+          />
       ) : (
         <div className="flex items-center justify-center h-[50vh] text-center">
           <p className="text-2xl font-semibold text-gray-500">
@@ -223,6 +248,11 @@ const OhVizinhoPage: React.FC = () => {
         register={handleRegister}  
         goToLogin={toggleFromRegisterToLoginPopup}
       />
+      <ProductDetails 
+        isOpen={isDetailsOpen} 
+        onClose={handleCloseProductDetails} 
+        product={selectedProduct} />
+
     </div>
   );
 };

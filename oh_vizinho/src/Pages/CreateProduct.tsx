@@ -4,11 +4,12 @@ import InputFieldForm from '../components/InputFieldForm';
 import DatePicker from '../components/DataPicker';
 import Button from '../components/Button';
 import NumberPicker from '../components/NumberPicker';
+import { Product } from '../types/Product';
 
 interface ProductCreationFormProps {
   isOpen: boolean;
   onClose: () => void;
-  create: (productData: any) => void;
+  create: (productData: Product) => void; 
 }
 
 const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClose, create }) => {
@@ -18,7 +19,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
   const [quantity, setQuantity] = useState(0);
   const [expiryDate, setExpiryDate] = useState('');
   const [image, setImage] = useState<File | null>(null);
-  const [description, setDescription] = useState(''); 
+  const [description, setDescription] = useState('');
 
   if (!isOpen) return null;
 
@@ -33,39 +34,35 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
     setQuantity(0);
     setExpiryDate('');
     setImage(null);
-    setDescription(''); 
-  }
+    setDescription('');
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!image) {
       alert('Por favor, carregue uma imagem.');
-      isOpen = true;
       return;
     }
-  
+
     if (!productName.trim() || !location.trim() || price <= 0 || quantity <= 0 || !expiryDate) {
       alert('Por favor, preencha todos os campos necessários.');
-      isOpen = true;
       return;
     }
-  
-    const newProduct = {
+
+    const newProduct: Product = {
       image: URL.createObjectURL(image),
-      name: productName,               
-      address: location,               
-      quantity: `${quantity}kg`, 
-      expiry: expiryDate,               
+      name: productName,
+      address: location,
+      quantity: `${quantity}kg`,
+      expiry: expiryDate,
       price: `${price.toFixed(2)}€`,
       description: description,
     };
-  
-    create(newProduct); 
-    clearFields();   
-    
+
+    create(newProduct);
+    clearFields();
     onClose();
   };
-  
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExpiryDate(e.target.value);

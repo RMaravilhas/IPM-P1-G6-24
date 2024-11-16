@@ -7,6 +7,7 @@ import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
 import PantryItem, { PantryItemProps } from '../Cards/Pantry';
 
 import { Query } from '../../types/Query';
+import { Product } from '../../types/Product';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
@@ -16,13 +17,14 @@ interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
   cardType: CardType;
   query: Query;
+  onProductClick: (product: Product) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick }) => {
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
-        return <ProductCard key={index} {...(item as ProductCardProps)} />;
+        return <ProductCard key={index} {...(item as ProductCardProps)} onClick={() => onProductClick(item)}/>;
       case 'recipe':
         return <RecipeCard key={index} {...(item as RecipeCardProps)} />;
       case 'order':
