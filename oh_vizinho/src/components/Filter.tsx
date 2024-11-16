@@ -18,6 +18,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     glutenFree: false,
     lactoseFree: false,
     vegan: false,
+    favorite: false
   });
   const [ingredientInput, setIngredientInput] = useState('');
 

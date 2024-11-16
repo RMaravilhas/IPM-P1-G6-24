@@ -26,6 +26,7 @@ const OhVizinhoPage: React.FC = () => {
     glutenFree: false,
     lactoseFree: false,
     vegan: false,
+    favorite: false
   });
 
   const [products, setProducts] = useState<any[]>(productData);
@@ -51,7 +52,25 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
+    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa')
+      resetQuery();
+      setQuery({
+        owner: currentUser ? currentUser.name: ''
+      })
   };
+
+  const resetQuery = () => {
+    setQuery({
+      name: '',
+      products: [],
+      vegetarian: false,
+      spicy: false,
+      glutenFree: false,
+      lactoseFree: false,
+      vegan: false,
+      favorite: false
+    }) 
+  }
 
   const toggleCreatePopup = () => {
     if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);

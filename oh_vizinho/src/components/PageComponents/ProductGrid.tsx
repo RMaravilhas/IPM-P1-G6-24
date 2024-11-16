@@ -62,13 +62,15 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
           );
         }
       } else if (cardType === 'product') {
-        if (query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
+        if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       } else if (cardType === 'order') {
         if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       } else if (cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
         valid = item.customerName === 'admin';
+        if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
+          valid = false;
       }
       return valid;
     });
@@ -95,7 +97,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
 
   return (
     <div className="mt-8 w-full h-full">
-      <h1 className="text-5xl font-bold text-center mb-4 text-[#36b391] pb-5">
+      <h1 className="text-4xl font-bold text-center mb-4 text-[#36b391] pb-5">
         {cardType === 'Minhas Ofertas'
           ? 'Minhas Ofertas'
           : cardType === 'Meus Pedidos'
