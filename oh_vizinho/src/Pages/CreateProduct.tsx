@@ -8,7 +8,7 @@ import NumberPicker from '../components/NumberPicker';
 interface ProductCreationFormProps {
   isOpen: boolean;
   onClose: () => void;
-  create: (productData: any) => void; 
+  create: (productData: any) => void;
 }
 
 const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClose, create }) => {
@@ -18,6 +18,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
   const [quantity, setQuantity] = useState(0);
   const [expiryDate, setExpiryDate] = useState('');
   const [image, setImage] = useState<File | null>(null);
+  const [description, setDescription] = useState(''); 
 
   if (!isOpen) return null;
 
@@ -32,27 +33,37 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
     setQuantity(0);
     setExpiryDate('');
     setImage(null);
+    setDescription(''); 
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     if (!image) {
       alert('Por favor, carregue uma imagem.');
+      isOpen = true;
+      return;
+    }
+  
+    if (!productName.trim() || !location.trim() || price <= 0 || quantity <= 0 || !expiryDate) {
+      alert('Por favor, preencha todos os campos necessários.');
+      isOpen = true;
       return;
     }
   
     const newProduct = {
-      image: URL.createObjectURL(image), 
+      image: URL.createObjectURL(image),
       name: productName,               
       address: location,               
-      quantity: `${quantity}kg`, // TODO: Create a select to change the type of quantity       
+      quantity: `${quantity}kg`, 
       expiry: expiryDate,               
-      price: `${price.toFixed(2)}€`,    
+      price: `${price.toFixed(2)}€`,
+      description: description,
     };
   
-    console.log(newProduct);
-  
     create(newProduct); 
-    clearFields();      
+    clearFields();   
+    
+    onClose();
   };
   
 
@@ -94,15 +105,31 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
                   onChange={(e) => setLocation(e.target.value)}
                 />
                 <div className="grid grid-cols-2 gap-4 mt-6">
-                  <NumberPicker label="Preço:" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-                  <NumberPicker label="Quantidade:" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+                  <NumberPicker id="preco" label="Preço:" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
+                  <NumberPicker id="qnt" label="Quantidade:" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
                 </div>
                 <div className="flex mt-6">
                   <DatePicker label="Validade:" id="expiryDate" value={expiryDate} onChange={handleDateChange} />
                 </div>
               </div>
-              <div className="mt-auto ml-auto">
-                <Button primary onClick={handleSubmit}>Criar</Button>
+
+              <div className="flex items-start gap-4 mt-3">
+                <div className="flex flex-col w-[70%]">
+                  <label htmlFor="productDescription" className="text-xl tracking-tight leading-tight text-black">
+                    Descrição do Produto:
+                  </label>
+                  <textarea
+                    id="productDescription"
+                    placeholder="Descreva o produto"
+                    className="w-full px-4 py-2 text-base font-semibold leading-tight bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400 h-20 resize-none mt-2"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex items-center mt-auto ml-auto">
+                  <Button primary onClick={handleSubmit}>Criar</Button>
+                </div>
               </div>
             </form>
           </div>
@@ -111,6 +138,5 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
     </div>
   );
 };
-
 
 export default ProductCreationForm;

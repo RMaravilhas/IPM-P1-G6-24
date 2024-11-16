@@ -1,60 +1,67 @@
 // src/data.ts
 export const productData = [
-    {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
-        address: "Rua dos Cliques N20",
-        quantity: "2kg",
-        expiry: "01/01/2025",
-        price: "5.99€",
-        customerName: "João Silva"
-      },
-      {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/3b5277f0b120b3280a2d5705132dc7da8bf28a590585b808574229f5e73e8cbb?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Gengibre",
-        address: "Rua dos Cliques N19",
-        quantity: "5kg",
-        expiry: "01/01/2025",
-        price: "5.99€",
-        customerName: "admin"
-      },
-      {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
-        address: "Avenida dos cliques N2",
-        quantity: "1kg",
-        expiry: "01/01/2025",
-        price: "2.99€",
-        customerName: "Francisca"
-      },
-      {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Farinha",
-        address: "Rua dos Cliques N19",
-        quantity: "1kg",
-        expiry: "01/01/2025",
-        price: "0.99€",
-        customerName: "admin"
-      },
-      {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Mel",
-        address: "Rua do Rato N14",
-        quantity: "1.5kg",
-        expiry: "01/01/2025",
-        price: "10.99€",
-        customerName: "Jose"
-      },
-      {
-        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Pimenta",
-        address: "Avenida dos cliques N2",
-        quantity: "0.2kg",
-        expiry: "01/01/2025",
-        price: "3.99€",
-        customerName: "Francisca"
-      }
-  ];
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Tomates",
+    address: "Rua dos Cliques N20",
+    quantity: "2kg",
+    expiry: "01/01/2025",
+    price: "5.99€",
+    customerName: "João Silva",
+    description: "Tomates frescos e maduros, ideais para saladas e molhos.",
+  },
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/3b5277f0b120b3280a2d5705132dc7da8bf28a590585b808574229f5e73e8cbb?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Gengibre",
+    address: "Rua dos Cliques N19",
+    quantity: "5kg",
+    expiry: "01/01/2025",
+    price: "5.99€",
+    customerName: "admin",
+    description: "Gengibre fresco de alta qualidade, perfeito para chás e temperos.",
+  },
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Tomates",
+    address: "Avenida dos Cliques N2",
+    quantity: "1kg",
+    expiry: "01/01/2025",
+    price: "2.99€",
+    customerName: "Francisca",
+    description: "Tomates pequenos e saborosos, ideais para snacks e pratos leves.",
+  },
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Farinha",
+    address: "Rua dos Cliques N19",
+    quantity: "1kg",
+    expiry: "01/01/2025",
+    price: "0.99€",
+    customerName: "admin",
+    description: "Farinha branca de qualidade superior, ideal para panificação e doces.",
+  },
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Mel",
+    address: "Rua do Rato N14",
+    quantity: "1.5kg",
+    expiry: "01/01/2025",
+    price: "10.99€",
+    customerName: "Jose",
+    description: "Mel puro e orgânico, ideal para adoçar naturalmente.",
+  },
+  {
+    image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+    name: "Pimenta",
+    address: "Avenida dos Cliques N2",
+    quantity: "0.2kg",
+    expiry: "01/01/2025",
+    price: "3.99€",
+    customerName: "Francisca",
+    description: "Pimenta preta em grãos, perfeita para realçar o sabor dos pratos.",
+  },
+];
+
   
   export const recipeData = [
     {

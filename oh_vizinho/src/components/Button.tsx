@@ -4,7 +4,7 @@ interface ButtonProps {
   children: React.ReactNode;
   primary?: boolean;
   secondary?: boolean;
-  onClick: () => void;
+  onClick: (e: React.FormEvent|any) => void;
   className?: string;
 }
 

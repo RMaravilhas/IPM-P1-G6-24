@@ -18,7 +18,6 @@ const DatePicker: React.FC<DatePickerProps> = ({ label, id, value, onChange }) =
         id={id}
         value={value}
         onChange={onChange}
-        defaultValue="2025-01-01"
         className="px-2 py-1 text-xs tracking-tight leading-tight text-black bg-white border border-lime-800 rounded text-opacity-70"
       />
     </div>
