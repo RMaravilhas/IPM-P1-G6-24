@@ -16,6 +16,7 @@ import { User } from '../types/User';
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 const OhVizinhoPage: React.FC = () => {
+  const [userName, setUserName] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [viewType, setViewType] = useState<CardType>('recipe');
   const [query, setQuery] = useState<Query>({
@@ -25,7 +26,7 @@ const OhVizinhoPage: React.FC = () => {
     spicy: false,
     glutenFree: false,
     lactoseFree: false,
-    vegan: false
+    vegan: false,
   });
 
   const [products, setProducts] = useState<any[]>(productData);
@@ -53,6 +54,16 @@ const OhVizinhoPage: React.FC = () => {
     setViewType(type);
   };
 
+  const toggleCreatePopup = () => {
+    if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);
+    else setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+  };
+
+  const createProduct = (productData: any) => {
+    setProducts([...products, productData]);
+    setCreateProductPopupOpen(false);
+  };
+
   const getItemsByType = () => {
     switch (viewType) {
       case 'product':
@@ -69,7 +80,7 @@ const OhVizinhoPage: React.FC = () => {
         return pantry;
       case 'Perfil':
       case 'Mensagens':
-      default: 
+      default:
         return [];
     }
   };
@@ -160,70 +171,75 @@ const OhVizinhoPage: React.FC = () => {
   // Cards Filter
   //////////////////////////////////
   const handleFilterNameChange = (filterName: string) => {
-    setQuery({...query, name: filterName})
+    setQuery({ ...query, name: filterName });
   };
 
   const handleFilterChange = (filter: Query) => {
     const name = query.name;
-    setQuery({...filter, name});
+    setQuery({ ...filter, name });
   };
 
   const handleSideBarClick = () => {
     setSideBar(!sideBar);
-  }
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    //setUserName(null);
+  };
+
 
   return (
-    <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full">
-      <Header 
-        isAuthenticated={isAuthenticated} 
-        toggleLoginPopup={toggleLoginPopup}
-        username={(currentUser) ? currentUser.name : ''}
-        onSideBar={handleSideBarClick}
+    <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
+      <div className="flex flex-col flex-grow w-full px-6">
+        <Header
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+          onSideBar={handleSideBarClick}
+          sideBar={sideBar} // Estado que controla a visibilidade do botão
+          onSetUserName={setUserName}
         />
-      <PageHeading 
-          togglePopup={togglePopup} 
-          onViewChange={handleViewChange} 
-          filterName={handleFilterNameChange} 
-          isAuthenticated={isAuthenticated} 
-          toggleCreatePopup={toogleCreatePopup}
-          currentViewType={viewType}
-      />
+      </div>
       
-      {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} query={query}/>
-      ) : (
-        <div className="flex items-center justify-center h-[50vh] text-center">
-          <p className="text-2xl font-semibold text-gray-500">
-            Você precisa estar autenticado para acessar esta seção.
-          </p>
-        </div>
-      )}
+      <div className="flex flex-col flex-grow w-full px-6">
+        <PageHeading
+          togglePopup={togglePopup}
+          onViewChange={handleViewChange}
+          filterName={handleFilterNameChange}
+          isAuthenticated={isAuthenticated}
+          toggleCreatePopup={toggleCreatePopup}
+          currentViewType={viewType}
+        />
+      </div>
+
+      <div className="flex flex-col flex-grow w-full px-4"> 
+        {isAuthenticated || viewType === 'recipe' ? (
+          <ProductGrid items={getItemsByType()} cardType={viewType} query={query} />
+        ) : (
+          <div className="flex items-center justify-center h-[50vh] text-center">
+            <p className="text-2xl font-semibold text-gray-500">
+              Você precisa estar autenticado para acessar esta seção.
+            </p>
+          </div>
+        )}
+      </div>
       
       <Filter isOpen={showPopup} onClose={togglePopup} filterType={viewType} onFilterChange={handleFilterChange} />
+      
       <CreateProduct 
         isOpen={isCreateProductPopupOpen}
-        onClose={toogleCreatePopup}
+        onClose={toggleCreatePopup}
         create={createProduct}
       />
-      {
-      sideBar && isAuthenticated && (
-      <div className="fixed top-0 right-0 w-[350px] h-full">
-          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout}/>
-      </div>)
-      }
-      <LoginPage
-        isOpen={isLoginPopupOpen}
-        onClose={toggleLoginPopup}
-        login={handleLogin}       
-        register={toggleFromRegisterToLoginPopup}  
-      />
-      <RegisterPage
-        isOpen={isRegisterPopupOpen}
-        onClose={toggleRegisterPopup}
-        register={handleRegister}  
-        goToLogin={toggleFromRegisterToLoginPopup}
-      />
+      
+      {/* MenuCard deve ficar fixo no canto */}
+      {sideBar && isAuthenticated && (
+        <div className="fixed top-0 right-0 w-[400px] h-full">
+          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick} userName={userName}/>
+        </div>
+      )}
     </div>
+
   );
 };
 
