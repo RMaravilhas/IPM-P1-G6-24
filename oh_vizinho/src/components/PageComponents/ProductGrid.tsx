@@ -10,7 +10,7 @@ import { Query } from '../../types/Query';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
-const col3 = ['product' , 'recipe' , 'order' , 'Minhas Ofertas' , 'Meus Pedidos'];
+const col3 = ['product' , 'recipe' , 'order' , 'Minhas Ofertas' , 'Meus Pedidos', 'Meus Pedidos'];
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
@@ -40,42 +40,37 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
     }
   };
 
-  /**
-   * FIXME:Deviamos remover as nossas offers e orders das tabs de offers e order???
-   * @returns 
-   */
   const filterItems = () => {
     return items.filter((item: any) => {
       let valid = true;
-      if(cardType === 'recipe'){
-        if(query.name && !item.title.toLowerCase().includes(query.name.toLowerCase()))
+      if (cardType === 'recipe') {
+        if (query.name && !item.title.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
-        if(query.vegetarian && !item.vegetarian)
+        if (query.vegetarian && !item.vegetarian)
           return false;
-        if(query.spicy && !item.spicy)
+        if (query.spicy && !item.spicy)
           return false;
-        if(query.glutenFree && !item.glutenFree)
+        if (query.glutenFree && !item.glutenFree)
           return false;
-        if(query.lactoseFree && !item.lactoseFree)
+        if (query.lactoseFree && !item.lactoseFree)
           return false;
-        if(query.vegan && !item.vegan)
+        if (query.vegan && !item.vegan)
           return false;
-        if(query.products && query.products?.length > 0){
-          const ingredients = item.ingredients.map((a:string) => a.toLowerCase());
-          const products = query.products.map(a => a.toLowerCase())
-          valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
+        if (query.products && query.products?.length > 0) {
+          const ingredients = item.ingredients.map((a: string) => a.toLowerCase());
+          const products = query.products.map((a) => a.toLowerCase());
+          valid = products.every((a: string) =>
+            ingredients.some((b: string) => b.includes(a) || a.includes(b))
+          );
         }
-      }
-      else if(cardType === 'product'){
-        if(query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
+      } else if (cardType === 'product') {
+        if (query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
-      }
-      else if(cardType === 'order'){
-        if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
+      } else if (cardType === 'order') {
+        if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
-      }
-      else if(cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
-        valid = item.customerName === 'admin'
+      } else if (cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
+        valid = item.customerName === 'admin';
       }
       return valid;
     });
@@ -83,6 +78,15 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
 
   return (
     <div className="mt-8 w-full max-w-[1248px] max-md:max-w-full">
+      <h1 className="text-3xl font-bold text-left mb-4 text-[#36b391]">
+        {cardType === 'Minhas Ofertas'
+          ? 'Minhas Ofertas'
+          : cardType === 'Meus Pedidos'
+          ? 'Meus Pedidos'
+          : cardType === 'Dispensa'
+          ? 'Dispensa': ''}
+      </h1>
+
         <div className={`grid grid-cols-${col3.includes(cardType) ? 3 : 1} gap-5 max-md:grid-cols-1`}>
           {filterItems().map((item, index) => (
             <div key={index} data-layername="column" className="flex flex-col">
@@ -95,3 +99,4 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
 };
 
 export default ProductGrid;
+
