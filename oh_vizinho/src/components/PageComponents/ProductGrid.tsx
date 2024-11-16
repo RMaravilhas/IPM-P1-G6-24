@@ -4,11 +4,13 @@ import OrderCard, { OrderCardProps } from '../Cards/OrderCard';
 import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
 import MyOrders, { MyOrdersProps } from '../Cards/MyOrders';
 import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
-import PantryItem, {PantryItemProps} from '../Cards/Pantry';
+import PantryItem, { PantryItemProps } from '../Cards/Pantry';
 
 import { Query } from '../../types/Query';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+
+const col3 = ['product' , 'recipe' , 'order' , 'Perfil' , 'Mensagens' , 'Minhas Ofertas'];
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
@@ -81,20 +83,24 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
 
   return (
     <div className="mt-8 w-full max-w-[1248px] max-md:max-w-full">
-      <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1">
-        {filterItems().map((item, index) => (
-          <div 
-            key={index} 
-            data-layername="column" 
-            className="flex flex-col"
-          >
-            {renderCard(item, index)}
-          </div>
-        ))}
-      </div>
+      {col3.includes(cardType) ? (
+        <div className="grid grid-cols-3 gap-5 max-md:grid-cols-1">
+          {filterItems().map((item, index) => (
+            <div key={index} data-layername="column" className="flex flex-col">
+              {renderCard(item, index)}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 max-md:grid-cols-1">
+          {filterItems().map((item, index) => (
+            <div key={index} data-layername="column" className="flex flex-col">
+              {renderCard(item, index)}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-
-
   );
 };
 
