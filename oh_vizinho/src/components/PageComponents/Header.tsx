@@ -5,21 +5,32 @@ import Button from '../Button';
 interface HeaderProps {
   setIsAuthenticated: (value: boolean) => void;
   onSideBar: (isClicked: boolean) => void; // Função para emitir o evento booleano
+  isAuthenticated: boolean; // Nova propriedade para verificar se o usuário está autenticado
 }
 
-const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthenticated }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated); // Usar a variável isAuthenticated do pai
   const [userName, setUserName] = useState<string | null>(null);
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
 
+  // Sincroniza isLoggedIn com isAuthenticated
   useEffect(() => {
-    const token = sessionStorage.getItem('authToken');
-    if (token) {
-      setIsLoggedIn(true);
-      setUserName(token);
-      setIsAuthenticated(true); // Atualiza o estado global na página
+    setIsLoggedIn(isAuthenticated); // Atualiza isLoggedIn sempre que isAuthenticated mudar
+  }, [isAuthenticated]);
+
+  // Sempre que isLoggedIn mudar, atualiza isAuthenticated
+  useEffect(() => {
+    setIsAuthenticated(isLoggedIn); // Atualiza o estado no pai sempre que isLoggedIn mudar
+  }, [isLoggedIn, setIsAuthenticated]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const token = sessionStorage.getItem('authToken');
+      if (token) {
+        setUserName(token);
+      }
     }
-  }, [setIsAuthenticated]);
+  }, [isAuthenticated]);
 
   const handleLoginClick = () => {
     setIsLoginPopupOpen(true);
@@ -37,13 +48,6 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
     }
   };
 
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setUserName(null);
-    sessionStorage.removeItem('authToken'); // Remove o token de autenticação
-    setIsAuthenticated(false); // Atualiza o estado global na página
-  };
-
   const handleRegister = () => {
     console.log("Redirecting to registration page...");
   };
@@ -52,19 +56,18 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
     setIsLoginPopupOpen(false);
   };
 
-  // Função para chamar o callback com o booleano
   const handleSideBarClick = () => {
-    onSideBar(true); // Passa o valor true para o componente pai
+    onSideBar(true);
   };
 
   return (
     <header className="flex flex-wrap gap-5 justify-between w-full max-w-[1232px] max-md:max-w-full">
       <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-lime-800">
-        <img 
-          loading="lazy" 
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1646e1c35932c1c4f10ba894d7b9696b5a28da4a7adc8802e846ac0a87806369?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" 
-          alt="Oh Vizinho! logo" 
-          className="object-contain shrink-0 w-20 aspect-square" 
+        <img
+          loading="lazy"
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1646e1c35932c1c4f10ba894d7b9696b5a28da4a7adc8802e846ac0a87806369?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+          alt="Oh Vizinho! logo"
+          className="object-contain shrink-0 w-20 aspect-square"
         />
         <div data-layername="ohVizinho" className="my-auto basis-auto">Oh Vizinho!</div>
       </div>
@@ -74,21 +77,14 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
           <>
             <div data-layername="userName" className="my-auto basis-auto">{userName}</div>
             <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-lg"
-            >
-              Logout
-            </button>
-            {/* Novo botão com a imagem do perfil */}
-            <button
-              onClick={handleSideBarClick} // Chama a função para emitir o booleano para o componente pai
+              onClick={handleSideBarClick}
               className="p-1 w-[30px] h-[30px] bg-transparent border-0 rounded-full"
             >
-              <img 
-                loading="lazy" 
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/def97886f7fc40cbecb9bf0fdc4ff631c9da645840e7351d9cb6d7a9153d683b?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" 
-                alt="User profile" 
-                className="object-contain w-full h-full rounded-full" 
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/def97886f7fc40cbecb9bf0fdc4ff631c9da645840e7351d9cb6d7a9153d683b?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+                alt="User profile"
+                className="object-contain w-full h-full rounded-full"
               />
             </button>
           </>
@@ -102,8 +98,8 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
       <LoginPage
         isOpen={isLoginPopupOpen}
         onClose={handleClosePopup}
-        login={handleLogin}       
-        register={handleRegister}  
+        login={handleLogin}
+        register={handleRegister}
       />
     </header>
   );

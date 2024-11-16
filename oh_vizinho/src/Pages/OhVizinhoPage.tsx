@@ -77,9 +77,13 @@ const OhVizinhoPage: React.FC = () => {
     setSideBar(!sideBar);
   }
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+  }
+
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24">
-      <Header setIsAuthenticated={setIsAuthenticated} onSideBar={handleSideBarClick}/>
+      <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} onSideBar={handleSideBarClick}/>
       <PageHeading 
           togglePopup={togglePopup} 
           onViewChange={handleViewChange} 
@@ -105,9 +109,9 @@ const OhVizinhoPage: React.FC = () => {
         create={createProduct}
       />
       {
-      sideBar && (
+      sideBar && isAuthenticated && (
       <div className="fixed top-0 right-0 w-[380px] h-full">
-          <MenuCard onMenuItemClick={handleViewChange}/>
+          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout}/>
       </div>)
       }
     </div>
