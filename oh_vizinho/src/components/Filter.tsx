@@ -76,7 +76,7 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && ingredientInput.trim()) {
       addIngredient(ingredientInput);
-      setIngredientInput(''); // Limpa o input após adicionar
+      setIngredientInput('');
     }
   };
 
@@ -87,18 +87,12 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
   };
 
   const handleAddIngredient = () => {
-    // Verificar se o ingrediente já existe na lista para evitar duplicação
     if (ingredientInput && query.products && !query.products.includes(ingredientInput)) {
-      // Adicionar o ingrediente à lista de produtos
       const updatedProducts = [...query.products, ingredientInput];
-  
-      // Atualizar o estado com o novo ingrediente
-      setQuery((prevQuery) => ({
+        setQuery((prevQuery) => ({
         ...prevQuery,
         products: updatedProducts,
       }));
-  
-      // Limpar o campo de entrada
       setIngredientInput("");
     }
   };

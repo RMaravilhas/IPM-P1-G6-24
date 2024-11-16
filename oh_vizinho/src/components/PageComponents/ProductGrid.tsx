@@ -30,24 +30,25 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
   const filterItems = () => {
     return items.filter((item: any) => {
       let valid = true;
-      if(cardType == 'recipe'){
+      if(cardType === 'recipe'){
         if(query.name && !item.title.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
-      if(query.vegetarian && !item.vegetarian)
-        return false;
-      if(query.spicy && !item.spicy)
-        return false;
-      if(query.glutenFree && !item.glutenFree)
-        return false;
-      if(query.lactoseFree && !item.lactoseFree)
-        return false;
-      if(query.vegan && !item.vegan)
-        return false;
-      if(query.products){
-        const ingredients = item.ingredients.map((a:string) => a.toLowerCase());
-        const products = query.products.map(a => a.toLowerCase())
-        valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
-      }}
+        if(query.vegetarian && !item.vegetarian)
+          return false;
+        if(query.spicy && !item.spicy)
+          return false;
+        if(query.glutenFree && !item.glutenFree)
+          return false;
+        if(query.lactoseFree && !item.lactoseFree)
+          return false;
+        if(query.vegan && !item.vegan)
+          return false;
+        if(query.products && query.products?.length > 0){
+          const ingredients = item.ingredients.map((a:string) => a.toLowerCase());
+          const products = query.products.map(a => a.toLowerCase())
+          valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
+        }
+      }
       else if(cardType == 'product'){
         if(query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
@@ -56,6 +57,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       }
+      console.log(valid);
       return valid;
     });
   };
