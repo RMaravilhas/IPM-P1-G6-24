@@ -16,7 +16,6 @@ import { User } from '../types/User';
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 const OhVizinhoPage: React.FC = () => {
-  const [userName, setUserName] = useState<string | null>(null);
   const [showPopup, setShowPopup] = useState(false);
   const [viewType, setViewType] = useState<CardType>('recipe');
   const [query, setQuery] = useState<Query>({
@@ -57,11 +56,6 @@ const OhVizinhoPage: React.FC = () => {
   const toggleCreatePopup = () => {
     if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);
     else setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
-  };
-
-  const createProduct = (productData: any) => {
-    setProducts([...products, productData]);
-    setCreateProductPopupOpen(false);
   };
 
   const getItemsByType = () => {
@@ -183,21 +177,14 @@ const OhVizinhoPage: React.FC = () => {
     setSideBar(!sideBar);
   };
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    //setUserName(null);
-  };
-
-
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
       <div className="flex flex-col flex-grow w-full px-6">
         <Header
           isAuthenticated={isAuthenticated}
-          setIsAuthenticated={setIsAuthenticated}
           onSideBar={handleSideBarClick}
-          sideBar={sideBar} // Estado que controla a visibilidade do botão
-          onSetUserName={setUserName}
+          sideBar={sideBar} 
+          toggleLoginPopup={toggleLoginPopup}
         />
       </div>
       
@@ -231,11 +218,23 @@ const OhVizinhoPage: React.FC = () => {
         onClose={toggleCreatePopup}
         create={createProduct}
       />
+
+      <LoginPage
+        isOpen={isLoginPopupOpen}
+        onClose={toggleLoginPopup}
+        login={handleLogin}       
+        register={toggleFromRegisterToLoginPopup}  
+      />
+      <RegisterPage
+        isOpen={isRegisterPopupOpen}
+        onClose={toggleRegisterPopup}
+        register={handleRegister}  
+        goToLogin={toggleFromRegisterToLoginPopup}
+      />
       
-      {/* MenuCard deve ficar fixo no canto */}
       {sideBar && isAuthenticated && (
         <div className="fixed top-0 right-0 w-[400px] h-full">
-          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick} userName={userName}/>
+          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick} userName={(currentUser)?currentUser.name:''}/>
         </div>
       )}
     </div>

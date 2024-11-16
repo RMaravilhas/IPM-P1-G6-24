@@ -3,65 +3,18 @@ import LoginPage from '../../Pages/LoginPage';
 import Button from '../Button';
 
 interface HeaderProps {
-  setIsAuthenticated: (value: boolean) => void;
-  onSideBar: (isClicked: boolean) => void;
   isAuthenticated: boolean;
+  toggleLoginPopup: () => void;
+  onSideBar: (isClicked: boolean) => void;
   sideBar: boolean;
-  onSetUserName: (name: string | null) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
-  setIsAuthenticated,
-  onSideBar,
-  isAuthenticated,
-  sideBar,
-  onSetUserName,
+  isAuthenticated, 
+  toggleLoginPopup, 
+  onSideBar, 
+  sideBar
 }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated);
-  const [userName, setUserName] = useState<string | null>(null);
-  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(isAuthenticated);
-  }, [isAuthenticated]);
-
-  useEffect(() => {
-    setIsAuthenticated(isLoggedIn);
-  }, [isLoggedIn, setIsAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      const token = sessionStorage.getItem('authToken');
-      if (token) {
-        setUserName(token);
-      }
-    }
-  }, [isAuthenticated]);
-
-  const handleLoginClick = () => {
-    setIsLoginPopupOpen(true);
-  };
-
-  const handleLogin = (username: string, password: string) => {
-    if (username) {
-      setIsLoggedIn(true);
-      onSetUserName(username)
-      setUserName(username);
-      sessionStorage.setItem('authToken', username);
-      setIsAuthenticated(true);
-      setIsLoginPopupOpen(false);
-    } else {
-      alert('Usuário ou senha incorretos.');
-    }
-  };
-
-  const handleRegister = () => {
-    console.log('Redirecting to registration page...');
-  };
-
-  const handleClosePopup = () => {
-    setIsLoginPopupOpen(false);
-  };
 
   return (
     <header className="flex flex-wrap gap-5 justify-between w-full max-md:max-w-full">
@@ -96,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({
           </>
         ) : (
           <div className="text-2xl">
-            <Button onClick={handleLoginClick} primary>
+            <Button onClick={toggleLoginPopup} primary>
               Login
             </Button>
           </div>
