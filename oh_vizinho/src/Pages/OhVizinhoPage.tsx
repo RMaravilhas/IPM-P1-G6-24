@@ -101,6 +101,7 @@ const OhVizinhoPage: React.FC = () => {
           filterName={handleFilterNameChange} 
           isAuthenticated={isAuthenticated} 
           toggleCreatePopup={toogleCreatePopup}
+          currentViewType={viewType}
       />
       
       {isAuthenticated || viewType === 'recipe' ? (
