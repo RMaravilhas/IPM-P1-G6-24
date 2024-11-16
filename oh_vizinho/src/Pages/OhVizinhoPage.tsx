@@ -94,7 +94,6 @@ const OhVizinhoPage: React.FC = () => {
 
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full">
-      <h1>{JSON.stringify(query)}</h1>
       <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} onSideBar={handleSideBarClick}/>
       <PageHeading 
           togglePopup={togglePopup} 
