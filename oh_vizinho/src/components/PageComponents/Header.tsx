@@ -4,9 +4,10 @@ import Button from '../Button';
 
 interface HeaderProps {
   setIsAuthenticated: (value: boolean) => void;
+  onSideBar: (isClicked: boolean) => void; // Função para emitir o evento booleano
 }
 
-const Header: React.FC<HeaderProps> = ({ setIsAuthenticated }) => {
+const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
@@ -51,6 +52,11 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated }) => {
     setIsLoginPopupOpen(false);
   };
 
+  // Função para chamar o callback com o booleano
+  const handleSideBarClick = () => {
+    onSideBar(true); // Passa o valor true para o componente pai
+  };
+
   return (
     <header className="flex flex-wrap gap-5 justify-between w-full max-w-[1232px] max-md:max-w-full">
       <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-lime-800">
@@ -73,12 +79,18 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated }) => {
             >
               Logout
             </button>
-            <img 
-              loading="lazy" 
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/def97886f7fc40cbecb9bf0fdc4ff631c9da645840e7351d9cb6d7a9153d683b?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" 
-              alt="User profile" 
-              className="object-contain shrink-0 aspect-square w-[30px]" 
-            />
+            {/* Novo botão com a imagem do perfil */}
+            <button
+              onClick={handleSideBarClick} // Chama a função para emitir o booleano para o componente pai
+              className="p-1 w-[30px] h-[30px] bg-transparent border-0 rounded-full"
+            >
+              <img 
+                loading="lazy" 
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/def97886f7fc40cbecb9bf0fdc4ff631c9da645840e7351d9cb6d7a9153d683b?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782" 
+                alt="User profile" 
+                className="object-contain w-full h-full rounded-full" 
+              />
+            </button>
           </>
         ) : (
           <Button onClick={handleLoginClick} primary>

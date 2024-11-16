@@ -3,6 +3,7 @@ import Header from '../components/PageComponents/Header';
 import PageHeading from '../components/PageComponents/PageHeading';
 import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
+import MenuCard from '../components/Cards/MenuCard';
 
 import { productData, recipeData, orderData } from '../data';
 
@@ -11,7 +12,7 @@ import CreateProduct from './CreateProduct';
 
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [viewType, setViewType] = useState<'product' | 'recipe' | 'order'>('recipe');
+  const [viewType, setViewType] = useState<'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry'>('recipe');
   const [query, setQuery] = useState<Query>({
     name: '',
     products: [],
@@ -30,9 +31,11 @@ const OhVizinhoPage: React.FC = () => {
   const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
   const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
 
+  const [sideBar, setSideBar] = useState(false);
+
   const togglePopup = () => setShowPopup(!showPopup);
 
-  const handleViewChange = (type: 'product' | 'recipe' | 'order') => {
+  const handleViewChange = (type: 'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry') => {
     setViewType(type);
   };
 
@@ -70,9 +73,13 @@ const OhVizinhoPage: React.FC = () => {
     setQuery({...filter, name});
   };
 
+  const handleSideBarClick = () => {
+    setSideBar(!sideBar);
+  }
+
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24">
-      <Header setIsAuthenticated={setIsAuthenticated}/>
+      <Header setIsAuthenticated={setIsAuthenticated} onSideBar={handleSideBarClick}/>
       <PageHeading 
           togglePopup={togglePopup} 
           onViewChange={handleViewChange} 
@@ -97,6 +104,12 @@ const OhVizinhoPage: React.FC = () => {
         onClose={toogleCreatePopup}
         create={createProduct}
       />
+      {
+      sideBar && (
+      <div className="fixed top-0 right-0 w-[380px] h-full">
+          <MenuCard onMenuItemClick={handleViewChange}/>
+      </div>)
+      }
     </div>
   );
 };

@@ -5,7 +5,7 @@ import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
 
 import { Query } from '../../types/Query';
 
-type CardType = 'product' | 'recipe' | 'order';
+type CardType = 'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry';
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
