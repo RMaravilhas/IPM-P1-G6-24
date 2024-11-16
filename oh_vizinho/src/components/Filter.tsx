@@ -86,99 +86,128 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     onClose();
   };
 
+  const handleAddIngredient = () => {
+    // Verificar se o ingrediente já existe na lista para evitar duplicação
+    if (ingredientInput && query.products && !query.products.includes(ingredientInput)) {
+      // Adicionar o ingrediente à lista de produtos
+      const updatedProducts = [...query.products, ingredientInput];
+  
+      // Atualizar o estado com o novo ingrediente
+      setQuery((prevQuery) => ({
+        ...prevQuery,
+        products: updatedProducts,
+      }));
+  
+      // Limpar o campo de entrada
+      setIngredientInput("");
+    }
+  };
+
   if (filterType === 'recipe') {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-        <div ref={ref} className="bg-white p-6 rounded-lg shadow-lg w-80">
-          <h2 className="text-xl font-bold mb-4">Filtros ({filterType})</h2>
-          <form onSubmit={(e) => e.preventDefault()}>
-            {/* Campo para inserir ingredientes */}
-            <label className="block mb-2">
-              <span className="text-gray-700">Ingredientes:</span>
-              <div className="flex">
+        <div
+          ref={ref}
+          className="bg-[#fafaf5] p-8 rounded-xl shadow-lg w-full max-w-lg"
+        >
+          <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+            Filtrar
+          </h2>
+          <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
+            {/* Campo de entrada para ingredientes */}
+            <label className="block">
+              <span className="text-2xl font-medium text-gray-700">Alimento:</span>
+              <div className="flex items-center space-x-2">
                 <input
                   type="text"
                   value={ingredientInput}
                   onChange={handleIngredientChange}
-                  onKeyDown={handleKeyPress} // Adiciona o evento de keypress
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                  onKeyDown={handleKeyPress}
+                  className="mt-2 block w-full rounded-lg border border-gray-300 shadow-sm focus:border-[#37b38f] focus:ring focus:ring-[#37b38f]/30 text-lg p-3 h-full self-end"
                   placeholder="Adicionar ingrediente"
                 />
+                <button
+                  type="button"
+                  onClick={handleAddIngredient} // Supondo que você tenha a função handleAddIngredient para adicionar o ingrediente
+                  className="px-4 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] focus:ring focus:ring-[#37b38f]/50 py-3 self-end leading-tight"
+                >
+                  Adicionar
+                </button>
               </div>
             </label>
 
             {/* Lista de ingredientes */}
-            <div className="mt-4 space-y-1">
-              {query.products && query.products.length > 0 && (
-                <ul>
-                  {query.products.map((ingredient, index) => (
-                    <li
-                      key={index}
-                      className="text-gray-700 cursor-pointer"
-                      onClick={() => removeIngredient(ingredient)}
-                    >
-                      <span className="text-red-500">❌</span>{ingredient}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
+            {query.products && query.products?.length > 0 && (
+              <ul className="space-y-2">
+                {query.products.map((ingredient, index) => (
+                  <li
+                    key={index}
+                    className="text-lg text-gray-700 flex items-center gap-3 cursor-pointer"
+                    onClick={() => removeIngredient(ingredient)}
+                  >
+                    <span className="text-red-500">❌</span>
+                    {ingredient}
+                  </li>
+                ))}
+              </ul>
+            )}
 
-            {/* Filtros de restrições alimentares */}
-            <div className="mt-4 space-y-2">
-              <label className="flex items-center">
+            {/* Filtros de restrições */}
+            <div className="space-y-4">
+              <label className="flex items-center gap-4">
                 <input
                   type="checkbox"
                   checked={query.vegetarian || false}
-                  onChange={() => handleFilterToggle('vegetarian')}
-                  className="mr-2"
+                  onChange={() => handleFilterToggle("vegetarian")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
                 />
-                Vegetariano
+                <span className="text-xl">Vegetariano</span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center gap-4">
                 <input
                   type="checkbox"
                   checked={query.spicy || false}
-                  onChange={() => handleFilterToggle('spicy')}
-                  className="mr-2"
+                  onChange={() => handleFilterToggle("spicy")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
                 />
-                Picante
+                <span className="text-xl">Picante</span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center gap-4">
                 <input
                   type="checkbox"
                   checked={query.glutenFree || false}
-                  onChange={() => handleFilterToggle('glutenFree')}
-                  className="mr-2"
+                  onChange={() => handleFilterToggle("glutenFree")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
                 />
-                Sem Glúten
+                <span className="text-xl">Sem Glúten</span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center gap-4">
                 <input
                   type="checkbox"
                   checked={query.lactoseFree || false}
-                  onChange={() => handleFilterToggle('lactoseFree')}
-                  className="mr-2"
+                  onChange={() => handleFilterToggle("lactoseFree")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
                 />
-                Sem Lactose
+                <span className="text-xl">Sem Lactose</span>
               </label>
-              <label className="flex items-center">
+              <label className="flex items-center gap-4">
                 <input
                   type="checkbox"
                   checked={query.vegan || false}
-                  onChange={() => handleFilterToggle('vegan')}
-                  className="mr-2"
+                  onChange={() => handleFilterToggle("vegan")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
                 />
-                Vegano
+                <span className="text-xl">Vegano</span>
               </label>
             </div>
 
+            {/* Botão Aplicar */}
             <button
               type="button"
               onClick={handleApplyFilters}
-              className="mt-4 w-full px-4 py-2 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600"
+              className="w-full py-3 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] transition duration-200"
             >
-              Aplicar
+              Buscar
             </button>
           </form>
         </div>
