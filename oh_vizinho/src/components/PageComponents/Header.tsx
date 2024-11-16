@@ -4,12 +4,11 @@ import Button from '../Button';
 interface HeaderProps {
   isAuthenticated: boolean;
   toggleLoginPopup: () => void;
-  handleLogout: () => void;
   username: string|null|undefined;
   onSideBar: (isClicked: boolean) => void; // Função para emitir o evento booleano
 }
 
-const Header: React.FC<HeaderProps> = ({ isAuthenticated, toggleLoginPopup, onSideBar, handleLogout, username }) => {
+const Header: React.FC<HeaderProps> = ({ isAuthenticated, toggleLoginPopup, onSideBar, username }) => {
   const handleSideBarClick = () => {
     onSideBar(true);
   };

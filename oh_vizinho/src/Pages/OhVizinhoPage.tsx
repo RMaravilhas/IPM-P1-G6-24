@@ -36,7 +36,15 @@ const OhVizinhoPage: React.FC = () => {
   const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
 
   const [sideBar, setSideBar] = useState(false);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([
+    {
+      name: 'admin',
+      password: '1234',
+      location: 'Default City',
+      image: 'https://example.com/default-avatar.png',
+    },
+  ]);
+  
   const [currentUser, setCurrentUser] = useState<User|null>();
 
   const togglePopup = () => setShowPopup(!showPopup);
@@ -73,11 +81,12 @@ const OhVizinhoPage: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const username = sessionStorage.getItem('authToken');
+    const username = localStorage.getItem('authToken');
     if (username) {
       const user = users.find((u) => u.name === username);
       if (user) {
-        setCurrentUser(user); 
+        setCurrentUser(user);
+        setIsAuthenticated(true); 
       }
     }
   }, [users]);
@@ -93,7 +102,7 @@ const OhVizinhoPage: React.FC = () => {
 
     if (user) {
       setCurrentUser(user);
-      sessionStorage.setItem('authToken', username);
+      localStorage.setItem('authToken', username);
       setIsAuthenticated(true);
       setIsLoginPopupOpen(false);
     } else {
@@ -103,7 +112,7 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleLogout = () => {
     setCurrentUser(null);
-    sessionStorage.removeItem('authToken'); 
+    localStorage.removeItem('authToken'); 
     setIsAuthenticated(false); 
   };
 
@@ -168,7 +177,6 @@ const OhVizinhoPage: React.FC = () => {
       <Header 
         isAuthenticated={isAuthenticated} 
         toggleLoginPopup={toggleLoginPopup}
-        handleLogout={handleLogout}
         username={(currentUser) ? currentUser.name : ''}
         onSideBar={handleSideBarClick}
         />
