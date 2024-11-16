@@ -5,7 +5,7 @@ import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
 
-import { productData, recipeData, orderData } from '../data';
+import { productData, recipeData, orderData, pantryData } from '../data';
 
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
@@ -29,6 +29,7 @@ const OhVizinhoPage: React.FC = () => {
   const [products, setProducts] = useState<any[]>(productData);
   const [recipes, setRecipes] = useState<any[]>(recipeData);
   const [orders, setOrders] = useState<any[]>(orderData);
+  const [pantry, setPantry] = useState<any[]>(pantryData);
 
   const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
   const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
@@ -61,13 +62,14 @@ const OhVizinhoPage: React.FC = () => {
         return recipes;
       case 'order':
         return orders;
-      case 'Perfil':
-      case 'Mensagens':
       case 'Minhas Ofertas':
         return products;
       case 'Meus Pedidos':
         return orders;
       case 'Dispensa':
+        return pantry;
+      case 'Perfil':
+      case 'Mensagens':
       default: 
         return [];
     }
@@ -119,7 +121,7 @@ const OhVizinhoPage: React.FC = () => {
       />
       {
       sideBar && isAuthenticated && (
-      <div className="fixed top-0 right-0 w-[380px] h-full">
+      <div className="fixed top-0 right-0 w-[350px] h-full">
           <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout}/>
       </div>)
       }

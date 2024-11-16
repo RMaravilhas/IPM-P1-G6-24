@@ -4,6 +4,7 @@ import OrderCard, { OrderCardProps } from '../Cards/OrderCard';
 import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
 import MyOrders, { MyOrdersProps } from '../Cards/MyOrders';
 import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
+import PantryItem, {PantryItemProps} from '../Cards/Pantry';
 
 import { Query } from '../../types/Query';
 
@@ -24,13 +25,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         return <RecipeCard key={index} {...(item as RecipeCardProps)} />;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
-      case 'Perfil':
-      case 'Mensagens':
       case 'Minhas Ofertas':
         return <MyOffers key={index} {...(item as MyOffersProps)} />;
       case 'Meus Pedidos':
         return <MyOrders key={index} {...(item as MyOrdersProps)} />;
       case 'Dispensa':
+        return <PantryItem key={index} {...(item as PantryItemProps)} />;
+      case 'Perfil':
+      case 'Mensagens':
       default:
         return null;
     }

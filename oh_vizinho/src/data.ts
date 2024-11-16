@@ -114,3 +114,46 @@ export const productData = [
       status: "Entregue",
     },
   ];
+
+  export const pantryData = [
+    {
+      product: "Gengibre",
+      quantity: "5Kg",
+      expiry: "01/01/2025"
+    },
+    {
+      product: "Farinha",
+      quantity: "1Kg",
+      expiry: "01/01/2025"
+    },
+    {
+      product: "Bacalhau",
+      quantity: "2Kg",
+      expiry: "01/01/2025",
+    },
+    {
+      product: "Azeite",
+      quantity: "0.7L",
+      expiry: "01/01/2025",
+    },
+    {
+      product: "Vinho Tinto",
+      quantity: "0.7L",
+      expiry: "01/01/2025",
+    },
+    {
+      product: "Vinho Branco",
+      quantity: "0.7L",
+      expiry: "01/01/2025",
+    },
+    {
+      product: "Sal",
+      quantity: "2L",
+      expiry: "01/01/2027",
+    },
+    {
+      product: "Natas",
+      quantity: "0.2L",
+      expiry: "01/01/2025",
+    },
+  ]
