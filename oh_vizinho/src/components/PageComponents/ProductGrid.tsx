@@ -2,10 +2,12 @@ import React from 'react';
 import ProductCard, { ProductCardProps } from '../Cards/ProductCard';
 import OrderCard, { OrderCardProps } from '../Cards/OrderCard';
 import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
+import MyOrders, { MyOrdersProps } from '../Cards/MyOrders';
+import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
 
 import { Query } from '../../types/Query';
 
-type CardType = 'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry';
+type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
@@ -22,11 +24,22 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         return <RecipeCard key={index} {...(item as RecipeCardProps)} />;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
+      case 'Perfil':
+      case 'Mensagens':
+      case 'Minhas Ofertas':
+        return <MyOffers key={index} {...(item as MyOffersProps)} />;
+      case 'Meus Pedidos':
+        return <MyOrders key={index} {...(item as MyOrdersProps)} />;
+      case 'Dispensa':
       default:
         return null;
     }
   };
 
+  /**
+   * FIXME:Deviamos remover as nossas offers e orders das tabs de offers e order???
+   * @returns 
+   */
   const filterItems = () => {
     return items.filter((item: any) => {
       let valid = true;
@@ -49,15 +62,17 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
           valid = products.every((a:string) => ingredients.some((b:string) => b.includes(a) || a.includes(b)));
         }
       }
-      else if(cardType == 'product'){
+      else if(cardType === 'product'){
         if(query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       }
-      else{
+      else if(cardType === 'order'){
         if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       }
-      console.log(valid);
+      else if(cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
+        valid = item.customerName === 'admin'
+      }
       return valid;
     });
   };

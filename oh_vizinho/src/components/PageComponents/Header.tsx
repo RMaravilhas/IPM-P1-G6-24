@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthen
   };
 
   const handleLogin = (username: string, password: string) => {
-    if (username === 'admin' && password === '1234') {
+    if (username) {
       setIsLoggedIn(true);
       setUserName(username);
       sessionStorage.setItem('authToken', username);

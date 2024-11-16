@@ -9,7 +9,7 @@ interface MenuItemData {
   marginLeft?: string;
 }
 
-type CardType = 'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry';
+type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 // Definindo os itens do menu
 const menuItems: MenuItemData[] = [

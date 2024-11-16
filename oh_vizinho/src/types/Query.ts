@@ -23,4 +23,5 @@ export interface Query {
     glutenFree?: boolean;
     lactoseFree?: boolean;
     vegan?: boolean;
+    owner?: string;
 }

@@ -4,17 +4,19 @@ import Button from '../Button';
 interface PageHeadingProps {
   togglePopup: () => void;
   toggleCreatePopup: () => void;
-  onViewChange: (type: 'product' | 'recipe' | 'order') => void;
+  onViewChange: (type: CardType) => void;
   filterName: (name: string) => void;
   isAuthenticated: boolean;
 }
 
+type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+
 const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, filterName, isAuthenticated, toggleCreatePopup }) => {
-  const [selected, setSelected] = useState<'recipe' | 'product' | 'order'>('recipe');
+  const [selected, setSelected] = useState<CardType>('recipe');
   const [name, setName] = useState<string>(''); // Estado para armazenar o valor da pesquisa
 
 
-  const handleSelect = (type: 'recipe' | 'product' | 'order') => {
+  const handleSelect = (type: CardType) => {
     setSelected(type);
     onViewChange(type);
   };
@@ -39,7 +41,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
     togglePopup();
   };
 
-  const renderCreateButton = (selected: string) => {
+  const renderCreateButton = (selected: CardType) => {
     if (!isAuthenticated) return null; // Verifica se o usuário está autenticado
 
     switch (selected) {

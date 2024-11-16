@@ -10,9 +10,11 @@ import { productData, recipeData, orderData } from '../data';
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
 
+type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const [viewType, setViewType] = useState<'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry'>('recipe');
+  const [viewType, setViewType] = useState<CardType>('recipe');
   const [query, setQuery] = useState<Query>({
     name: '',
     products: [],
@@ -35,7 +37,7 @@ const OhVizinhoPage: React.FC = () => {
 
   const togglePopup = () => setShowPopup(!showPopup);
 
-  const handleViewChange = (type: 'product' | 'recipe' | 'order' | 'message' | 'myOffers' | 'myOrder' | 'pantry') => {
+  const handleViewChange = (type: CardType) => {
     setViewType(type);
   };
 
@@ -59,6 +61,13 @@ const OhVizinhoPage: React.FC = () => {
         return recipes;
       case 'order':
         return orders;
+      case 'Perfil':
+      case 'Mensagens':
+      case 'Minhas Ofertas':
+        return products;
+      case 'Meus Pedidos':
+        return orders;
+      case 'Dispensa':
       default: 
         return [];
     }
