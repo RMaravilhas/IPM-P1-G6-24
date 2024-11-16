@@ -62,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthen
 
   return (
     <header className="flex flex-wrap gap-5 justify-between w-full max-w-[1232px] max-md:max-w-full">
-      <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-lime-800">
+      <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-[#36b391]">
         <img
           loading="lazy"
           src="https://cdn.builder.io/api/v1/image/assets/TEMP/1646e1c35932c1c4f10ba894d7b9696b5a28da4a7adc8802e846ac0a87806369?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"

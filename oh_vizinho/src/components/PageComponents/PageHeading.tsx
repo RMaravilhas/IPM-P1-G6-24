@@ -62,11 +62,11 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
             <div
               onClick={() => handleSelect('recipe')}
               data-layername="receitas"
-              className={`grow my-auto cursor-pointer ${selected === 'recipe' ? 'text-lime-800' : ''}`}
+              className={`grow my-auto cursor-pointer ${selected === 'recipe' ? 'text-[#36b391]' : ''}`}
             >
               Receitas
             </div>
-            <div className={`z-10 shrink-0 border-solid border-[3px] border-black border-opacity-20 h-[3px] ${selected === 'recipe' ? 'block' : 'hidden'}`} />
+            <div className={`z-10 shrink-0 border-solid border-[3px] border-[#36b391] border-opacity-40 h-[3px] ${selected === 'recipe' ? 'block' : 'hidden'}`} />
           </div>
           <div className="flex flex-auto gap-3.5">
             <div className="shrink-0 w-px border border-solid border-neutral-400 h-[42px]" />
@@ -74,22 +74,22 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
               <div
                 onClick={() => handleSelect('product')}
                 data-layername="ofertas"
-                className={`self-center cursor-pointer ${selected === 'product' ? 'text-lime-800' : ''}`}
+                className={`self-center cursor-pointer ${selected === 'product' ? 'text-[#36b391]' : ''}`}
               >
                 Ofertas
               </div>
-              <div className={`z-10 shrink-0 border-solid border-[3px] border-black border-opacity-20 h-[3px] ${selected === 'product' ? 'block' : 'hidden'}`} />
+              <div className={`z-10 shrink-0 border-solid border-[3px] border-[#36b391] border-opacity-40 h-[3px] ${selected === 'product' ? 'block' : 'hidden'}`} />
             </div>
             <div className="shrink-0 w-px border border-solid border-neutral-400 h-[42px]" />
             <div className="flex flex-col self-start">
               <div
                 onClick={() => handleSelect('order')}
                 data-layername="pedidos"
-                className={`my-auto basis-auto cursor-pointer ${selected === 'order' ? 'text-lime-800' : ''}`}
+                className={`my-auto basis-auto cursor-pointer ${selected === 'order' ? 'text-[#36b391]' : ''}`}
               >
                 Pedidos
               </div>
-              <div className={`z-10 shrink-0 border-solid border-[3px] border-black border-opacity-20 h-[3px] ${selected === 'order' ? 'block' : 'hidden'}`} />
+              <div className={`z-10 shrink-0 border-solid border-[3px] border-[#36b391] border-opacity-40 h-[3px] ${selected === 'order' ? 'block' : 'hidden'}`} />
             </div>
           </div>
         </nav>
@@ -116,7 +116,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({ togglePopup, onViewChange, fi
               type="button"
               data-layername="listChip"
               onClick={handleFilterClick}
-              className="overflow-hidden px-7 py-2.5 font-semibold whitespace-nowrap bg-white rounded-3xl border border-solid border-stone-300 max-md:px-5"
+              className="overflow-hidden px-7 py-2.5 font-semibold text-[#36b391] whitespace-nowrap bg-white rounded-3xl border border-solid border-[#36b391] max-md:px-5 transition-colors duration-300 hover:bg-[#248e67] hover:text-white"
             >
               Filtrar
             </button>

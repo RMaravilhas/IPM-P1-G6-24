@@ -12,7 +12,7 @@ const CardContent: React.FC<CardContentProps> = ({ title, description, ingredien
       <div className="flex flex-col mt-1.5 text-xl font-semibold leading-tight">
         <h2 className="self-start text-black">{title}</h2>
         <p className="text-base leading-6 text-neutral-500">{description}</p>
-        <p className="mt-16 ml-3 text-lime-800">{ingredientCount} ingredientes</p>
+        <p className="mt-16 ml-3 text-[#36b391]">{ingredientCount} ingredientes</p>
       </div>
     </div>
   );
