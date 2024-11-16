@@ -27,7 +27,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
   };
 
   const addNameToQuery = () => {
-    if (name.trim()) filterName(name.trim());
+    filterName(name.trim());
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
