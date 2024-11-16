@@ -14,9 +14,8 @@ export interface RecipeCardProps {
 }
 
 const RecipeCard: React.FC<RecipeCardProps> = ({ image, title, description, ingredientCount, ingredients, steps }) => {
-  console.log("Image path:", image); // Verifique o caminho da imagem
   return (
-    <article className="overflow-hidden px-5 py-6 rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-w-[400px]">
+    <article className="overflow-hidden px-5 py-6 rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-w-[550px]">
       <div className="flex gap-5 max-md:flex-col">
         <div className="flex flex-col w-[54%] max-md:ml-0 max-md:w-full">
           <CardImage src={image} alt={title} />
