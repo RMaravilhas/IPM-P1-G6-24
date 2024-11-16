@@ -94,46 +94,56 @@ const OhVizinhoPage: React.FC = () => {
 
 
   return (
-    <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full">
-      {/* Passamos `sideBar` como prop para o Header */}
-      <Header
-        isAuthenticated={isAuthenticated}
-        setIsAuthenticated={setIsAuthenticated}
-        onSideBar={handleSideBarClick}
-        sideBar={sideBar} // Estado que controla a visibilidade do botão
-        onSetUserName={setUserName}
-      />
-      <PageHeading
-        togglePopup={togglePopup}
-        onViewChange={handleViewChange}
-        filterName={handleFilterNameChange}
-        isAuthenticated={isAuthenticated}
-        toggleCreatePopup={toggleCreatePopup}
-        currentViewType={viewType}
-      />
+    <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
+      <div className="flex flex-col flex-grow w-full px-6">
+        <Header
+          isAuthenticated={isAuthenticated}
+          setIsAuthenticated={setIsAuthenticated}
+          onSideBar={handleSideBarClick}
+          sideBar={sideBar} // Estado que controla a visibilidade do botão
+          onSetUserName={setUserName}
+        />
+      </div>
+      
+      <div className="flex flex-col flex-grow w-full px-6">
+        <PageHeading
+          togglePopup={togglePopup}
+          onViewChange={handleViewChange}
+          filterName={handleFilterNameChange}
+          isAuthenticated={isAuthenticated}
+          toggleCreatePopup={toggleCreatePopup}
+          currentViewType={viewType}
+        />
+      </div>
 
-      {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} query={query} />
-      ) : (
-        <div className="flex items-center justify-center h-[50vh] text-center">
-          <p className="text-2xl font-semibold text-gray-500">
-            Você precisa estar autenticado para acessar esta seção.
-          </p>
-        </div>
-      )}
-
+      <div className="flex flex-col flex-grow w-full px-4"> 
+        {isAuthenticated || viewType === 'recipe' ? (
+          <ProductGrid items={getItemsByType()} cardType={viewType} query={query} />
+        ) : (
+          <div className="flex items-center justify-center h-[50vh] text-center">
+            <p className="text-2xl font-semibold text-gray-500">
+              Você precisa estar autenticado para acessar esta seção.
+            </p>
+          </div>
+        )}
+      </div>
+      
       <Filter isOpen={showPopup} onClose={togglePopup} filterType={viewType} onFilterChange={handleFilterChange} />
-      <CreateProduct
+      
+      <CreateProduct 
         isOpen={isCreateProductPopupOpen}
         onClose={toggleCreatePopup}
         create={createProduct}
       />
+      
+      {/* MenuCard deve ficar fixo no canto */}
       {sideBar && isAuthenticated && (
-        <div className="fixed top-0 right-0 w-[350px] h-full">
+        <div className="fixed top-0 right-0 w-[400px] h-full">
           <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick} userName={userName}/>
         </div>
       )}
     </div>
+
   );
 };
 

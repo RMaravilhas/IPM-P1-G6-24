@@ -10,8 +10,6 @@ import { Query } from '../../types/Query';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
-const col3 = ['product' , 'recipe' , 'order' , 'Minhas Ofertas' , 'Meus Pedidos', 'Meus Pedidos'];
-
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
   cardType: CardType;
@@ -76,25 +74,47 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
     });
   };
 
+  const nCols = (card: CardType):string => {
+    switch (card) {
+      case 'product':
+      case 'order':
+        return 'grid-cols-3';
+      case 'recipe':
+      case 'Meus Pedidos':
+      case 'Minhas Ofertas':
+        return 'grid-cols-4';
+      case 'Dispensa':
+        return 'grid-cols-1';
+      case 'Perfil':
+      case 'Mensagens':
+      default:
+        return 'grid-cols-3';
+    }
+
+  }
+
   return (
-    <div className="mt-8 w-full max-w-[1248px] max-md:max-w-full">
-      <h1 className="text-3xl font-bold text-left mb-4 text-[#36b391]">
+    <div className="mt-8 w-full h-full">
+      <h1 className="text-5xl font-bold text-center mb-4 text-[#36b391] pb-5">
         {cardType === 'Minhas Ofertas'
           ? 'Minhas Ofertas'
           : cardType === 'Meus Pedidos'
           ? 'Meus Pedidos'
           : cardType === 'Dispensa'
-          ? 'Dispensa': ''}
+          ? 'Dispensa'
+          : ''}
       </h1>
 
-        <div className={`grid grid-cols-${col3.includes(cardType) ? 3 : 1} gap-5 max-md:grid-cols-1`}>
-          {filterItems().map((item, index) => (
-            <div key={index} data-layername="column" className="flex flex-col">
-              {renderCard(item, index)}
-            </div>
-          ))}
-        </div>
+      {/* Container de grid com padding leve e ocupando todo o espaço */}
+      <div className={`grid ${nCols(cardType)} gap-5 max-md:grid-cols-2 w-full h-full px-10`}>
+        {filterItems().map((item, index) => (
+          <div key={index} data-layername="column" className="flex flex-col">
+            {renderCard(item, index)}
+          </div>
+        ))}
+      </div>
     </div>
+
   );
 };
 
