@@ -20,7 +20,7 @@ const NumberPicker: React.FC<NumberPickerProps> = ({ id, label, value, onChange 
         placeholder="0"
         value={value}
         onChange={onChange}
-        className="w-20 px-2 py-1 ml-auto text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
+        className="w-14 px-2 py-1 ml-auto text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
       />
     </div>
   );

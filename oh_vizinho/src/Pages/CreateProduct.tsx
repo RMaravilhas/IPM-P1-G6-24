@@ -9,7 +9,7 @@ import { Product } from '../types/Product';
 interface ProductCreationFormProps {
   isOpen: boolean;
   onClose: () => void;
-  create: (productData: Product) => void; 
+  create: (productData: Product) => void;
 }
 
 const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClose, create }) => {
@@ -20,6 +20,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
   const [expiryDate, setExpiryDate] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [description, setDescription] = useState('');
+  const [unit, setUnit] = useState<'kg' | 'g' | 'units'>('kg'); 
 
   if (!isOpen) return null;
 
@@ -27,7 +28,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
     setImage(file);
   };
 
-  const clearFields = () =>  {
+  const clearFields = () => {
     setProductName('');
     setLocation('');
     setPrice(0);
@@ -35,6 +36,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
     setExpiryDate('');
     setImage(null);
     setDescription('');
+    setUnit('kg');  
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -53,7 +55,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
       image: URL.createObjectURL(image),
       name: productName,
       address: location,
-      quantity: `${quantity}kg`,
+      quantity: `${quantity} ${unit}`,  
       expiry: expiryDate,
       price: `${price.toFixed(2)}€`,
       description: description,
@@ -101,10 +103,29 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 />
-                <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="flex items-center gap-4 mt-6">
                   <NumberPicker id="preco" label="Preço:" value={price} onChange={(e) => setPrice(Number(e.target.value))} />
-                  <NumberPicker id="qnt" label="Quantidade:" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+
+                  <div className="flex items-center gap-2">
+                    <NumberPicker
+                      id="qnt"
+                      label="Quantidade:"
+                      value={quantity}
+                      onChange={(e) => setQuantity(Number(e.target.value))}
+                    />
+                    <select
+                      className="w-[60px] px-2 py-1 text-sm font-semibold leading-tight bg-white rounded border border-lime-800 text-lime-800"
+                      value={unit}
+                      onChange={(e) => setUnit(e.target.value as 'kg' | 'g' | 'units')}
+                    >
+                      <option value="kg">Kg</option>
+                      <option value="g">G</option>
+                      <option value="units">Uni.</option>
+                    </select>
+                  </div>
                 </div>
+
+
                 <div className="flex mt-6">
                   <DatePicker label="Validade:" id="expiryDate" value={expiryDate} onChange={handleDateChange} />
                 </div>
