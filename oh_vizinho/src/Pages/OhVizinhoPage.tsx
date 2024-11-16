@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/PageComponents/Header';
 import PageHeading from '../components/PageComponents/PageHeading';
 import ProductGrid from '../components/PageComponents/ProductGrid';
@@ -9,6 +9,9 @@ import { productData, recipeData, orderData, pantryData } from '../data';
 
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
+import { User } from '../types/User';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
@@ -25,33 +28,21 @@ const OhVizinhoPage: React.FC = () => {
     vegan: false
   });
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [products, setProducts] = useState<any[]>(productData);
   const [recipes, setRecipes] = useState<any[]>(recipeData);
   const [orders, setOrders] = useState<any[]>(orderData);
   const [pantry, setPantry] = useState<any[]>(pantryData);
 
-  const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
   const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
 
   const [sideBar, setSideBar] = useState(false);
+  const [users, setUsers] = useState<User[]>([]);
+  const [currentUser, setCurrentUser] = useState<User|null>();
 
   const togglePopup = () => setShowPopup(!showPopup);
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
-  };
-
-  const toogleCreatePopup = () =>  {
-    if(viewType == 'product')
-      setCreateProductPopupOpen(!isCreateProductPopupOpen);
-    else
-      setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
-  };
-
-  const createProduct = (productData: any) => {
-      setProducts([...products, productData]); 
-      setCreateProductPopupOpen(false); 
   };
 
   const getItemsByType = () => {
@@ -75,6 +66,90 @@ const OhVizinhoPage: React.FC = () => {
     }
   };
 
+  //////////////////////////////////
+  // Login Popup
+  //////////////////////////////////
+  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const username = sessionStorage.getItem('authToken');
+    if (username) {
+      const user = users.find((u) => u.name === username);
+      if (user) {
+        setCurrentUser(user); 
+      }
+    }
+  }, [users]);
+  
+  const toggleLoginPopup = () => {
+    if(isRegisterPopupOpen)
+      setRegisterPopupOpen(false)
+    setIsLoginPopupOpen(!isLoginPopupOpen);
+  };
+
+  const handleLogin = (username: string, password: string) => {
+    const user = users.find((u) => u.name === username && u.password === password);
+
+    if (user) {
+      setCurrentUser(user);
+      sessionStorage.setItem('authToken', username);
+      setIsAuthenticated(true);
+      setIsLoginPopupOpen(false);
+    } else {
+      alert('Utilizador ou senha incorretos.');
+    }
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    sessionStorage.removeItem('authToken'); 
+    setIsAuthenticated(false); 
+  };
+
+  //////////////////////////////////
+  // Register Popup
+  //////////////////////////////////  
+  const [isRegisterPopupOpen, setRegisterPopupOpen] = useState(false);
+
+  const toggleRegisterPopup = () => {
+    setRegisterPopupOpen(!isRegisterPopupOpen);
+  }
+
+  const toggleFromRegisterToLoginPopup = () => {
+    setRegisterPopupOpen(!isRegisterPopupOpen);
+    setIsLoginPopupOpen(!isLoginPopupOpen);
+  }
+
+  const handleRegister = (newUser: User) => {
+    setUsers([...users, newUser]);
+    toggleRegisterPopup();
+    toggleLoginPopup();
+
+    console.log(users)
+  };
+
+
+  //////////////////////////////////
+  // CreateProduct
+  //////////////////////////////////
+  const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
+
+  const toogleCreatePopup = () =>  {
+    if(viewType == 'product')
+      setCreateProductPopupOpen(!isCreateProductPopupOpen);
+    else
+      setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+  };
+
+  const createProduct = (productData: any) => {
+      setProducts([...products, productData]); 
+      setCreateProductPopupOpen(false); 
+  };
+
+  //////////////////////////////////
+  // Cards Filter
+  //////////////////////////////////
   const handleFilterNameChange = (filterName: string) => {
     setQuery({...query, name: filterName})
   };
@@ -88,13 +163,15 @@ const OhVizinhoPage: React.FC = () => {
     setSideBar(!sideBar);
   }
 
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  }
-
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full">
-      <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} onSideBar={handleSideBarClick}/>
+      <Header 
+        isAuthenticated={isAuthenticated} 
+        toggleLoginPopup={toggleLoginPopup}
+        handleLogout={handleLogout}
+        username={(currentUser) ? currentUser.name : ''}
+        onSideBar={handleSideBarClick}
+        />
       <PageHeading 
           togglePopup={togglePopup} 
           onViewChange={handleViewChange} 
@@ -126,6 +203,18 @@ const OhVizinhoPage: React.FC = () => {
           <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout}/>
       </div>)
       }
+      <LoginPage
+        isOpen={isLoginPopupOpen}
+        onClose={toggleLoginPopup}
+        login={handleLogin}       
+        register={toggleFromRegisterToLoginPopup}  
+      />
+      <RegisterPage
+        isOpen={isRegisterPopupOpen}
+        onClose={toggleRegisterPopup}
+        register={handleRegister}  
+        goToLogin={toggleFromRegisterToLoginPopup}
+      />
     </div>
   );
 };

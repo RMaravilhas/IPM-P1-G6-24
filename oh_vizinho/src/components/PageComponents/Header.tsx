@@ -1,65 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import LoginPage from '../../Pages/LoginPage';
+import React from 'react';
 import Button from '../Button';
 
 interface HeaderProps {
-  setIsAuthenticated: (value: boolean) => void;
+  isAuthenticated: boolean;
+  toggleLoginPopup: () => void;
+  handleLogout: () => void;
+  username: string|null|undefined;
   onSideBar: (isClicked: boolean) => void; // Função para emitir o evento booleano
-  isAuthenticated: boolean; // Nova propriedade para verificar se o usuário está autenticado
 }
 
-const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthenticated }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated); // Usar a variável isAuthenticated do pai
-  const [userName, setUserName] = useState<string | null>(null);
-  const [isLoginPopupOpen, setIsLoginPopupOpen] = useState(false);
-
-  // Sincroniza isLoggedIn com isAuthenticated
-  useEffect(() => {
-    setIsLoggedIn(isAuthenticated); // Atualiza isLoggedIn sempre que isAuthenticated mudar
-  }, [isAuthenticated]);
-
-  // Sempre que isLoggedIn mudar, atualiza isAuthenticated
-  useEffect(() => {
-    setIsAuthenticated(isLoggedIn); // Atualiza o estado no pai sempre que isLoggedIn mudar
-  }, [isLoggedIn, setIsAuthenticated]);
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      const token = sessionStorage.getItem('authToken');
-      if (token) {
-        setUserName(token);
-      }
-    }
-  }, [isAuthenticated]);
-
-  const handleLoginClick = () => {
-    setIsLoginPopupOpen(true);
-  };
-
-  const handleLogin = (username: string, password: string) => {
-    if (username) {
-      setIsLoggedIn(true);
-      setUserName(username);
-      sessionStorage.setItem('authToken', username);
-      setIsAuthenticated(true); // Atualiza o estado global na página
-      setIsLoginPopupOpen(false);
-    } else {
-      alert('Usuário ou senha incorretos.');
-    }
-  };
-
-  const handleRegister = () => {
-    console.log("Redirecting to registration page...");
-  };
-
-  const handleClosePopup = () => {
-    setIsLoginPopupOpen(false);
-  };
-
+const Header: React.FC<HeaderProps> = ({ isAuthenticated, toggleLoginPopup, onSideBar, handleLogout, username }) => {
   const handleSideBarClick = () => {
     onSideBar(true);
   };
-
+  
   return (
     <header className="flex flex-wrap gap-5 justify-between w-full max-w-[1232px] max-md:max-w-full">
       <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-[#36b391]">
@@ -73,9 +27,9 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthen
       </div>
 
       <div className="flex gap-6 my-auto text-base leading-tight text-center text-black">
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <>
-            <div data-layername="userName" className="my-auto basis-auto">{userName}</div>
+            <div data-layername="userName" className="my-auto basis-auto">{username}</div>
             <button
               onClick={handleSideBarClick}
               className="p-1 w-[30px] h-[30px] bg-transparent border-0 rounded-full"
@@ -89,18 +43,13 @@ const Header: React.FC<HeaderProps> = ({ setIsAuthenticated, onSideBar, isAuthen
             </button>
           </>
         ) : (
-          <Button onClick={handleLoginClick} primary>
+          <Button onClick={toggleLoginPopup} primary>
             Login
           </Button>
         )}
       </div>
 
-      <LoginPage
-        isOpen={isLoginPopupOpen}
-        onClose={handleClosePopup}
-        login={handleLogin}
-        register={handleRegister}
-      />
+      
     </header>
   );
 };
