@@ -238,13 +238,12 @@ const OhVizinhoPage: React.FC = () => {
   }) => {
     if(data.item === 'order') {
       const updatedOrders = orders.filter((item) => {
-        console.log(`Id para eliminar: ${data.orderId} Id da order: ${item.orderId}`);
         return item.orderId !== data.orderId;
       })
       setOrders(updatedOrders);
     } else if (data.item === 'product') {
       const updatedProducts = products.filter((item) => {
-        return item.product !== data.id?.name && item.customerName !== data.id?.owner; 
+        return !(item.product === data.id?.name && item.customerName === data.id?.owner); 
       })
       setProducts(updatedProducts);
     }

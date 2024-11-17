@@ -56,7 +56,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        product: "Farinha",
+        product: "Leite",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",
@@ -65,7 +65,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        product: "Farinha",
+        product: "Coco",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",

@@ -51,7 +51,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
-        return <MyOffers key={index} {...(item as MyOffersProps)} />;
+        return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete}/>;
       case 'Meus Pedidos':
         return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete}/>;
       case 'Dispensa':

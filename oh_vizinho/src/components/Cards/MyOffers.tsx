@@ -7,9 +7,10 @@ export interface MyOffersProps {
   quantity: string;
   expiry: string;
   price: string;
+  onDelete: (product: string) => void;
 };
 
-const MyOffers: React.FC<MyOffersProps> = ({ image, product, address, quantity, expiry, price }) => {
+const MyOffers: React.FC<MyOffersProps> = ({ image, product, address, quantity, expiry, price, onDelete }) => {
   return (
     <article className="flex overflow-hidden flex-col px-6 py-6 mt-9 w-full text-base font-semibold rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-md:pl-5">
       <div className="flex gap-3 text-black">
@@ -32,7 +33,7 @@ const MyOffers: React.FC<MyOffersProps> = ({ image, product, address, quantity, 
           Editar
         </button>
         <button className="overflow-hidden px-10 py-px text-center text-xl text-white bg-red-700 rounded-lg border border-black border-solid max-md:px-5"
-                >
+                onClick={() => onDelete(product)}>
           Eliminar
         </button>
         <span className="self-stretch text-3xl text-black">{price}</span>
