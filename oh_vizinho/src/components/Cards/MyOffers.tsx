@@ -31,7 +31,8 @@ const MyOffers: React.FC<MyOffersProps> = ({ image, product, address, quantity, 
         <button className="overflow-hidden px-10 py-px text-center text-black text-xl bg-white rounded-lg border border-black border-solid max-md:px-5">
           Editar
         </button>
-        <button className="overflow-hidden px-10 py-px text-center text-xl text-white bg-red-700 rounded-lg border border-black border-solid max-md:px-5">
+        <button className="overflow-hidden px-10 py-px text-center text-xl text-white bg-red-700 rounded-lg border border-black border-solid max-md:px-5"
+                >
           Eliminar
         </button>
         <span className="self-stretch text-3xl text-black">{price}</span>

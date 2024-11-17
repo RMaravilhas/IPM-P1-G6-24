@@ -219,7 +219,6 @@ const OhVizinhoPage: React.FC = () => {
    * Save Recipe
    */
   const handleSaveChange = (item: any) => {
-    console.log(JSON.stringify(item));
     const newRecipies = recipes.map((recipe) => {
       if (recipe.title === item.title) {
         return { ...recipe, favorite: item.saved }; 
@@ -228,6 +227,28 @@ const OhVizinhoPage: React.FC = () => {
     });
     setRecipes([...newRecipies]);
   };
+
+  const handleDeleteItem = (
+    data: {  item:string;
+    orderId?: string;
+    id?: {
+      name: string;
+      owner: string;
+    };
+  }) => {
+    if(data.item === 'order') {
+      const updatedOrders = orders.filter((item) => {
+        console.log(`Id para eliminar: ${data.orderId} Id da order: ${item.orderId}`);
+        return item.orderId !== data.orderId;
+      })
+      setOrders(updatedOrders);
+    } else if (data.item === 'product') {
+      const updatedProducts = products.filter((item) => {
+        return item.product !== data.id?.name && item.customerName !== data.id?.owner; 
+      })
+      setProducts(updatedProducts);
+    }
+  }
 
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
@@ -260,6 +281,7 @@ const OhVizinhoPage: React.FC = () => {
             onProductClick={handleOpenProductDetails}
             onSaveChange={handleSaveChange}
             customer={currentUser ? currentUser.name : ''}
+            deleteItem={handleDeleteItem}
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">

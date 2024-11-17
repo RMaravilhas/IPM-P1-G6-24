@@ -18,14 +18,29 @@ interface ProductGridProps {
   onProductClick: (product: Product) => void;
   onSaveChange: (isSaving: any) => void;
   customer: string;
+  deleteItem: (data: {  item:string;
+                        orderId?: string;
+                        id?: {
+                          name: string;
+                          owner: string;
+                        };
+                      }) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer, deleteItem }) => {
 
   const handleSaveChange = (saved: any) => {
     const toSend = saved;
     onSaveChange(toSend);
   };
+
+  const handleOrderDelete = (orderId: string) => {
+    deleteItem({item: 'order', orderId});
+  }
+
+  const handleProductDelete = (name: string) => {
+    deleteItem({item: 'product', id: {name, owner: customer}});
+  }
 
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
@@ -38,7 +53,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
       case 'Minhas Ofertas':
         return <MyOffers key={index} {...(item as MyOffersProps)} />;
       case 'Meus Pedidos':
-        return <MyOrders key={index} {...(item as MyOrdersProps)} />;
+        return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete}/>;
       case 'Dispensa':
         return <PantryItem key={index} {...(item as PantryItemProps)} />;
       case 'Perfil':
