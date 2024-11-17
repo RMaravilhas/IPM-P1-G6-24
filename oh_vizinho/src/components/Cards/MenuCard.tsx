@@ -1,11 +1,20 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from "react";
+import ProfileSection from "./Profile";
 
 interface MenuItemData {
   text: string;
   marginTop: string;
 }
 
-type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType =
+  | "product"
+  | "recipe"
+  | "order"
+  | "Perfil"
+  | "Mensagens"
+  | "Meus Pedidos"
+  | "Minhas Ofertas"
+  | "Dispensa";
 
 const menuItems: MenuItemData[] = [
   { text: "Perfil", marginTop: "mt-6" },
@@ -18,19 +27,33 @@ const menuItems: MenuItemData[] = [
 interface MenuContainerProps {
   onMenuItemClick: (buttonName: CardType) => void;
   logout: (value: boolean) => void;
-  closeSideBar: () => void; // Função para fechar a barra lateral
+  closeSideBar: () => void;
   userName: string | null;
 }
 
-const MenuContainer: React.FC<MenuContainerProps> = ({ onMenuItemClick, logout, closeSideBar, userName }) => {
+const MenuContainer: React.FC<MenuContainerProps> = ({
+  onMenuItemClick,
+  logout,
+  closeSideBar,
+  userName,
+}) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
   const handleLogout = () => {
-    sessionStorage.removeItem('authToken');
+    sessionStorage.removeItem("authToken");
     logout(false);
   };
 
-  // Fecha o menu se clicar fora dele
+  const handleClick = (item: CardType) => {
+    if (item === "Perfil") {
+      setShowProfilePopup(true);
+    } else {
+      onMenuItemClick(item);
+    }
+  };
+
+  // Fechar o menu se clicar fora da sidebar
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -38,9 +61,9 @@ const MenuContainer: React.FC<MenuContainerProps> = ({ onMenuItemClick, logout, 
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closeSideBar]);
 
@@ -62,13 +85,15 @@ const MenuContainer: React.FC<MenuContainerProps> = ({ onMenuItemClick, logout, 
           />
         </button>
 
-        <h1 className="text-4xl font-bold mb-8 text-center">Bem-vindo {userName || 'Visitante'}</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          Bem-vindo {userName || "Visitante"}
+        </h1>
 
         {menuItems.map((item, index) => (
           <button
             key={index}
             className="w-full text-xl py-4 mb-5 rounded-lg bg-[#36b391] hover:bg-[#248e67] transition-all shadow-lg hover:shadow-xl"
-            onClick={() => onMenuItemClick(item.text as CardType)}
+            onClick={() => handleClick(item.text as CardType)}
           >
             {item.text}
           </button>
@@ -81,6 +106,13 @@ const MenuContainer: React.FC<MenuContainerProps> = ({ onMenuItemClick, logout, 
           Logout
         </button>
       </div>
+
+      {/* Renderizar o pop-up do perfil */}
+      {showProfilePopup && (
+        <ProfileSection
+          onClose={() => setShowProfilePopup(false)} // Fecha o popup de perfil
+        />
+      )}
     </nav>
   );
 };
