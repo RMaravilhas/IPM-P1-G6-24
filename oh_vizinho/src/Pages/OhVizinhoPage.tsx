@@ -72,6 +72,8 @@ const OhVizinhoPage: React.FC = () => {
   const toggleCreatePopup = () => {
     if (viewType === 'product' || viewType === 'Minhas Ofertas') setCreateProductPopupOpen(!isCreateProductPopupOpen);
     else if(viewType === 'order' || viewType === 'Meus Pedidos') setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+    setEditProduct(false);
+    setEditOrder(false);
   };
 
   const getItemsByType = () => {
