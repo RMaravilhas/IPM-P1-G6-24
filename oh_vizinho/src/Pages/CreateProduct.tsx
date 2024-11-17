@@ -44,7 +44,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
   
     const newProduct = {
       image: URL.createObjectURL(image), 
-      name: productName,               
+      product: productName,               
       address: location,               
       quantity: `${quantity}${unit}`, // Unidade ajustável (ex.: kg, g, un)
       expiry: expiryDate,               

@@ -17,9 +17,10 @@ interface ProductGridProps {
   query: Query;
   onProductClick: (product: Product) => void;
   onSaveChange: (isSaving: any) => void;
+  customer: string;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer }) => {
 
   const handleSaveChange = (saved: any) => {
     const toSend = saved;
@@ -79,7 +80,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
         if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       } else if (cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
-        valid = item.customerName === 'admin';
+        valid = item.customerName === customer;
         if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       }

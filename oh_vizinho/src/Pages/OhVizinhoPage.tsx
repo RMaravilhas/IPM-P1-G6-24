@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import Header from '../components/PageComponents/Header';
 import PageHeading from '../components/PageComponents/PageHeading';
 import ProductGrid from '../components/PageComponents/ProductGrid';
@@ -9,6 +10,7 @@ import { productData, recipeData, orderData, pantryData } from '../data';
 
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
+import CreateOrder from './CreateOrder';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import { User } from '../types/User';
@@ -35,8 +37,6 @@ const OhVizinhoPage: React.FC = () => {
   const [orders, setOrders] = useState<any[]>(orderData);
   const [pantry, setPantry] = useState<any[]>(pantryData);
 
-  const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
-
   const [sideBar, setSideBar] = useState(false);
   const [users, setUsers] = useState<User[]>([
     {
@@ -53,29 +53,25 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
-    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa')
-      resetQuery();
-      setQuery({
+    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa'){
+      const newQuery = {
+        name: '',
+        products: [],
+        vegetarian: false,
+        spicy: false,
+        glutenFree: false,
+        lactoseFree: false,
+        vegan: false,
+        favorite: false,
         owner: currentUser ? currentUser.name: ''
-      })
+      }
+      setQuery(newQuery);
+    }
   };
-
-  const resetQuery = () => {
-    setQuery({
-      name: '',
-      products: [],
-      vegetarian: false,
-      spicy: false,
-      glutenFree: false,
-      lactoseFree: false,
-      vegan: false,
-      favorite: false
-    }) 
-  }
 
   const toggleCreatePopup = () => {
     if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);
-    else setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+    else if(viewType === 'order') setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
   };
 
   const getItemsByType = () => {
@@ -159,8 +155,6 @@ const OhVizinhoPage: React.FC = () => {
     setUsers([...users, newUser]);
     toggleRegisterPopup();
     toggleLoginPopup();
-
-    console.log(users)
   };
 
 
@@ -169,18 +163,24 @@ const OhVizinhoPage: React.FC = () => {
   //////////////////////////////////
   const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
 
-  const toogleCreatePopup = () =>  {
-    if(viewType == 'product')
-      setCreateProductPopupOpen(!isCreateProductPopupOpen);
-    else
-      setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
-  };
-
   const createProduct = (productData: any) => {
-      setProducts([...products, productData]); 
+    const owner = currentUser ? currentUser.name: '';
+    const updatedProduct = [...products, {...productData, customerName: owner}];
+      setProducts(updatedProduct); 
       setCreateProductPopupOpen(false); 
   };
 
+  //////////////////////////////////
+  // CreateOrder
+  //////////////////////////////////
+  const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
+
+  const createOrder = (orderData: any) => {
+    const owner = currentUser ? currentUser.name: '';
+    const updatedOrders = [...orders, {...orderData, customerName: owner, orderId: uuidv4()}];
+    setOrders(updatedOrders); 
+    setCreateOrderPopupOpen(false); 
+  };
 
   //////////////////////////////////
   // Product Details
@@ -259,6 +259,7 @@ const OhVizinhoPage: React.FC = () => {
             query={query} 
             onProductClick={handleOpenProductDetails}
             onSaveChange={handleSaveChange}
+            customer={currentUser ? currentUser.name : ''}
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
@@ -275,6 +276,12 @@ const OhVizinhoPage: React.FC = () => {
         isOpen={isCreateProductPopupOpen}
         onClose={toggleCreatePopup}
         create={createProduct}
+      />
+
+      <CreateOrder
+        isOpen={isCreateOrderPopupOpen}
+        onClose={toggleCreatePopup}
+        create={createOrder}
       />
 
       <LoginPage
