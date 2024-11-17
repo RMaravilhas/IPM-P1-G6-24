@@ -57,6 +57,15 @@ const PageHeading: React.FC<PageHeadingProps> = ({
            </div>;
   };
 
+  const toPortuguese = (type: string):string => {
+    if(type === 'product')
+      return 'Ofertas';
+    else if(type === 'order')
+      return 'Pedidos';
+    else
+      return 'Receitas';
+  }
+
   return (
     <section
       data-layername="pageHeading"
@@ -73,7 +82,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
                   currentViewType === type ? 'text-[#36b391]' : ''
                 }`}
               >
-                {type.charAt(0).toUpperCase() + type.slice(1)}
+                {toPortuguese(type)}
               </div>
               <div
                 className={`z-10 shrink-0 border-solid border-[3px] border-[#36b391] border-opacity-40 h-[3px] ${

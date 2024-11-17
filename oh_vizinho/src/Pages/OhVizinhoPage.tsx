@@ -28,6 +28,7 @@ const OhVizinhoPage: React.FC = () => {
     glutenFree: false,
     lactoseFree: false,
     vegan: false,
+    favorite: false
   });
 
   const [recipes, setRecipes] = useState<any[]>(recipeData);
@@ -52,7 +53,25 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
+    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa')
+      resetQuery();
+      setQuery({
+        owner: currentUser ? currentUser.name: ''
+      })
   };
+
+  const resetQuery = () => {
+    setQuery({
+      name: '',
+      products: [],
+      vegetarian: false,
+      spicy: false,
+      glutenFree: false,
+      lactoseFree: false,
+      vegan: false,
+      favorite: false
+    }) 
+  }
 
   const toggleCreatePopup = () => {
     if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);
@@ -194,6 +213,20 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleSideBarClick = () => {
     setSideBar(!sideBar);
+  };
+
+  /**
+   * Save Recipe
+   */
+  const handleSaveChange = (item: any) => {
+    console.log(JSON.stringify(item));
+    const newRecipies = recipes.map((recipe) => {
+      if (recipe.title === item.title) {
+        return { ...recipe, favorite: item.saved }; 
+      }
+      return recipe;
+    });
+    setRecipes([...newRecipies]);
   };
 
   return (

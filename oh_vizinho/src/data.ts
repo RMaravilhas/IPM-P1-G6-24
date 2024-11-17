@@ -2,7 +2,7 @@
 export const productData = [
     {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
+        product: "Tomates",
         address: "Rua dos Cliques N20",
         quantity: "2kg",
         expiry: "01/01/2025",
@@ -11,7 +11,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/3b5277f0b120b3280a2d5705132dc7da8bf28a590585b808574229f5e73e8cbb?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Gengibre",
+        product: "Gengibre",
         address: "Rua dos Cliques N19",
         quantity: "5kg",
         expiry: "01/01/2025",
@@ -20,7 +20,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
+        product: "Tomates",
         address: "Avenida dos cliques N2",
         quantity: "1kg",
         expiry: "01/01/2025",
@@ -29,7 +29,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Farinha",
+        product: "Farinha",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",
@@ -38,7 +38,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Mel",
+        product: "Mel",
         address: "Rua do Rato N14",
         quantity: "1.5kg",
         expiry: "01/01/2025",
@@ -47,7 +47,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Pimenta",
+        product: "Pimenta",
         address: "Avenida dos cliques N2",
         quantity: "0.2kg",
         expiry: "01/01/2025",
@@ -56,7 +56,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Farinha",
+        product: "Farinha",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",
@@ -65,7 +65,7 @@ export const productData = [
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Farinha",
+        product: "Farinha",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",
@@ -90,7 +90,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de couve",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -103,7 +103,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de batata",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -116,7 +116,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de arroz",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -129,7 +129,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de banana",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -142,7 +142,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de maca",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -155,7 +155,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa francesa",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],

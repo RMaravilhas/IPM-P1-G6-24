@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex gap-5 text-3xl font-medium tracking-tight leading-none text-[#36b391]">
         <img
           loading="lazy"
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/1646e1c35932c1c4f10ba894d7b9696b5a28da4a7adc8802e846ac0a87806369?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+          src={`${process.env.PUBLIC_URL}/images/Oh_Vizinho_logo.png`}
           alt="Oh Vizinho! logo"
           className="object-contain grow w-20 aspect-square"
         />

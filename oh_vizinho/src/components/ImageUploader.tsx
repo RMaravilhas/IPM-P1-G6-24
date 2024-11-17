@@ -31,7 +31,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onImageUpload }) => {
       )}
       <div className="flex gap-6 mt-7 justify-center w-full">
         <label className="overflow-hidden text-lime-800 bg-white border border-lime-800 border-solid px-10 py-3.5 w-[390px] text-center whitespace-nowrap rounded-lg max-md:px-5 cursor-pointer">
-          Adicionar Imagem
+          📷 Adicionar Imagem
           <input
             type="file"
             accept="image/*"
