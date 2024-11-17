@@ -103,6 +103,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
             <form className="flex flex-col">
               {/* Nome do Produto */}
               <div className="mb-6">
+              {" "}
                 <InputFieldForm
                   label="Nome do Produto:"
                   id="produtoName"
@@ -114,6 +115,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
 
               {/* Localização */}
               <div className="mb-6">
+              {" "}
                 <InputFieldForm
                   label="Localização:"
                   id="localizacao"
@@ -134,7 +136,9 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClo
 
                 {/* Quantidade */}
                 <div className="flex flex-col">
+                {" "}
                   <div className="flex items-center gap-1 px-14">
+                  {" "}
                     <NumberPicker
                       label="Quantidade:"
                       value={quantity}

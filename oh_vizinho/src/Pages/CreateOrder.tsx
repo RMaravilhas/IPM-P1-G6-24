@@ -54,17 +54,16 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <section className="px-8 pt-6 pb-10 w-[70%] sm:w-[90%] max-w-[1200px] rounded-3xl shadow-lg bg-white relative">
+      <section className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg relative">
         <button
           className="absolute top-4 right-4 text-xl text-gray-500 hover:text-gray-700"
           onClick={onClose}
         >
           ✖
         </button>
-        <div className="flex gap-8 max-md:flex-col items-center justify-center">
-          <div className="flex flex-col w-[60%] max-md:w-full">
-            <form className="flex flex-col">
-              <div className="mb-6">
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Criar Novo Pedido</h2>
+        <form className="space-y-6">
+
                 <InputFieldForm
                   label="Nome do Produto:"
                   id="produtoName"
@@ -72,8 +71,6 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
                   value={productName}
                   onChange={(e) => setProductName(e.target.value)}
                 />
-              </div>
-              <div className="mb-6">
                 <InputFieldForm
                   label="Localização:"
                   id="localizacao"
@@ -81,10 +78,8 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 />
-              </div>
-              <div className="flex gap-6 items-center mb-8">
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1 px-14">
+
+              <div className="flex gap-1 items-center">
                     <NumberPicker
                       label="Quantidade:"
                       value={quantity}
@@ -93,7 +88,7 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
                     <select
                       value={unit}
                       onChange={(e) => setUnit(e.target.value)}
-                      className="w-20 px-2 py-1 ml-auto text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
+                      className="w-20 px-2 py-1 text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
                     >
                       <option value="kg">kg</option>
                       <option value="g">g</option>
@@ -102,20 +97,17 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
                       <option value="ml">ml</option>
                     </select>
                   </div>
-                </div>
-              </div>
-              <div className="flex justify-end mt-4">
+
+              <div className="text-right">
                 <Button
                   primary
                   onClick={handleSubmit}
-                  className="text-xl px-6 py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white"
+                  className="px-6 py-3 text-white bg-green-500 rounded-md hover:bg-green-600"
                 >
                   {editMode ? 'Atualizar' : 'Criar'}
                 </Button>
               </div>
             </form>
-          </div>
-        </div>
       </section>
     </div>
   );
