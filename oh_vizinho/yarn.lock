@@ -6893,11 +6893,12 @@ obuf@^1.0.0, obuf@^1.1.2:
     "@types/node" "^16.18.119"
     "@types/react" "^18.3.12"
     "@types/react-dom" "^18.3.1"
-    oh_vizinho "file:../../../../../../AppData/Local/Yarn/Cache/v6/npm-oh-vizinho-0.1.0-43530d00-0414-427d-89d3-2bd3d45e94aa-1731797558853/node_modules/oh_vizinho"
+    oh_vizinho "file:C:/Users/PC/AppData/Local/Yarn/Cache/v6/npm-oh-vizinho-0.1.0-832489e6-9a39-4cba-90d9-ba2d8fad3c43-1731861786090/node_modules/oh_vizinho"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-scripts "5.0.1"
     typescript "^4.9.5"
+    uuid "^11.0.3"
     web-vitals "^2.1.4"
 
 on-finished@2.4.1:
@@ -9350,6 +9351,11 @@ utils-merge@1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==
+
+uuid@^11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.0.3.tgz#248451cac9d1a4a4128033e765d137e2b2c49a3d"
+  integrity sha512-d0z310fCWv5dJwnX1Y/MncBAqGMKEzlBb1AOf7z9K8ALnd0utBX/msg/fA0+sbyN1ihbMsLhrBlnl1ak7Wa0rg==
 
 uuid@^8.3.2:
   version "8.3.2"
