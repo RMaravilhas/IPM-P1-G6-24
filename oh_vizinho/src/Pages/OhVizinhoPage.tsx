@@ -70,8 +70,8 @@ const OhVizinhoPage: React.FC = () => {
   };
 
   const toggleCreatePopup = () => {
-    if (viewType === 'product') setCreateProductPopupOpen(!isCreateProductPopupOpen);
-    else if(viewType === 'order') setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
+    if (viewType === 'product' || viewType === 'Minhas Ofertas') setCreateProductPopupOpen(!isCreateProductPopupOpen);
+    else if(viewType === 'order' || viewType === 'Meus Pedidos') setCreateOrderPopupOpen(!isCreateOrderPopupOpen);
   };
 
   const getItemsByType = () => {
@@ -164,9 +164,19 @@ const OhVizinhoPage: React.FC = () => {
   const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
 
   const createProduct = (productData: any) => {
-    const owner = currentUser ? currentUser.name: '';
-    const updatedProduct = [...products, {...productData, customerName: owner}];
+    if(productData) {
+      console.log(JSON.stringify(productData))
+      const updatedProducts = products.map((item) => {
+        if(item.productId === productData.productId)
+          return { ...item, ...productData };
+        return item;
+      })
+      setProducts(updatedProducts);
+    } else {
+      const owner = currentUser ? currentUser.name: '';
+      const updatedProduct = [...products, {...productData, customerName: owner, productId: uuidv4()}];
       setProducts(updatedProduct); 
+    }
       setCreateProductPopupOpen(false); 
   };
 
@@ -176,9 +186,19 @@ const OhVizinhoPage: React.FC = () => {
   const [isCreateOrderPopupOpen, setCreateOrderPopupOpen] = useState(false);
 
   const createOrder = (orderData: any) => {
-    const owner = currentUser ? currentUser.name: '';
-    const updatedOrders = [...orders, {...orderData, customerName: owner, orderId: uuidv4()}];
-    setOrders(updatedOrders); 
+    if(editOrder){
+      const updatedOrders = orders.map((item) => {
+        if (item.orderId === orderData.orderId) {
+          return { ...item, ...orderData };
+        }
+        return item;
+      });
+      setOrders(updatedOrders);
+    } else {
+      const owner = currentUser ? currentUser.name: '';
+      const updatedOrders = [...orders, {...orderData, customerName: owner, orderId: uuidv4()}];
+      setOrders(updatedOrders);
+    } 
     setCreateOrderPopupOpen(false); 
   };
 
@@ -249,6 +269,36 @@ const OhVizinhoPage: React.FC = () => {
     }
   }
 
+  const [editOrder, setEditOrder] = useState(false);
+  const [prevOrder, setPrevOrder] = useState<any>({});
+  const [editProduct, setEditProduct] = useState(false);
+  const [prevProduct, setPrevProduct] = useState<any>({});
+
+  const toggleEdit = (
+    data: {  item:string;
+            orderId?: string;
+            id?: {
+              name: string;
+              owner: string;
+            };
+  }) => {
+    if(data.item === 'order') {
+      const prev = orders.find((item) => {
+        return item.orderId === data.orderId;
+      });
+      setPrevOrder(prev);
+      setEditOrder(true);
+      setCreateOrderPopupOpen(true);
+    } else if (data.item === 'product') {
+      const prev = products.find((item) => {
+        return (item.product === data.id?.name && item.customerName === data.id?.owner);
+      });
+      setPrevProduct(prev);
+      setEditProduct(true);
+      setCreateProductPopupOpen(true);
+    }
+  }
+
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
       <div className="flex flex-col flex-grow w-full px-6">
@@ -281,6 +331,7 @@ const OhVizinhoPage: React.FC = () => {
             onSaveChange={handleSaveChange}
             customer={currentUser ? currentUser.name : ''}
             deleteItem={handleDeleteItem}
+            editItem={toggleEdit}
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
@@ -297,12 +348,16 @@ const OhVizinhoPage: React.FC = () => {
         isOpen={isCreateProductPopupOpen}
         onClose={toggleCreatePopup}
         create={createProduct}
+        editMode={editProduct}
+        prevData={prevProduct}
       />
 
       <CreateOrder
         isOpen={isCreateOrderPopupOpen}
         onClose={toggleCreatePopup}
         create={createOrder}
+        editMode={editOrder}
+        prevData={prevOrder}
       />
 
       <LoginPage

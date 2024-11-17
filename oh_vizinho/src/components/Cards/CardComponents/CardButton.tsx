@@ -29,7 +29,7 @@ const CardButton: React.FC<CardButtonProps> = ({ onSaveChange, favorite }) => {
         className="object-contain shrink-0 rounded-sm aspect-[1.05] w-[22px]"
       />
       <span className="grow shrink w-[103px]">
-        {saved ? 'Guardado' : 'Guardar'}
+        {favorite ? 'Guardado' : 'Guardar'}
       </span>
     </button>
   );

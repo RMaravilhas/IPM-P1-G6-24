@@ -25,9 +25,16 @@ interface ProductGridProps {
                           owner: string;
                         };
                       }) => void;
+  editItem: (data: {  item:string;
+                      orderId?: string;
+                      id?: {
+                        name: string;
+                        owner: string;
+                      };
+                    }) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer, deleteItem }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer, deleteItem, editItem }) => {
 
   const handleSaveChange = (saved: any) => {
     const toSend = saved;
@@ -42,6 +49,14 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
     deleteItem({item: 'product', id: {name, owner: customer}});
   }
 
+  const handleProductEdit = (product: string) => {
+    editItem({item: 'product', id: {name: product, owner: customer}});
+  }
+
+  const handleOrderEdit = (orderId: string) => {
+    editItem({item: 'order', orderId});
+  }
+
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
@@ -51,9 +66,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
-        return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete}/>;
+        return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete} onEdit={handleProductEdit}/>;
       case 'Meus Pedidos':
-        return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete}/>;
+        return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete} onEdit={handleOrderEdit}/>;
       case 'Dispensa':
         return <PantryItem key={index} {...(item as PantryItemProps)} />;
       case 'Perfil':
@@ -134,7 +149,6 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onPro
           : ''}
       </h1>
 
-      {/* Container de grid com padding leve e ocupando todo o espaço */}
       <div className={`grid ${nCols(cardType)} gap-5 max-md:grid-cols-2 w-full h-full px-10`}>
         {filterItems().map((item, index) => (
           <div key={index} data-layername="column" className="flex flex-col">

@@ -1,28 +1,47 @@
-import React, { useState } from "react";
-import ImageUploader from "../components/ImageUploader";
-import InputFieldForm from "../components/InputFieldForm";
-import DatePicker from "../components/DataPicker";
-import Button from "../components/Button";
-import NumberPicker from "../components/NumberPicker";
+import React, { useEffect, useState } from 'react';
+import ImageUploader from '../components/ImageUploader';
+import InputFieldForm from '../components/InputFieldForm';
+import DatePicker from '../components/DataPicker';
+import Button from '../components/Button';
+import NumberPicker from '../components/NumberPicker';
 
 interface ProductCreationFormProps {
   isOpen: boolean;
   onClose: () => void;
   create: (productData: any) => void;
+  editMode: boolean;
+  prevData: any;
 }
 
-const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
-  isOpen,
-  onClose,
-  create,
-}) => {
-  const [productName, setProductName] = useState("");
-  const [location, setLocation] = useState("");
+const ProductCreationForm: React.FC<ProductCreationFormProps> = ({ isOpen, onClose, create, editMode, prevData }) => {
+  const [productName, setProductName] = useState('');
+  const [location, setLocation] = useState('');
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const [unit, setUnit] = useState("kg"); // Unidade ajustável
   const [expiryDate, setExpiryDate] = useState("");
   const [image, setImage] = useState<File | null>(null);
+  const [productId, setProductId] = useState('');
+
+  useEffect(() => {
+    if (editMode) {
+      setProductName(prevData.product || '');
+      setLocation(prevData.address || '');
+      setPrice(parseFloat(prevData.price) || 0);
+      const quantityMatch = prevData.quantity?.match(/^(\d+)(\w+)$/);
+      if (quantityMatch) {
+        setQuantity(Number(quantityMatch[1]));
+        setUnit(quantityMatch[2]);
+      }
+      setExpiryDate(prevData.expiry || '');
+      if (prevData.image) {
+        fetch(prevData.image)
+          .then((response) => response.blob())
+          .then((blob) => setImage(new File([blob], 'uploadedImage', { type: blob.type })));
+      }
+      setProductId(prevData.productId);
+    }
+  }, [editMode, prevData]);
 
   if (!isOpen) return null;
 
@@ -31,8 +50,8 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
   };
 
   const clearFields = () => {
-    setProductName("");
-    setLocation("");
+    setProductName('');
+    setLocation('');
     setPrice(0);
     setQuantity(0);
     setUnit("kg");
@@ -50,12 +69,12 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
       image: URL.createObjectURL(image),
       product: productName,
       address: location,
-      quantity: `${quantity}${unit}`, // Unidade ajustável (ex.: kg, g, un)
+      quantity: `${quantity}${unit}`,
       expiry: expiryDate,
       price: `${price.toFixed(2)}€`,
+      productId,
     };
 
-    console.log(newProduct);
     create(newProduct);
     clearFields();
   };
@@ -84,8 +103,6 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
             <form className="flex flex-col">
               {/* Nome do Produto */}
               <div className="mb-6">
-                {" "}
-                {/* Espaçamento reduzido */}
                 <InputFieldForm
                   label="Nome do Produto:"
                   id="produtoName"
@@ -97,8 +114,6 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
 
               {/* Localização */}
               <div className="mb-6">
-                {" "}
-                {/* Espaçamento maior */}
                 <InputFieldForm
                   label="Localização:"
                   id="localizacao"
@@ -119,11 +134,7 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
 
                 {/* Quantidade */}
                 <div className="flex flex-col">
-                  {" "}
-                  {/* Adicionado gap-2 para espaçamento vertical */}
                   <div className="flex items-center gap-1 px-14">
-                    {" "}
-                    {/* Espaçamento entre a caixa e o seletor */}
                     <NumberPicker
                       label="Quantidade:"
                       value={quantity}
@@ -154,14 +165,14 @@ const ProductCreationForm: React.FC<ProductCreationFormProps> = ({
                 />
               </div>
 
-              {/* Botão Criar */}
+              {/* Botão Criar/Atualizar */}
               <div className="flex justify-end mt-4">
                 <Button
                   primary
                   onClick={handleSubmit}
                   className="text-xl px-6 py-3 rounded-lg bg-green-500 hover:bg-green-600 text-white"
                 >
-                  Criar
+                  {editMode ? 'Atualizar' : 'Criar'}
                 </Button>
               </div>
             </form>

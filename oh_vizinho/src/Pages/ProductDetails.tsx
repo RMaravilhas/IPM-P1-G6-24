@@ -23,12 +23,12 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({ isOpen, onClose, produc
 
         <div className="flex gap-5 max-md:flex-col">
           <div className="flex flex-col w-[42%] max-md:ml-0 max-md:w-full">
-            <img src={product.image} alt={product.name} className="w-full h-auto rounded-lg" />
+            <img src={product.image} alt={product.product} className="w-full h-auto rounded-lg" />
           </div>
           <div className="flex flex-col ml-5 w-[58%] max-md:ml-0 max-md:w-full">
             <div className="flex flex-col">
               <div className="flex flex-wrap gap-10 items-start w-full max-md:max-w-full">
-                <h2 className="text-3xl font-semibold text-black">{product.name}</h2>
+                <h2 className="text-3xl font-semibold text-black">{product.product}</h2>
               </div>
               <div className="flex flex-col items-start text-xl tracking-tight leading-tight text-black mt-6">
                 <p><strong>Localização:</strong> {product.address}</p>
