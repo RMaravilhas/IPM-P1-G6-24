@@ -196,6 +196,20 @@ const OhVizinhoPage: React.FC = () => {
     setSideBar(!sideBar);
   };
 
+  /**
+   * Save Recipe
+   */
+  const handleSaveChange = (item: any) => {
+    console.log(JSON.stringify(item));
+    const newRecipies = recipes.map((recipe) => {
+      if (recipe.title === item.title) {
+        return { ...recipe, favorite: item.saved }; 
+      }
+      return recipe;
+    });
+    setRecipes([...newRecipies]);
+  };
+
   return (
     <div data-layername="base" className="flex overflow-hidden flex-col items-center pt-4 bg-white pb-[548px] max-md:pb-24 w-full h-full">
       <div className="flex flex-col flex-grow w-full px-6">
@@ -220,7 +234,7 @@ const OhVizinhoPage: React.FC = () => {
 
       <div className="flex flex-col flex-grow w-full px-4"> 
         {isAuthenticated || viewType === 'recipe' ? (
-          <ProductGrid items={getItemsByType()} cardType={viewType} query={query} />
+          <ProductGrid items={getItemsByType()} cardType={viewType} query={query} onSaveChange={handleSaveChange}/>
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
             <p className="text-2xl font-semibold text-gray-500">

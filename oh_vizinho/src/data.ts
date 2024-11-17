@@ -90,7 +90,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de couve",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -103,7 +103,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de batata",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -116,7 +116,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de arroz",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -129,7 +129,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de banana",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -142,7 +142,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa de maca",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
@@ -155,7 +155,7 @@ export const productData = [
     },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
-      title: "Sopa de Tomate",
+      title: "Sopa francesa",
       description: "Xesque",
       ingredientCount: 2,
       ingredients: ["Tomates", "Alho", "Cebola", "Sal"],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ProductCard, { ProductCardProps } from '../Cards/ProductCard';
 import OrderCard, { OrderCardProps } from '../Cards/OrderCard';
 import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
@@ -14,15 +14,23 @@ interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
   cardType: CardType;
   query: Query;
+  onSaveChange: (isSaving: any) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onSaveChange }) => {
+
+
+  const handleSaveChange = (saved: any) => {
+    const toSend = saved;
+    onSaveChange(toSend);
+  };
+
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
         return <ProductCard key={index} {...(item as ProductCardProps)} />;
       case 'recipe':
-        return <RecipeCard key={index} {...(item as RecipeCardProps)} />;
+        return <RecipeCard key={index} {...(item as RecipeCardProps)} onSaveChange={handleSaveChange}/>;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
@@ -53,6 +61,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => 
         if (query.lactoseFree && !item.lactoseFree)
           return false;
         if (query.vegan && !item.vegan)
+          return false;
+        if (query.favorite && !item.favorite)
           return false;
         if (query.products && query.products?.length > 0) {
           const ingredients = item.ingredients.map((a: string) => a.toLowerCase());

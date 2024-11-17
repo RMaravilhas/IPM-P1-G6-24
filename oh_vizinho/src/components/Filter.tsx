@@ -194,6 +194,15 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
                 />
                 <span className="text-xl">Vegano</span>
               </label>
+              <label className="flex items-center gap-4">
+                <input
+                  type="checkbox"
+                  checked={query.favorite || false}
+                  onChange={() => handleFilterToggle("favorite")}
+                  className="w-7 h-7 rounded-md border-gray-300 text-[#37b38f] focus:ring-[#37b38f] cursor-pointer"
+                />
+                <span className="text-xl">Favorito</span>
+              </label>
             </div>
 
             {/* Botão Aplicar */}
