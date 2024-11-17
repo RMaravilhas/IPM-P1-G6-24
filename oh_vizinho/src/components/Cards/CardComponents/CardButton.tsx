@@ -2,20 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 interface CardButtonProps {
   onSaveChange: (isSaving: boolean) => void;
+  favorite?: boolean;
 }
 
-const CardButton: React.FC<CardButtonProps> = ({ onSaveChange }) => {
-  const [saved, setSaved] = useState<boolean>(() => {
-    const storedValue = localStorage.getItem('cardButtonSaved');
-    return storedValue ? JSON.parse(storedValue) : false;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('cardButtonSaved', JSON.stringify(saved));
-  }, [saved]);
+const CardButton: React.FC<CardButtonProps> = ({ onSaveChange, favorite }) => {
+  const [saved, setSaved] = useState<boolean>(favorite ? favorite : false);
 
   const handleClick = () => {
-    const save = !saved;
+    const save = !favorite;
     setSaved(save);
     onSaveChange(save);
   };

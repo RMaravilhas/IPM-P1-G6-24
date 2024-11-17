@@ -11,10 +11,11 @@ export interface RecipeCardProps {
   ingredientCount: number;
   ingredients: string[];
   steps: string[];
+  favorite?: boolean;
   onSaveChange: (isSaving: any) => void;
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ image, title, description, ingredientCount, ingredients, steps, onSaveChange }) => {
+const RecipeCard: React.FC<RecipeCardProps> = ({ image, title, description, ingredientCount, ingredients, steps, favorite, onSaveChange }) => {
 
   const handleSaveChange = (saved: boolean) => {
     const toSend = {saved: saved, title: title};
@@ -26,7 +27,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({ image, title, description, ingr
       <div className="flex gap-5 max-md:flex-col">
         <div className="flex flex-col w-[54%] max-md:ml-0 max-md:w-full">
           <CardImage src={image} alt={title} />
-          <CardButton onSaveChange={handleSaveChange} />
+          <CardButton onSaveChange={handleSaveChange} favorite={favorite}/>
         </div>
         <CardContent
           title={title}

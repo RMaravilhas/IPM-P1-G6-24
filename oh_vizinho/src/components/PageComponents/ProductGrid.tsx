@@ -30,7 +30,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onSav
       case 'product':
         return <ProductCard key={index} {...(item as ProductCardProps)} />;
       case 'recipe':
-        return <RecipeCard key={index} {...(item as RecipeCardProps)} onSaveChange={handleSaveChange}/>;
+        return <RecipeCard key={index} {...(item as RecipeCardProps)} favorite={item.favorite} onSaveChange={handleSaveChange}/>;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
