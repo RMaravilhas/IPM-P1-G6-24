@@ -37,20 +37,7 @@ const MyOrders: React.FC<MyOrdersProps> = ({ orderId, product, address, quantity
           </button>
         </div>
       </div>
-      <div className="flex gap-2 items-start mt-5 leading-tight whitespace-nowrap">
-        {/* Botão Editar */}
-        <button className="overflow-hidden px-10 py-px text-center text-black text-xl bg-white rounded-lg border border-black border-solid max-md:px-5">
-          Editar
-        </button>
-        {/* Botão Eliminar */}
-        <button
-          className="overflow-hidden px-10 py-px text-center text-xl text-white bg-red-700 rounded-lg border border-black border-solid max-md:px-5"
-          onClick={() => onDelete(orderId)}
-        >
-          Eliminar
-        </button>
-      </div>
-    </article>
+    </div>
   );
 };
 
