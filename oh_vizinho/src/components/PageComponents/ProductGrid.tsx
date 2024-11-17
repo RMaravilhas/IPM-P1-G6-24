@@ -16,9 +16,16 @@ interface ProductGridProps {
   cardType: CardType;
   query: Query;
   onProductClick: (product: Product) => void;
+  onSaveChange: (isSaving: any) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange }) => {
+
+  const handleSaveChange = (saved: any) => {
+    const toSend = saved;
+    onSaveChange(toSend);
+  };
+
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':

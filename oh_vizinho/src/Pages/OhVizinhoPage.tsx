@@ -225,6 +225,7 @@ const OhVizinhoPage: React.FC = () => {
             cardType={viewType} 
             query={query} 
             onProductClick={handleOpenProductDetails}
+            onSaveChange={handleSaveChange}
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
