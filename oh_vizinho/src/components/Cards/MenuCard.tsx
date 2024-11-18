@@ -110,7 +110,8 @@ const MenuContainer: React.FC<MenuContainerProps> = ({
       {/* Renderizar o pop-up do perfil */}
       {showProfilePopup && (
         <ProfileSection
-          onClose={() => setShowProfilePopup(false)} // Fecha o popup de perfil
+          onClose={() => setShowProfilePopup(false)}
+          userName={userName}
         />
       )}
     </nav>

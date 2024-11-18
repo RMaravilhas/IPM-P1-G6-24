@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import EditProfileSection from "./EditProfile";
+import { userData } from "../../data";
 
 export interface ProfileInfo {
   name: string;
@@ -15,11 +17,19 @@ const profileInfo: ProfileInfo = {
 };
 
 interface ProfileSectionProps {
-  onClose: () => void; // Função para fechar o pop-up
+  onClose: () => void;
+  userName: string | null;
 }
 
 const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose }) => {
   const popupRef = useRef<HTMLDivElement>(null);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [userProfile, setUserProfile] = useState(profileInfo);
+
+  const handleSave = (updatedInfo: ProfileInfo) => {
+    setUserProfile(updatedInfo);
+  };
 
   // Fecha o pop-up ao clicar fora dele
   useEffect(() => {
@@ -34,6 +44,16 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  if (isEditing) {
+    return (
+      <EditProfileSection
+        profileInfo={userProfile}
+        onSave={handleSave}
+        onClose={() => setIsEditing(false)}
+      />
+    );
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
@@ -56,22 +76,22 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose }) => {
           {/* User Information */}
           <div>
             <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
-              {profileInfo.name}
+              {userProfile.name}
             </h2>
-            <p className="text-gray-500 text-sm md:text-base">{profileInfo.email}</p>
-            <p className="text-gray-500 text-sm md:text-base mt-1">{profileInfo.address}</p>
+            <p className="text-gray-500 text-sm md:text-base">{userProfile.email}</p>
+            <p className="text-gray-500 text-sm md:text-base mt-1">{userProfile.address}</p>
 
             <div className="mt-4 text-gray-600">
               <span className="text-sm md:text-base font-semibold">Idade:</span>
               <span className="text-gray-800 font-semibold ml-2">
-                {profileInfo.age} anos
+                {userProfile.age} anos
               </span>
             </div>
           </div>
 
           {/* Edit Button */}
           <div className="mt-6">
-            <button className="w-full px-4 py-2 bg-blue-500 text-white font-semibold text-sm md:text-base rounded-lg shadow hover:bg-blue-600 transition">
+            <button onClick={() => setIsEditing(true)} className="w-full px-4 py-2 bg-blue-500 text-white font-semibold text-sm md:text-base rounded-lg shadow hover:bg-blue-600 transition">
               Editar Perfil
             </button>
           </div>

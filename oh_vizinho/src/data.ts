@@ -270,3 +270,14 @@ export const productData = [
       expiry: "01/01/2025",
     },
   ]
+  export const userData = [
+    {
+      name: "admin",
+      password: '1234',
+      age: 21,
+      email: "pedro.peralta@email.com",
+      location: 'Default City',
+      address: "Rua dos Cliques N20",
+      image: 'https://example.com/default-avatar.png',
+    },
+  ];
