@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface RecipeCardProps {
   title: string;
@@ -16,6 +16,14 @@ interface RecipePopupProps {
 
 const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
   const [portions, setPortions] = useState(1);
+  const [saved, setSaved] = useState(false); // Track if the recipe is saved
+
+  // Reset the saved state when the popup opens with a new recipe
+  useEffect(() => {
+    if (recipe) {
+      setSaved(false); // Default state for each popup
+    }
+  }, [recipe]);
 
   if (!recipe) return null;
 
@@ -28,26 +36,28 @@ const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
     });
   };
 
-  // Prevent click events from propagating to the overlay
-  const handlePopupClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
+  // Adjust ingredient quantities based on portions
+  const adjustedIngredients = ingredients.map((ingredient) => {
+    const match = ingredient.match(/^(\d+)(.*)/); // Regex to extract leading number
+    if (match) {
+      const quantity = parseInt(match[1], 10) * portions;
+      return `${quantity}${match[2]}`;
+    }
+    return ingredient; // If no number, keep the string as is
+  });
 
   return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-      onClick={onClose} // Close popup on overlay click
-    >
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
       <div
         className="bg-white rounded-3xl w-[90%] max-w-[800px] p-8 relative"
-        onClick={handlePopupClick} // Prevent closing when clicking inside the popup
+        onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the popup
       >
         {/* Close Button */}
         <button
+          className="absolute top-4 right-5 text-xl text-gray-500 hover:text-gray-700"
           onClick={onClose}
-          className="absolute top-4 right-4 bg-gray-200 text-gray-800 p-2 rounded-full hover:bg-gray-300"
         >
-          &times;
+          ✖
         </button>
 
         {/* Title Section */}
@@ -70,14 +80,22 @@ const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
                 />
                 <span>Gostar</span>
               </button>
-              <button className="flex overflow-hidden flex-1 gap-9 px-5 py-1.5 bg-white rounded-lg border border-lime-800 border-solid">
+              {/* Guardar Button */}
+              <button
+                onClick={() => setSaved((prev) => !prev)} // Toggle saved state
+                className="flex overflow-hidden flex-1 gap-9 px-5 py-1.5 bg-white rounded-lg border border-lime-800 border-solid"
+              >
                 <img
                   loading="lazy"
-                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/52de4c485b08f4ec7547ae7403afac43a842d86eb2b5d406f35f3de37ebbf4f1?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+                  src={
+                    saved
+                      ? "https://cdn.builder.io/api/v1/image/assets/TEMP/52de4c485b08f4ec7547ae7403afac43a842d86eb2b5d406f35f3de37ebbf4f1?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+                      : "https://cdn.builder.io/api/v1/image/assets/TEMP/24bd3405bf22d0cc1a62e1782ae07ab26108841dde891636183a8733a62d3056?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+                  }
                   alt=""
                   className="object-contain shrink-0 rounded-sm aspect-[1.05] w-[22px]"
                 />
-                <span>Guardado</span>
+                <span>{saved ? "Guardado" : "Guardar"}</span>
               </button>
             </div>
           </div>
@@ -91,7 +109,7 @@ const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
             </label>
             <button
               onClick={() => handlePortionChange(false)}
-              className="bg-gray-200 p-1 w-8 h-8 rounded text-gray-700 hover:bg-gray-300 text-center flex items-center justify-center"
+              className="bg-lime-600 p-1 w-8 h-8 rounded text-white text-lg font-bold hover:bg-[#2e9578] text-center flex items-center justify-center"
               disabled={portions <= 1}
             >
               -
@@ -102,11 +120,11 @@ const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
               className="bg-transparent focus:outline-none p-0 appearance-none"
               value={portions}
               readOnly
-              style={{ textAlign: 'center', width: '30px', marginLeft: '10px' }}
+              style={{ textAlign: "center", width: "30px", marginLeft: "10px" }}
             />
             <button
               onClick={() => handlePortionChange(true)}
-              className="bg-gray-200 p-1 w-8 h-8 rounded text-gray-700 hover:bg-gray-300 text-center flex items-center justify-center"
+              className="bg-lime-600 p-1 w-8 h-8 rounded text-white text-lg font-bold hover:bg-[#2e9578] text-center flex items-center justify-center"
               disabled={portions >= 5}
             >
               +
@@ -121,7 +139,7 @@ const RecipePopup: React.FC<RecipePopupProps> = ({ recipe, onClose }) => {
             <h2 className="text-lg font-semibold">Ingredients:</h2>
             <div>
               <ul className="list-disc ml-4 space-y-2">
-                {ingredients.map((ingredient, index) => (
+                {adjustedIngredients.map((ingredient, index) => (
                   <li key={index} className="text-gray-700">{ingredient}</li>
                 ))}
               </ul>

@@ -295,7 +295,7 @@ export const productData = [
       glutenFree: true,
       lactoseFree: true,
       vegan: true
-    }
+    },
     {
       image: "https://i.ibb.co/fG5wMR8/download.jpg",
       title: "Sopa de couve",

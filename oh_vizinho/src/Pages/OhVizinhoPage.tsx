@@ -332,19 +332,7 @@ const OhVizinhoPage: React.FC = () => {
           isAuthenticated={isAuthenticated}
           toggleCreatePopup={toggleCreatePopup}
           currentViewType={viewType}
-      />
-      
-      {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} query={query} onCardClick={handleRecipeClick}/>
-      ) : (
-        <div className="flex items-center justify-center h-[50vh] text-center">
-          <p className="text-2xl font-semibold text-gray-500">
-            Você precisa estar autenticado para acessar esta seção.
-          </p>
-        </div>
-      )}
-        />
-      </div>
+      /></div>
 
       <div className="flex flex-col flex-grow w-full px-4"> 
         {isAuthenticated || viewType === 'recipe' ? (
@@ -357,6 +345,8 @@ const OhVizinhoPage: React.FC = () => {
             customer={currentUser ? currentUser.name : ''}
             deleteItem={handleDeleteItem}
             editItem={toggleEdit}
+            onCardClick={handleRecipeClick}
+            
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
