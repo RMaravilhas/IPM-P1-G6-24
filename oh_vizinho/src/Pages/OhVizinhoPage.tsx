@@ -6,7 +6,7 @@ import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
 
-import { productData, recipeData, orderData, pantryData } from '../data';
+import { productData, recipeData, orderData, pantryData, userData } from '../data';
 
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
@@ -38,14 +38,7 @@ const OhVizinhoPage: React.FC = () => {
   const [pantry, setPantry] = useState<any[]>(pantryData);
 
   const [sideBar, setSideBar] = useState(false);
-  const [users, setUsers] = useState<User[]>([
-    {
-      name: 'admin',
-      password: '1234',
-      location: 'Default City',
-      image: 'https://example.com/default-avatar.png',
-    },
-  ]);
+  const [users, setUsers] = useState<User[]>(userData);
   
   const [currentUser, setCurrentUser] = useState<User|null>();
 
@@ -381,7 +374,7 @@ const OhVizinhoPage: React.FC = () => {
       
       {sideBar && isAuthenticated && (
         <div className="fixed top-0 right-0 w-[400px] h-full">
-          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick} userName={(currentUser)?currentUser.name:''}/>
+          <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick}  users = {users} userName={(currentUser)?currentUser.name:''}/>
         </div>
       )}
     </div>

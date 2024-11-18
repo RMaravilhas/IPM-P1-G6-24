@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ProfileSection from "./Profile";
+import { User } from "../../types/User";
 
 interface MenuItemData {
   text: string;
@@ -28,6 +29,7 @@ interface MenuContainerProps {
   onMenuItemClick: (buttonName: CardType) => void;
   logout: (value: boolean) => void;
   closeSideBar: () => void;
+  users: User[];
   userName: string | null;
 }
 
@@ -36,6 +38,7 @@ const MenuContainer: React.FC<MenuContainerProps> = ({
   logout,
   closeSideBar,
   userName,
+  users,
 }) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [showProfilePopup, setShowProfilePopup] = useState(false);
@@ -111,6 +114,7 @@ const MenuContainer: React.FC<MenuContainerProps> = ({
       {showProfilePopup && (
         <ProfileSection
           onClose={() => setShowProfilePopup(false)}
+          users= {users}
           userName={userName}
         />
       )}
