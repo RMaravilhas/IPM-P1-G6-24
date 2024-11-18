@@ -87,6 +87,18 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
     onClose();
   };
 
+  const handleClearFilters = () => {
+    setQuery({
+      products: [],
+      vegetarian: false,
+      spicy: false,
+      glutenFree: false,
+      lactoseFree: false,
+      vegan: false,
+      favorite: false
+    });
+  }
+
   const handleAddIngredient = () => {
     if (ingredientInput && query.products && !query.products.includes(ingredientInput)) {
       const updatedProducts = [...query.products, ingredientInput];
@@ -205,14 +217,23 @@ const Filter: React.FC<FilterProps> = ({ isOpen, onClose, filterType, onFilterCh
               </label>
             </div>
 
-            {/* Botão Aplicar */}
-            <button
-              type="button"
-              onClick={handleApplyFilters}
-              className="w-full py-3 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] transition duration-200"
-            >
-              Buscar
-            </button>
+            <div className="flex gap-4 w-full">
+              <button
+                type="button"
+                onClick={handleClearFilters}
+                className="flex-1 py-3 text-lg font-semibold text-[#37b38f] bg-white border border-[#37b38f] rounded-lg hover:bg-[#f2f2f2] transition duration-200"
+              >
+                Reset
+              </button>
+
+              <button
+                type="button"
+                onClick={handleApplyFilters}
+                className="flex-1 py-3 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] transition duration-200"
+              >
+                Buscar
+              </button>
+            </div>
           </form>
         </div>
       </div>
