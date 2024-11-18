@@ -11,12 +11,39 @@ export interface RecipeCardProps {
   ingredientCount: number;
   ingredients: string[];
   steps: string[];
+  onCardClick?: (item: RecipeCardProps) => void; // Optional handler for card clicks
 }
 
-const RecipeCard: React.FC<RecipeCardProps> = ({ image, title, description, ingredientCount, ingredients, steps }) => {
-  console.log("Image path:", image); // Verifique o caminho da imagem
+const RecipeCard: React.FC<RecipeCardProps> = ({
+  image,
+  title,
+  description,
+  ingredientCount,
+  ingredients,
+  steps,
+  onCardClick,
+}) => {
+  console.log('Image path:', image); // Debugging image path
+
+  const handleClick = () => {
+    // Trigger the click handler with the recipe's data
+    if (onCardClick) {
+      onCardClick({
+        image,
+        title,
+        description,
+        ingredientCount,
+        ingredients,
+        steps,
+      });
+    }
+  };
+
   return (
-    <article className="overflow-hidden px-5 py-6 rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-w-[400px]">
+    <article
+      onClick={handleClick} // Add the click handler here
+      className="overflow-hidden px-5 py-6 rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-w-[400px] cursor-pointer"
+    >
       <div className="flex gap-5 max-md:flex-col">
         <div className="flex flex-col w-[54%] max-md:ml-0 max-md:w-full">
           <CardImage src={image} alt={title} />

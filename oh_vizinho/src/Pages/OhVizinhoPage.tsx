@@ -4,6 +4,8 @@ import PageHeading from '../components/PageComponents/PageHeading';
 import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
+import RecipeCard, { RecipeCardProps } from '../components/Cards/RecipeCard';
+import RecipePopup from '../components/RecipePopup';
 
 import { productData, recipeData, orderData, pantryData } from '../data';
 
@@ -65,7 +67,24 @@ const OhVizinhoPage: React.FC = () => {
         return [];
     }
   };
-
+  //////////////////////////////////
+  // Recipe Popup
+  //////////////////////////////////
+  const [isRecipePopupOpen, setRecipePopupOpen] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeCardProps | null>(null);
+  
+  const handleRecipeClick = (recipe: RecipeCardProps) => {
+    setSelectedRecipe(recipe);
+    setRecipePopupOpen(true);
+  };
+  
+  
+  const closeRecipePopup = () => {
+      setRecipePopupOpen(false);
+      setSelectedRecipe(null);
+  };
+  
+  
   //////////////////////////////////
   // Login Popup
   //////////////////////////////////
@@ -182,7 +201,7 @@ const OhVizinhoPage: React.FC = () => {
       />
       
       {isAuthenticated || viewType === 'recipe' ? (
-        <ProductGrid items={getItemsByType()} cardType={viewType} query={query}/>
+        <ProductGrid items={getItemsByType()} cardType={viewType} query={query} onCardClick={handleRecipeClick}/>
       ) : (
         <div className="flex items-center justify-center h-[50vh] text-center">
           <p className="text-2xl font-semibold text-gray-500">
@@ -214,6 +233,11 @@ const OhVizinhoPage: React.FC = () => {
         onClose={toggleRegisterPopup}
         register={handleRegister}  
         goToLogin={toggleFromRegisterToLoginPopup}
+      />
+      <RecipePopup
+        isOpen={isRecipePopupOpen}
+        recipe={selectedRecipe}
+        onClose={closeRecipePopup}
       />
     </div>
   );

@@ -16,15 +16,16 @@ interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
   cardType: CardType;
   query: Query;
+  onCardClick?: (item: any) => void;
 }
 
-const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query }) => {
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onCardClick }) => {
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
         return <ProductCard key={index} {...(item as ProductCardProps)} />;
       case 'recipe':
-        return <RecipeCard key={index} {...(item as RecipeCardProps)} />;
+        return <RecipeCard key={index} {...(item as RecipeCardProps)} onCardClick={() => onCardClick?.(item as RecipeCardProps)} />;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
