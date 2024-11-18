@@ -1,7 +1,10 @@
 export interface User {
     name: string;
     password: string;
+    age?: number;
+    email?: string;
     location?: string;
-    image?: File | null;
+    address?: string;
+    image?: string | null;
   }
   

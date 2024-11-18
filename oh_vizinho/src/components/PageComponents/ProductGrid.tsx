@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ProductCard, { ProductCardProps } from '../Cards/ProductCard';
 import OrderCard, { OrderCardProps } from '../Cards/OrderCard';
 import RecipeCard, { RecipeCardProps } from '../Cards/RecipeCard';
@@ -7,31 +7,72 @@ import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
 import PantryItem, { PantryItemProps } from '../Cards/Pantry';
 
 import { Query } from '../../types/Query';
+import { Product } from '../../types/Product';
 
 type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
-
-const col3 = ['product' , 'recipe' , 'order' , 'Minhas Ofertas' , 'Meus Pedidos', 'Meus Pedidos'];
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
   cardType: CardType;
   query: Query;
+  onProductClick: (product: Product) => void;
+  onSaveChange: (isSaving: any) => void;
+  customer: string;
+  deleteItem: (data: {  item:string;
+                        orderId?: string;
+                        id?: {
+                          name: string;
+                          owner: string;
+                        };
+                      }) => void;
+  editItem: (data: {  item:string;
+                      orderId?: string;
+                      id?: {
+                        name: string;
+                        owner: string;
+                      };
+                    }) => void;
+}
   onCardClick?: (item: any) => void;
 }
+
+const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onProductClick, onSaveChange, customer, deleteItem, editItem }) => {
+
+  const handleSaveChange = (saved: any) => {
+    const toSend = saved;
+    onSaveChange(toSend);
+  };
+
+  const handleOrderDelete = (orderId: string) => {
+    deleteItem({item: 'order', orderId});
+  }
+
+  const handleProductDelete = (name: string) => {
+    deleteItem({item: 'product', id: {name, owner: customer}});
+  }
+
+  const handleProductEdit = (product: string) => {
+    editItem({item: 'product', id: {name: product, owner: customer}});
+  }
+
+  const handleOrderEdit = (orderId: string) => {
+    editItem({item: 'order', orderId});
+  }
 
 const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onCardClick }) => {
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
-        return <ProductCard key={index} {...(item as ProductCardProps)} />;
+        return <ProductCard key={index} {...(item as ProductCardProps)} onClick={() => onProductClick(item)} />;
       case 'recipe':
+        return <RecipeCard key={index} {...(item as RecipeCardProps)} favorite={item.favorite} onSaveChange={handleSaveChange}/>;
         return <RecipeCard key={index} {...(item as RecipeCardProps)} onCardClick={() => onCardClick?.(item as RecipeCardProps)} />;
       case 'order':
         return <OrderCard key={index} {...(item as OrderCardProps)} />;
       case 'Minhas Ofertas':
-        return <MyOffers key={index} {...(item as MyOffersProps)} />;
+        return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete} onEdit={handleProductEdit}/>;
       case 'Meus Pedidos':
-        return <MyOrders key={index} {...(item as MyOrdersProps)} />;
+        return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete} onEdit={handleOrderEdit}/>;
       case 'Dispensa':
         return <PantryItem key={index} {...(item as PantryItemProps)} />;
       case 'Perfil':
@@ -57,6 +98,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onCar
           return false;
         if (query.vegan && !item.vegan)
           return false;
+        if (query.favorite && !item.favorite)
+          return false;
         if (query.products && query.products?.length > 0) {
           const ingredients = item.ingredients.map((a: string) => a.toLowerCase());
           const products = query.products.map((a) => a.toLowerCase());
@@ -65,37 +108,60 @@ const ProductGrid: React.FC<ProductGridProps> = ({ items, cardType, query, onCar
           );
         }
       } else if (cardType === 'product') {
-        if (query.name && !item.name.toLowerCase().includes(query.name.toLowerCase()))
+        if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       } else if (cardType === 'order') {
         if (query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
           valid = false;
       } else if (cardType === 'Minhas Ofertas' || cardType === 'Meus Pedidos') {
-        valid = item.customerName === 'admin';
+        valid = item.customerName === customer;
+        if(query.name && !item.product.toLowerCase().includes(query.name.toLowerCase()))
+          valid = false;
       }
       return valid;
     });
   };
 
+  const nCols = (card: CardType):string => {
+    switch (card) {
+      case 'product':
+      case 'order':
+        return 'grid-cols-3';
+      case 'recipe':
+      case 'Meus Pedidos':
+      case 'Minhas Ofertas':
+        return 'grid-cols-4';
+      case 'Dispensa':
+        return 'grid-cols-1';
+      case 'Perfil':
+      case 'Mensagens':
+      default:
+        return 'grid-cols-3';
+    }
+
+  }
+
   return (
-    <div className="mt-8 w-full max-w-[1248px] max-md:max-w-full">
-      <h1 className="text-3xl font-bold text-left mb-4 text-[#36b391]">
+    <div className="mt-8 w-full h-full">
+      <h1 className="text-4xl font-bold text-center mb-4 text-[#36b391] pb-5">
         {cardType === 'Minhas Ofertas'
           ? 'Minhas Ofertas'
           : cardType === 'Meus Pedidos'
           ? 'Meus Pedidos'
           : cardType === 'Dispensa'
-          ? 'Dispensa': ''}
+          ? 'Dispensa'
+          : ''}
       </h1>
 
-        <div className={`grid grid-cols-${col3.includes(cardType) ? 3 : 1} gap-5 max-md:grid-cols-1`}>
-          {filterItems().map((item, index) => (
-            <div key={index} data-layername="column" className="flex flex-col">
-              {renderCard(item, index)}
-            </div>
-          ))}
-        </div>
+      <div className={`grid ${nCols(cardType)} gap-5 max-md:grid-cols-2 w-full h-full px-10`}>
+        {filterItems().map((item, index) => (
+          <div key={index} data-layername="column" className="flex flex-col">
+            {renderCard(item, index)}
+          </div>
+        ))}
+      </div>
     </div>
+
   );
 };
 

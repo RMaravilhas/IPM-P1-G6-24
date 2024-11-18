@@ -2,58 +2,84 @@
 export const productData = [
     {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
+        product: "Tomates",
         address: "Rua dos Cliques N20",
         quantity: "2kg",
         expiry: "01/01/2025",
         price: "5.99€",
-        customerName: "João Silva"
+        customerName: "João Silva",
+        productId: "3487204732084",
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/3b5277f0b120b3280a2d5705132dc7da8bf28a590585b808574229f5e73e8cbb?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Gengibre",
+        product: "Gengibre",
         address: "Rua dos Cliques N19",
         quantity: "5kg",
         expiry: "01/01/2025",
         price: "5.99€",
-        customerName: "admin"
+        customerName: "admin",
+        productId: "593257238056328",
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Tomates",
+        product: "Tomates",
         address: "Avenida dos cliques N2",
         quantity: "1kg",
         expiry: "01/01/2025",
         price: "2.99€",
-        customerName: "Francisca"
+        customerName: "Francisca",
+        productId: "5y3823627476327",
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Farinha",
+        product: "Farinha",
         address: "Rua dos Cliques N19",
         quantity: "1kg",
         expiry: "01/01/2025",
         price: "0.99€",
-        customerName: "admin"
+        customerName: "admin",
+        productId: "nv38bywo",
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Mel",
+        product: "Mel",
         address: "Rua do Rato N14",
         quantity: "1.5kg",
         expiry: "01/01/2025",
         price: "10.99€",
-        customerName: "Jose"
+        customerName: "Jose",
+        productId: "vgni429rugfopwi",
       },
       {
         image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
-        name: "Pimenta",
+        product: "Pimenta",
         address: "Avenida dos cliques N2",
         quantity: "0.2kg",
         expiry: "01/01/2025",
         price: "3.99€",
-        customerName: "Francisca"
-      }
+        customerName: "Francisca",
+        productId: "vmipe2hu32",
+      },
+      {
+        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+        product: "Leite",
+        address: "Rua dos Cliques N19",
+        quantity: "1kg",
+        expiry: "01/01/2025",
+        price: "0.99€",
+        customerName: "admin",
+        productId: "viewbu4bw",
+      },
+      {
+        image: "https://cdn.builder.io/api/v1/image/assets/TEMP/52154c430268fcbd56d389a3274e821f3031790dbaf213aa41beee900c89bb89?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
+        product: "Coco",
+        address: "Rua dos Cliques N19",
+        quantity: "1kg",
+        expiry: "01/01/2025",
+        price: "0.99€",
+        customerName: "admin",
+        productId: "vmi42obfu32vf32i",
+      },
   ];
   
   export const recipeData = [
@@ -270,6 +296,85 @@ export const productData = [
       lactoseFree: true,
       vegan: true
     }
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa de couve",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa de batata",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa de arroz",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa de banana",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa de maca",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    {
+      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      title: "Sopa francesa",
+      description: "Xesque",
+      ingredientCount: 2,
+      ingredients: ["Tomates", "Alho", "Cebola", "Sal"],
+      steps: ["Refogar cebola e alho", "Adicionar tomates", "Cozinhar por 20 minutos"],
+      vegetarian : true,
+      spicy : false,
+      glutenFree: true,
+      lactoseFree: true,
+      vegan: true
+    },
+    
   ];
   
   export const orderData = [
@@ -301,7 +406,15 @@ export const productData = [
       orderId: "11111",
       product: "Arroz",
       quantity: "1kg",
-      customerName: "Fernanda",
+      customerName: "admin",
+      address: "Rua dos Cliques N17",
+      status: "Entregue",
+    },
+    {
+      orderId: "0853947",
+      product: "Batata",
+      quantity: "1kg",
+      customerName: "admin",
       address: "Rua dos Cliques N17",
       status: "Entregue",
     },
@@ -357,3 +470,14 @@ export const productData = [
       expiry: "01/01/2025",
     },
   ]
+  export const userData = [
+    {
+      name: "admin",
+      password: '1234',
+      age: 21,
+      email: "pedro.peralta@email.com",
+      location: 'Default City',
+      address: "Rua dos Cliques N20",
+      image: 'https://example.com/default-avatar.png',
+    },
+  ];

@@ -1,56 +1,123 @@
-import React from 'react';
-import MenuItem from './CardComponents/MenuItem';
-import { logDOM } from '@testing-library/react';
+import React, { useEffect, useRef, useState } from "react";
+import ProfileSection from "./Profile";
+import { User } from "../../types/User";
 
-// Definindo o tipo dos itens do menu
 interface MenuItemData {
   text: string;
   marginTop: string;
-  marginLeft?: string;
 }
 
-type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType =
+  | "product"
+  | "recipe"
+  | "order"
+  | "Perfil"
+  | "Mensagens"
+  | "Meus Pedidos"
+  | "Minhas Ofertas"
+  | "Dispensa";
 
-// Definindo os itens do menu
 const menuItems: MenuItemData[] = [
-  { text: "Perfil", marginTop: "mt-20" },
-  { text: "Mensagens", marginTop: "mt-9" },
-  { text: "Meus Pedidos", marginTop: "mt-9" },
-  { text: "Minhas Ofertas", marginTop: "mt-9"},
-  { text: "Dispensa", marginTop: "mt-9" }
+  { text: "Perfil", marginTop: "mt-6" },
+  { text: "Mensagens", marginTop: "mt-6" },
+  { text: "Meus Pedidos", marginTop: "mt-6" },
+  { text: "Minhas Ofertas", marginTop: "mt-6" },
+  { text: "Dispensa", marginTop: "mt-6" },
 ];
 
 interface MenuContainerProps {
-  onMenuItemClick: (buttonName: CardType) => void;  // Função para receber o nome do item pressionado
+  onMenuItemClick: (buttonName: CardType) => void;
   logout: (value: boolean) => void;
+  closeSideBar: () => void;
+  users: User[];
+  userName: string | null;
 }
 
-const MenuContainer: React.FC<MenuContainerProps> = ({ onMenuItemClick, logout }) => {
+const MenuContainer: React.FC<MenuContainerProps> = ({
+  onMenuItemClick,
+  logout,
+  closeSideBar,
+  userName,
+  users,
+}) => {
+  const menuRef = useRef<HTMLDivElement>(null);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
 
-    const handleLogout = () => {
-        sessionStorage.removeItem('authToken'); // Remove o token de autenticação
-        logout(false); // Atualiza o estado global na página
-      };
+  const handleLogout = () => {
+    sessionStorage.removeItem("authToken");
+    logout(false);
+  };
+
+  const handleClick = (item: CardType) => {
+    if (item === "Perfil") {
+      setShowProfilePopup(true);
+    } else {
+      onMenuItemClick(item);
+    }
+  };
+
+  // Fechar o menu se clicar fora da sidebar
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        closeSideBar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeSideBar]);
 
   return (
-    <nav className="flex flex-col mx-auto w-full text-3xl leading-tight text-center text-black max-w-[480px] bg-[#36b391]">
-      <div className="flex relative flex-col items-center px-10 pt-7 w-full aspect-[0.341] shadow-[0px_4px_4px_rgba(0,0,0,0.25)]">
+    <nav
+      ref={menuRef}
+      className="flex flex-col items-center w-full min-h-screen bg-gradient-to-b from-[#36b391] to-[#248e67] text-white"
+    >
+      <div className="flex flex-col items-center w-full max-w-md px-10 py-10">
+        <button
+          className="p-1 w-[40px] h-[40px] bg-transparent border-0 rounded-full transition-opacity mr-auto"
+          onClick={closeSideBar}
+        >
+          <img
+            loading="lazy"
+            src="https://i.ibb.co/hmVX3kb/burger.png"
+            alt="User profile"
+            className="object-contain w-full h-full rounded-full"
+          />
+        </button>
+
+        <h1 className="text-4xl font-bold mb-8 text-center">
+          Bem-vindo {userName || "Visitante"}
+        </h1>
+
         {menuItems.map((item, index) => (
           <button
             key={index}
-            className={`text-white ${item.marginTop} py-3 px-6 mb-3 rounded-lg  hover:bg-[#248e67]`}
-            onClick={() => onMenuItemClick(item.text as CardType)}  // Envia o nome do botão ao ser clicado
+            className="w-full text-xl py-4 mb-5 rounded-lg bg-[#36b391] hover:bg-[#248e67] transition-all shadow-lg hover:shadow-xl"
+            onClick={() => handleClick(item.text as CardType)}
           >
             {item.text}
           </button>
         ))}
+
         <button
-        className={`text-white mt-9 py-3 px-6 mb-3 rounded-lg hover:bg-[#248e67]`}
-        onClick={handleLogout}  // Envia o nome do botão ao ser clicado
+          className="w-full text-xl py-4 mb-5 max-w-full whitespace-nowrap rounded-lg min-w-[126px] max-md:px-5 transition-colors duration-300 text-[#36b391] bg-white border border-[#36b391] border-solid hover:bg-[#36b391] hover:text-white"
+          onClick={handleLogout}
         >
-        Logout
+          Logout
         </button>
       </div>
+
+      {/* Renderizar o pop-up do perfil */}
+      {showProfilePopup && (
+        <ProfileSection
+          onClose={() => setShowProfilePopup(false)}
+          users= {users}
+          userName={userName}
+        />
+      )}
     </nav>
   );
 };
