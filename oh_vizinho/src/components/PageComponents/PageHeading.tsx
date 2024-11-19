@@ -71,7 +71,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       data-layername="pageHeading"
       className="flex flex-col items-center self-stretch px-5 pt-8 pb-2 w-full text-black bg-white bg-opacity-0 max-md:px-5 max-md:max-w-full"
     >
-      <div className="flex flex-wrap gap-5 justify-between items-start w-full max-md:max-w-full">
+      <div className="flex flex-wrap items-center gap-5 justify-between items-start w-full max-md:max-w-full">
         <nav className="flex gap-10 mt-1.5 text-4xl tracking-tighter leading-tight whitespace-nowrap">
           {['recipe', 'product', 'order'].map((type) => (
             <div key={type} className="flex flex-col self-start">

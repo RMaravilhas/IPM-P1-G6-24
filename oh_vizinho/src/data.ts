@@ -278,6 +278,6 @@ export const productData = [
       email: "pedro.peralta@email.com",
       location: 'Default City',
       address: "Rua dos Cliques N20",
-      image: 'https://example.com/default-avatar.png',
+      imageUrl: 'https://example.com/default-avatar.png',
     },
   ];

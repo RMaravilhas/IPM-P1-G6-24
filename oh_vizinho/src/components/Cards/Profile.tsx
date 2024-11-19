@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import EditProfileSection from "./EditProfile";
-import { userData } from "../../data";
 import { User } from "../../types/User";
 
 export interface ProfileInfo {
@@ -8,6 +7,7 @@ export interface ProfileInfo {
   age: number;
   email: string;
   address: string;
+  imageUrl?: string;
 }
 
 interface ProfileSectionProps {
@@ -23,7 +23,6 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose, users, userNam
   const [userProfile, setUserProfile] = useState<ProfileInfo | null>(null);
 
   useEffect(() => {
-    // Busca as informações do usuário com base no nome
     const foundUser = users.find((user) => user.name === userName);
     if (foundUser) {
       setUserProfile({
@@ -31,20 +30,18 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose, users, userNam
         age: foundUser.age || 0,
         email: foundUser.email || " ",
         address: foundUser.address || " ",
+        imageUrl: foundUser.imageUrl || "https://cdn.builder.io/api/v1/image/assets/TEMP/55c88b218a49c9733dc8350ff6b37938ca9b9b776aed3b31c919a69dd1465644?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782",
       });
+    } else {
+      console.log("User not found");
     }
-    else{
-      console.log('User not found')
-    }
-  }, [userName]);
+  }, [userName, users]);
 
   const handleSave = (updatedInfo: Partial<ProfileInfo>) => {
     if (userProfile) {
-      // Atualiza o estado local
       const updatedProfile = { ...userProfile, ...updatedInfo };
       setUserProfile(updatedProfile);
 
-      // Atualiza o userData global
       const userIndex = users.findIndex((user) => user.name === userName);
       if (userIndex !== -1) {
         users[userIndex] = {
@@ -69,7 +66,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose, users, userNam
   }, [onClose]);
 
   if (!userProfile) {
-    return null; // Retorna vazio enquanto o perfil está carregando
+    return null;
   }
 
   if (isEditing) {
@@ -90,7 +87,7 @@ const ProfileSection: React.FC<ProfileSectionProps> = ({ onClose, users, userNam
       >
         <div className="flex items-center justify-center bg-gradient-to-r from-green-400 to-blue-500 p-6">
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/55c88b218a49c9733dc8350ff6b37938ca9b9b776aed3b31c919a69dd1465644?placeholderIfAbsent=true&apiKey=2b659d54d9c448a19edda772d8c18782"
+            src={userProfile.imageUrl}
             alt="Profile"
             className="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-white shadow-lg"
           />
