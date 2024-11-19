@@ -32,25 +32,30 @@ const MyOrders: React.FC<MyOrdersProps> = ({
     setIsPopUpOpen(false);
   }
 
+  const deleteItem = () => {
+    onDelete(orderId)
+    setIsPopUpOpen(false);
+  }
+
   return (
     <article className="flex overflow-hidden flex-col px-6 py-6 mt-9 w-full text-base font-semibold rounded-3xl border-2 border-solid bg-stone-50 border-neutral-200 max-md:pl-5">
       {isPopUpOpen ? (
-        <div className="flex gap-3 text-black">
-          <h1 className="text-2xl sm:text-3xl font-semibold text-[#000000] mb-6 text-center">
+        <div className="flex flex-col items-center gap-6 text-black">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-[#000000] text-center">
             Tem a certeza que quer eliminar este pedido?
           </h1>
-          <div className="flex gap-4 w-full">
+          <div className="flex gap-4 w-full justify-center">
             <button
               type="button"
               onClick={closePopUp}
-              className="flex-1 py-3 text-lg font-semibold text-white bg-[#ea4903] bg-white rounded-lg hover:bg-[#ef590f] transition duration-200"
+              className="py-3 px-6 text-lg font-semibold text-white bg-[#ea4903] rounded-lg hover:bg-[#ef590f] transition duration-200"
             >
               Cancelar
             </button>
             <button
               type="button"
-              onClick={() => onDelete(orderId)}
-              className="flex-1 py-3 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] transition duration-200"
+              onClick={deleteItem}
+              className="py-3 px-6 text-lg font-semibold text-white bg-[#37b38f] rounded-lg hover:bg-[#32a382] transition duration-200"
             >
               Confirmar
             </button>
@@ -81,7 +86,7 @@ const MyOrders: React.FC<MyOrdersProps> = ({
               Editar
             </button>
             <button
-              className="overflow-hidden grow px-10 py-px text-center text-xl text-white bg-red-700 rounded-lg border border-black border-solid max-md:px-5"
+              className="overflow-hidden grow px-10 py-px text-center text-xl text-white bg-[#ea4903] rounded-lg border border-black border-solid max-md:px-5"
               onClick={handleDeletePress}
             >
               Eliminar

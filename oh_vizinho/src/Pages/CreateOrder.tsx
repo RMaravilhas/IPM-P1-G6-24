@@ -101,7 +101,7 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
             ✖
           </button>
           <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Criar Novo Pedido</h2>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
 
                   <InputFieldForm
                     label="Nome do Produto:"
