@@ -159,8 +159,7 @@ const OhVizinhoPage: React.FC = () => {
   const [isCreateProductPopupOpen, setCreateProductPopupOpen] = useState(false);
 
   const createProduct = (productData: any) => {
-    if(productData) {
-      console.log(JSON.stringify(productData))
+    if(editProduct) {
       const updatedProducts = products.map((item) => {
         if(item.productId === productData.productId)
           return { ...item, ...productData };

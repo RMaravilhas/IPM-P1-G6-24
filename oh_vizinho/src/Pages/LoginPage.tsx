@@ -36,7 +36,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ isOpen, onClose, login, register 
   if (!isOpen) return null;
 
   const handleLogin = () => {
-    login(username, password);
+    login(username.trim(), password);
     setPassword('')
     setUsername('')
   };

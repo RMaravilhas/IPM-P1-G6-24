@@ -11,6 +11,8 @@
     "@types/node": "^16.18.119",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "date-fns": "^4.1.0",
+    "luxon": "^3.5.0",
     "oh_vizinho": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
