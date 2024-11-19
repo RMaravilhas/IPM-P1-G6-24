@@ -73,13 +73,13 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
       {isPopUpOpen ? (
         <section className="px-8 pt-6 pb-6 w-[50%] sm:w-[90%] max-w-[800px] rounded-3xl shadow-lg bg-white relative">
           <h1 className="text-2xl sm:text-3xl font-semibold text-[#000000] mb-6 text-center">
-            Tem a certeza que quer criar este pedido?
+            Tem a certeza que quer {editMode ? 'editar' : 'criar'} este pedido?
           </h1>
           <div className="flex gap-4 w-full">
             <button
               type="button"
               onClick={closePopUp}
-              className="flex-1 py-3 text-lg font-semibold text-white bg-[#ea4903] bg-white rounded-lg hover:bg-[#ef590f] transition duration-200"
+              className="flex-1 py-3 text-lg font-semibold text-white bg-[#ea4903] rounded-lg hover:bg-[#ef590f] transition duration-200"
             >
               Cancelar
             </button>
