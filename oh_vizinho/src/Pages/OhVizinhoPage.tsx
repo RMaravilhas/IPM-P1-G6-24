@@ -6,7 +6,7 @@ import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
 import RecipeCard, { RecipeCardProps } from '../components/Cards/RecipeCard';
-import RecipePopup from '../components/RecipePopup';
+import RecipePopup from './RecipePopup';
 
 import { productData, recipeData, orderData, pantryData, userData } from '../data';
 

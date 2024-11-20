@@ -18,7 +18,7 @@ const CardButton: React.FC<CardButtonProps> = ({ onSaveChange, favorite }) => {
   return (
     <button
       onClick={handleClick}
-      className="flex overflow-hidden gap-6 px-5 py-1.5 mt-5 bg-white rounded-lg border border-lime-800 border-solid"
+      className="flex overflow-hidden gap-6 px-5 py-1.5 mt-5 bg-lime-600 text-white rounded-lg transition-colors duration-300 hover:bg-[#2e9578]"
     >
       <img
         loading="lazy"
