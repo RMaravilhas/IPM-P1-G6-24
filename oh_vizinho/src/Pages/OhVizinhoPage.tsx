@@ -5,6 +5,8 @@ import PageHeading from '../components/PageComponents/PageHeading';
 import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
+import RecipeCard, { RecipeCardProps } from '../components/Cards/RecipeCard';
+import RecipePopup from './RecipePopup';
 
 import { productData, recipeData, orderData, pantryData, userData } from '../data';
 
@@ -89,7 +91,24 @@ const OhVizinhoPage: React.FC = () => {
         return [];
     }
   };
-
+  //////////////////////////////////
+  // Recipe Popup
+  //////////////////////////////////
+  const [isRecipePopupOpen, setRecipePopupOpen] = useState(false);
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeCardProps | null>(null);
+  
+  const handleRecipeClick = (recipe: RecipeCardProps) => {
+    setSelectedRecipe(recipe);
+    setRecipePopupOpen(true);
+  };
+  
+  
+  const closeRecipePopup = () => {
+      setRecipePopupOpen(false);
+      setSelectedRecipe(null);
+  };
+  
+  
   //////////////////////////////////
   // Login Popup
   //////////////////////////////////
@@ -312,8 +331,7 @@ const OhVizinhoPage: React.FC = () => {
           isAuthenticated={isAuthenticated}
           toggleCreatePopup={toggleCreatePopup}
           currentViewType={viewType}
-        />
-      </div>
+      /></div>
 
       <div className="flex flex-col flex-grow w-full px-4"> 
         {isAuthenticated || viewType === 'recipe' ? (
@@ -326,6 +344,8 @@ const OhVizinhoPage: React.FC = () => {
             customer={currentUser ? currentUser.name : ''}
             deleteItem={handleDeleteItem}
             editItem={toggleEdit}
+            onCardClick={handleRecipeClick}
+            
             />
         ) : (
           <div className="flex items-center justify-center h-[50vh] text-center">
@@ -365,6 +385,11 @@ const OhVizinhoPage: React.FC = () => {
         onClose={toggleRegisterPopup}
         register={handleRegister}  
         goToLogin={toggleFromRegisterToLoginPopup}
+      />
+      <RecipePopup
+        isOpen={isRecipePopupOpen}
+        recipe={selectedRecipe}
+        onClose={closeRecipePopup}
       />
       <ProductDetails 
         isOpen={isDetailsOpen} 
