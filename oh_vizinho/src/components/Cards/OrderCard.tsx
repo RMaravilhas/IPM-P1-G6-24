@@ -15,7 +15,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   return (
     <article className="p-6 w-full max-w-screen-lg bg-stone-50 border-solid border-2 rounded-xl shadow-md flex flex-col gap-4 mx-auto">
-      <h2 className="text-2xl font-semibold text-gray-800">{product}</h2>
+      <h2 className="text-3xl font-semibold text-gray-800">{product}</h2>
 
       <div className="flex justify-between items-start flex-wrap gap-4">
         <div className="flex flex-col gap-1 flex-1">

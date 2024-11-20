@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Product } from '../types/Product';
-
 
 interface ProductDetailsProps {
   isOpen: boolean;
@@ -9,11 +8,32 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({ isOpen, onClose, product }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
+
+  // Retorna nulo se não for para exibir o modal
   if (!isOpen || !product) return null;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <section className="px-8 pt-6 pb-10 w-[60%] sm:w-[80%] max-w-[1000px] rounded-3xl shadow-lg bg-white relative">
+      <section
+        ref={ref}
+        className="px-8 pt-6 pb-10 w-[60%] sm:w-[80%] max-w-[1000px] rounded-3xl shadow-lg bg-white relative">
         <button
           className="absolute top-4 right-5 text-xl text-gray-500 hover:text-gray-700"
           onClick={onClose}

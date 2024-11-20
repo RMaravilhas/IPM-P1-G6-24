@@ -43,13 +43,13 @@ const RegisterPage: React.FC<RegisterPageProps> = ({ isOpen, onClose, register, 
     }
 
     const user: User = {
-        name: name,
-        password: password,
-        age: 0,
-        email: 'Not defined',
-        address: 'Not defined',
-        location: 'Not defined',
-
+      name: name,
+      password: password,
+      age: 0,
+      email: 'Not defined',
+      address: 'Not defined',
+      location: 'Not defined',
+      imageUrl: 'https://example.com/default-avatar.png'
     }
     register(user);
     setName('');

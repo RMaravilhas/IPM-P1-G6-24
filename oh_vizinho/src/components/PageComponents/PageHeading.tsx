@@ -49,7 +49,8 @@ const PageHeading: React.FC<PageHeadingProps> = ({
   const renderCreateButton = (selected: CardType) => {
     if (!isAuthenticated) return null;
 
-    const buttonText = selected === 'product' ? 'Oferecer' : selected === 'order' ? 'Pedir' : null;
+    const buttonText = (selected === 'product' || selected === 'Minhas Ofertas') ? 'Oferecer' : 
+                       (selected === 'order' || selected === 'Meus Pedidos') ? 'Pedir' : null;
     if (!buttonText) return null;
 
     return <div className='text-xl'>
@@ -69,9 +70,9 @@ const PageHeading: React.FC<PageHeadingProps> = ({
   return (
     <section
       data-layername="pageHeading"
-      className="flex flex-col items-center self-stretch px-5 pt-20 pb-2 w-full text-black bg-white bg-opacity-0 max-md:px-5 max-md:max-w-full"
+      className="flex flex-col items-center self-stretch px-5 pt-8 pb-2 w-full text-black bg-white bg-opacity-0 max-md:px-5 max-md:max-w-full"
     >
-      <div className="flex flex-wrap gap-5 justify-between items-start w-full max-md:max-w-full">
+      <div className="flex flex-wrap items-center gap-5 justify-between items-start w-full max-md:max-w-full">
         <nav className="flex gap-10 mt-1.5 text-4xl tracking-tighter leading-tight whitespace-nowrap">
           {['recipe', 'product', 'order'].map((type) => (
             <div key={type} className="flex flex-col self-start">
