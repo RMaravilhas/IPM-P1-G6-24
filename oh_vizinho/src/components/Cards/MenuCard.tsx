@@ -15,14 +15,14 @@ type CardType =
   | "Mensagens"
   | "Meus Pedidos"
   | "Minhas Ofertas"
-  | "Dispensa";
+  | "Despensa";
 
 const menuItems: MenuItemData[] = [
   { text: "Perfil", marginTop: "mt-6" },
   { text: "Mensagens", marginTop: "mt-6" },
   { text: "Meus Pedidos", marginTop: "mt-6" },
   { text: "Minhas Ofertas", marginTop: "mt-6" },
-  { text: "Dispensa", marginTop: "mt-6" },
+  { text: "Despensa", marginTop: "mt-6" },
 ];
 
 interface MenuContainerProps {

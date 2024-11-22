@@ -10,7 +10,7 @@ interface PageHeadingProps {
   currentViewType: CardType;
 }
 
-type CardType = 'message' | 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType = 'message' | 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Despensa';
 
 const PageHeading: React.FC<PageHeadingProps> = ({
   togglePopup,

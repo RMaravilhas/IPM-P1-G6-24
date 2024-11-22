@@ -23,7 +23,7 @@ import RecipePopup from './RecipePopup';
 import { OrderCardProps } from '../components/Cards/OrderCard';
 import { ProductCardProps } from '../components/Cards/ProductCard';
 
-type CardType = 'message' |'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType = 'message' |'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Despensa';
 
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -58,7 +58,7 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
-    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa' || type === 'Mensagens'){
+    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Despensa' || type === 'Mensagens'){
       const newQuery = {
         name: '',
         products: [],
@@ -93,7 +93,7 @@ const OhVizinhoPage: React.FC = () => {
         return products;
       case 'Meus Pedidos':
         return orders;
-      case 'Dispensa':
+      case 'Despensa':
         return pantry;
       case 'Perfil':
       case 'Mensagens':

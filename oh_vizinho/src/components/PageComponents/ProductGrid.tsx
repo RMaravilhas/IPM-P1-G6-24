@@ -13,7 +13,7 @@ import MyMessages, { MyMessagesProps } from '../Cards/MyMessages';
 import { messageData } from '../../data';
 
 
-type CardType = 'message' | 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType = 'message' | 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Despensa';
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
@@ -89,7 +89,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete} onEdit={handleProductEdit} />;
       case 'Meus Pedidos':
         return <MyOrders key={index} {...(item as MyOrdersProps)} onDelete={handleOrderDelete} onEdit={handleOrderEdit} />;
-      case 'Dispensa':
+      case 'Despensa':
         return <PantryItem key={index} {...(item as PantryItemProps)} />;
       case 'Perfil':
       case 'Mensagens':
@@ -138,7 +138,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
       case 'Meus Pedidos':
       case 'Minhas Ofertas':
         return 'grid-cols-4';
-      case 'Dispensa':
+      case 'Despensa':
         return 'grid-cols-1';
       case 'Perfil':
       case 'Mensagens':
@@ -154,8 +154,8 @@ const ProductGrid: React.FC<ProductGridProps> = ({
           ? 'Minhas Ofertas'
           : cardType === 'Meus Pedidos'
             ? 'Meus Pedidos'
-            : cardType === 'Dispensa'
-              ? 'Dispensa'
+            : cardType === 'Despensa'
+              ? 'Despensa'
               : cardType === 'Mensagens'
                 ? 'Mensagens'
                 : ''}
