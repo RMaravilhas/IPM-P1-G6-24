@@ -63,7 +63,7 @@ export const productData = [
       {
         image: `${process.env.PUBLIC_URL}/images/sal.png`,
         product: "Sal",
-        address: "Travessa da Saudade, 78",
+        address: "Rua das Flores, 123",
         quantity: "1kg",
         expiry: "01/01/2025",
         price: "0.99€",
@@ -73,7 +73,7 @@ export const productData = [
       {
         image: `${process.env.PUBLIC_URL}/images/coco.webp`,
         product: "Coco",
-        address: "Estrada das Oliveiras",
+        address: "Rua das Flores, 123",
         quantity: "1kg",
         expiry: "01/01/2025",
         price: "0.99€",
@@ -102,7 +102,7 @@ export const productData = [
       vegan: true
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/caril-grao.jpg`,
       title: "Caril de Grão de Bico",
       description: "Um prato vegetariano exótico e aromático com grão de bico e especiarias.",
       ingredientCount: 8,
@@ -130,7 +130,7 @@ export const productData = [
       vegan: true
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/bacalhau-bras.jpg`,
       title: "Bacalhau à Brás",
       description: "Um prato típico português com bacalhau desfiado, batata e ovos.",
       ingredientCount: 7,
@@ -158,7 +158,7 @@ export const productData = [
       vegan: false
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/pasta-cogumelos.jpg`,
       title: "Pasta de Cogumelos",
       description: "Uma receita cremosa e rica, ideal para amantes de cogumelos.",
       ingredientCount: 6,
@@ -184,7 +184,7 @@ export const productData = [
       vegan: true
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/tarte-maca.jpg`,
       title: "Tarte de Maçã",
       description: "Uma sobremesa doce e aromática, perfeita para o lanche.",
       ingredientCount: 6,
@@ -212,7 +212,7 @@ export const productData = [
       vegan: false
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/letilhas.jpg`,
       title: "Guisado de Lentilhas",
       description: "Um prato nutritivo e reconfortante, ideal para um almoço leve.",
       ingredientCount: 9,
@@ -243,7 +243,7 @@ export const productData = [
       vegan: true
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/frango-assado-c-limao.webp`,
       title: "Frango Assado com Limão",
       description: "Uma receita simples e deliciosa de frango assado com limão e ervas.",
       ingredientCount: 6,
@@ -270,7 +270,7 @@ export const productData = [
       vegan: false
     },
     {
-      image: "https://i.ibb.co/fG5wMR8/download.jpg",
+      image: `${process.env.PUBLIC_URL}/images/quinoa.jpg`,
       title: "Salada de Quinoa",
       description: "Uma salada fresca e saudável com quinoa e vegetais.",
       ingredientCount: 7,
@@ -301,7 +301,7 @@ export const productData = [
       title: "bolo de chocolate",
       description: "Delícia",
       ingredientCount: 2,
-      ingredients: ["Manteia", "Farinha", "Ovos", "Chocolate"],
+      ingredients: ["50g Manteia", "200g Farinha", "6 Ovos", "200g Chocolate"],
       steps: ["Derreter o chocolate", "Misturar tudo", "Meter no forno por 30 minutos"],
       vegetarian : true,
       spicy : false,
@@ -314,7 +314,7 @@ export const productData = [
       title: "Arroz de pato",
       description: "Guloso",
       ingredientCount: 2,
-      ingredients: ["Pato", "Arroz", "Chouriço", "Sal"],
+      ingredients: ["1 Pato", "300g Arroz", "150g Chouriço", "Sal"],
       steps: ["Fazer arroz", "Misturar o pato", "Cozinhar por 20 minutos"],
       vegetarian : false,
       spicy : false,
@@ -327,7 +327,7 @@ export const productData = [
       title: "Empadão",
       description: "Reconfortante",
       ingredientCount: 2,
-      ingredients: ["Carne picada", "Batata", "Chouriço", "Sal"],
+      ingredients: ["400g Carne picada", "4 Batata", "250g Chouriço", "Sal"],
       steps: ["Fazer puré de batata", "Juntar tudo", "Cozinhar por 20 minutos"],
       vegetarian : false,
       spicy : false,
@@ -340,7 +340,7 @@ export const productData = [
       title: "Sopa de cebola",
       description: "impressionante",
       ingredientCount: 2,
-      ingredients: ["Cebola", "queijo", "pão", "Sal"],
+      ingredients: ["2 Cebola", "100g queijo", "1 pão", "Sal"],
       steps: ["Cozinhar tudo", "Torrar pão", "Derreter o queijo"],
       vegetarian : true,
       spicy : false,
@@ -353,7 +353,7 @@ export const productData = [
       title: "Frango Piri-Piri",
       description: "Picante",
       ingredientCount: 2,
-      ingredients: ["piri-piri", "Frango", "limão", "Sal"],
+      ingredients: ["piri-piri", "1 Frango", "1 limão", "Sal"],
       steps: ["Assar o frango", "Adicionar o molho"],
       vegetarian : false,
       spicy : true,
@@ -366,7 +366,7 @@ export const productData = [
       title: "Mousse Chocolate",
       description: "doce",
       ingredientCount: 2,
-      ingredients: ["chocolate", "ovos", "manteiga"],
+      ingredients: ["1 chocolate", "6 ovos", "125g manteiga"],
       steps: ["Bater claras em castelo", "Derreter chocolate", "Juntar tudo"],
       vegetarian : true,
       spicy : false,
