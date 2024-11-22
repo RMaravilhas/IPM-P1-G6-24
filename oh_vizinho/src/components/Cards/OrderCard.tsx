@@ -5,6 +5,7 @@ export interface OrderCardProps {
   quantity: string;
   customerName: string;
   address: string;
+  onContactClick?: () => void;
 }
 
 const OrderCard: React.FC<OrderCardProps> = ({
@@ -12,6 +13,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
   quantity,
   customerName,
   address,
+  onContactClick,
 }) => {
   return (
     <article className="p-6 w-full max-w-screen-lg bg-stone-50 border-solid border-2 rounded-xl shadow-md flex flex-col gap-4 mx-auto">
@@ -34,6 +36,7 @@ const OrderCard: React.FC<OrderCardProps> = ({
 
       <div className="flex justify-end mt-4">
         <button
+          onClick={onContactClick}
           className="flex items-center gap-2 px-6 py-2 bg-lime-600 text-white font-medium rounded-lg hover:bg-[#2e9578] transition"
         >
           <img

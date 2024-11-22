@@ -6,9 +6,9 @@ import ProductGrid from '../components/PageComponents/ProductGrid';
 import Filter from '../components/Filter';
 import MenuCard from '../components/Cards/MenuCard';
 import RecipeCard, { RecipeCardProps } from '../components/Cards/RecipeCard';
-import RecipePopup from './RecipePopup';
 
-import { productData, recipeData, orderData, pantryData, userData } from '../data';
+
+import { productData, recipeData, orderData, pantryData, userData, clearMessages, messageData} from '../data';
 
 import { Query } from '../types/Query';
 import CreateProduct from './CreateProduct';
@@ -18,8 +18,12 @@ import RegisterPage from './RegisterPage';
 import { User } from '../types/User';
 import { Product } from '../types/Product';
 import ProductDetails from './ProductDetails';
+import MessagePopup from './MessagePopup';
+import RecipePopup from './RecipePopup';
+import { OrderCardProps } from '../components/Cards/OrderCard';
+import { ProductCardProps } from '../components/Cards/ProductCard';
 
-type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+type CardType = 'message' |'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 const OhVizinhoPage: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -35,8 +39,14 @@ const OhVizinhoPage: React.FC = () => {
     favorite: false
   });
 
+  useEffect(() => {
+    // Clear messages on page load
+    clearMessages();
+  }, []);
+
   const [recipes, setRecipes] = useState<any[]>(recipeData);
   const [orders, setOrders] = useState<any[]>(orderData);
+  const [messages, setMessages] = useState<any[]>(messageData);
   const [pantry, setPantry] = useState<any[]>(pantryData);
 
   const [sideBar, setSideBar] = useState(false);
@@ -48,7 +58,7 @@ const OhVizinhoPage: React.FC = () => {
 
   const handleViewChange = (type: CardType) => {
     setViewType(type);
-    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa'){
+    if(type === 'Meus Pedidos' || type === 'Minhas Ofertas' || type === 'Dispensa' || type === 'Mensagens'){
       const newQuery = {
         name: '',
         products: [],
@@ -87,10 +97,30 @@ const OhVizinhoPage: React.FC = () => {
         return pantry;
       case 'Perfil':
       case 'Mensagens':
+        return messages;
       default:
         return [];
     }
   };
+  //////////////////////////////////
+  // Message Popup
+  //////////////////////////////////
+  const [isMessagePopupOpen, setMessagePopupOpen] = useState(false);
+  const [recipientName, setRecipientName] = useState<OrderCardProps | ProductCardProps>();
+  const [type, setType] = useState<string>();
+
+  const openMessagePopup = (name: OrderCardProps | ProductCardProps, type: string) => {
+    setRecipientName(name);
+    setType(type);
+    setMessagePopupOpen(true);
+  };
+
+  const closeMessagePopup = () => {
+    setMessagePopupOpen(false);
+    setRecipientName(recipientName);
+  };
+
+
   //////////////////////////////////
   // Recipe Popup
   //////////////////////////////////
@@ -345,6 +375,7 @@ const OhVizinhoPage: React.FC = () => {
             deleteItem={handleDeleteItem}
             editItem={toggleEdit}
             onCardClick={handleRecipeClick}
+            onContactClick={openMessagePopup}
             
             />
         ) : (
@@ -394,8 +425,14 @@ const OhVizinhoPage: React.FC = () => {
       <ProductDetails 
         isOpen={isDetailsOpen} 
         onClose={handleCloseProductDetails} 
-        product={selectedProduct} />
-      
+        product={selectedProduct} 
+      />
+      <MessagePopup
+        isOpen={isMessagePopupOpen}
+        onClose={closeMessagePopup}
+        recipientName={recipientName}
+        type={type} 
+      />
       {sideBar && isAuthenticated && (
         <div className="fixed top-0 right-0 w-[400px] h-full">
           <MenuCard onMenuItemClick={handleViewChange} logout={handleLogout} closeSideBar={handleSideBarClick}  users = {users} userName={(currentUser)?currentUser.name:''}/>

@@ -537,3 +537,9 @@ export const productData = [
       imageUrl: 'https://example.com/default-avatar.png',
     },
   ];
+
+  export const messageData: { recipient: string; message: string; type: string }[] = [];
+  
+  export const clearMessages = () => {
+    messageData.length = 0;
+  };

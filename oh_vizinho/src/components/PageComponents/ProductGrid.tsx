@@ -6,10 +6,14 @@ import MyOrders, { MyOrdersProps } from '../Cards/MyOrders';
 import MyOffers, { MyOffersProps } from '../Cards/MyOffers';
 import PantryItem, { PantryItemProps } from '../Cards/Pantry';
 
+
 import { Query } from '../../types/Query';
 import { Product } from '../../types/Product';
+import MyMessages, { MyMessagesProps } from '../Cards/MyMessages';
+import { messageData } from '../../data';
 
-type CardType = 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
+
+type CardType = 'message' | 'product' | 'recipe' | 'order' | 'Perfil' | 'Mensagens' | 'Meus Pedidos' | 'Minhas Ofertas' | 'Dispensa';
 
 interface ProductGridProps {
   items: (ProductCardProps | RecipeCardProps | OrderCardProps)[];
@@ -21,6 +25,7 @@ interface ProductGridProps {
   deleteItem: (data: { item: string; orderId?: string; id?: { name: string; owner: string } }) => void;
   editItem: (data: { item: string; orderId?: string; id?: { name: string; owner: string } }) => void;
   onCardClick?: (item: any) => void;
+  onContactClick?: (item: any, type: string) => void;
 }
 
 const ProductGrid: React.FC<ProductGridProps> = ({
@@ -33,6 +38,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   deleteItem,
   editItem,
   onCardClick,
+  onContactClick,
 }) => {
   const handleSaveChange = (saved: any) => {
     const toSend = saved;
@@ -58,7 +64,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({
   const renderCard = (item: any, index: number) => {
     switch (cardType) {
       case 'product':
-        return <ProductCard key={index} {...(item as ProductCardProps)} onClick={() => onProductClick(item)} />;
+        return <ProductCard
+          key={index}
+          {...(item as ProductCardProps)}
+          onClick={() => onProductClick(item)}
+          onContactClick={() => onContactClick?.(item, 'P')} />;
       case 'recipe':
         return (
           <RecipeCard
@@ -66,11 +76,15 @@ const ProductGrid: React.FC<ProductGridProps> = ({
             {...(item as RecipeCardProps)}
             favorite={item.favorite}
             onSaveChange={handleSaveChange}
-            onCardClick={() => onCardClick?.(item as RecipeCardProps)}
+            onCardClick={() => onCardClick?.(item)}
           />
         );
       case 'order':
-        return <OrderCard key={index} {...(item as OrderCardProps)} />;
+        return <OrderCard
+          key={index}
+          {...(item as OrderCardProps)}
+          onContactClick={() => onContactClick?.(item, 'O')}
+        />;
       case 'Minhas Ofertas':
         return <MyOffers key={index} {...(item as MyOffersProps)} onDelete={handleProductDelete} onEdit={handleProductEdit} />;
       case 'Meus Pedidos':
@@ -79,6 +93,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         return <PantryItem key={index} {...(item as PantryItemProps)} />;
       case 'Perfil':
       case 'Mensagens':
+        return <MyMessages key={index} message={messageData[index] || []}  />;
       default:
         return null;
     }
@@ -138,10 +153,12 @@ const ProductGrid: React.FC<ProductGridProps> = ({
         {cardType === 'Minhas Ofertas'
           ? 'Minhas Ofertas'
           : cardType === 'Meus Pedidos'
-          ? 'Meus Pedidos'
-          : cardType === 'Dispensa'
-          ? 'Dispensa'
-          : ''}
+            ? 'Meus Pedidos'
+            : cardType === 'Dispensa'
+              ? 'Dispensa'
+              : cardType === 'Mensagens'
+                ? 'Mensagens'
+                : ''}
       </h1>
 
       <div className={`grid ${nCols(cardType)} gap-5 max-md:grid-cols-2 w-full h-full px-10`}>
