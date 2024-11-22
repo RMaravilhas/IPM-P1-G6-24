@@ -6,7 +6,7 @@ import NumberPicker from '../components/NumberPicker';
 interface OrderCreationFormProps {
   isOpen: boolean;
   onClose: () => void;
-  create: (productData: any) => void;
+  create: (orderData: any) => void;
   editMode: boolean;
   prevData: any;
 }
@@ -19,7 +19,26 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
   const [orderId, setOrderId] = useState('');
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
+  // Estados para erros
+  const [errors, setErrors] = useState({
+    productName: '',
+    location: '',
+    quantity: '',
+  });
+
   useEffect(() => {
+    const clearFields = () => {
+      setProductName('');
+      setLocation('');
+      setQuantity(0);
+      setUnit('kg');
+      setErrors({
+        productName: '',
+        location: '',
+        quantity: '',
+      });
+    };
+
     if (editMode) {
       setProductName(prevData.product || '');
       setLocation(prevData.address || '');
@@ -28,45 +47,62 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
         setQuantity(Number(match[1]));
         setUnit(match[2]);
       }
-      setOrderId(prevData.orderId)
+      setOrderId(prevData.orderId);
+    } else {
+      clearFields();
     }
   }, [editMode, prevData]);
 
   if (!isOpen) return null;
+
+  const validateFields = () => {
+    const newErrors: any = {};
+
+    if (!productName.trim()) newErrors.productName = 'O nome do produto é obrigatório.';
+    if (!location.trim()) newErrors.location = 'A localização é obrigatória.';
+    if (quantity <= 0) newErrors.quantity = 'A quantidade deve ser maior que 0.';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const clearFields = () => {
     setProductName('');
     setLocation('');
     setQuantity(0);
     setUnit('kg');
+    setErrors({
+      productName: '',
+      location: '',
+      quantity: '',
+    });
   };
 
-  const handleClose = () => {
-    clearFields();
-    onClose();
-  }
-
   const handleSubmit = () => {
+    if (!validateFields()) return;
+
     const newOrder = {
-    product: productName,
-    address: location,
-    quantity: `${quantity}${unit}`,
-    orderId
-    }
+      product: productName,
+      address: location,
+      quantity: `${quantity}${unit}`,
+      orderId,
+    };
+
     create(newOrder);
     clearFields();
     setIsPopUpOpen(false);
   };
 
-  const openPopUp = () => {
-    if(productName && location && quantity){
-      setIsPopUpOpen(true);
-    }   
-  }
+  const handleClose = () => {
+    clearFields();
+    onClose();
+  };
 
-  const closePopUp = () => {
-    setIsPopUpOpen(false);
-  }
+  const openPopUp = () => {
+    if (validateFields()) {
+      setIsPopUpOpen(true);
+    }
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -78,7 +114,7 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
           <div className="flex gap-4 w-full">
             <button
               type="button"
-              onClick={closePopUp}
+              onClick={() => setIsPopUpOpen(false)}
               className="flex-1 py-3 text-lg font-semibold text-white bg-[#ea4903] rounded-lg hover:bg-[#ef590f] transition duration-200"
             >
               Cancelar
@@ -92,61 +128,75 @@ const OrderCreationForm: React.FC<OrderCreationFormProps> = ({ isOpen, onClose, 
             </button>
           </div>
         </section>
-      ): (
-        <section className="w-full max-w-3xl p-6 bg-white rounded-lg shadow-lg relative">
+      ) : (
+        <section className="px-8 pt-6 pb-10 w-[70%] sm:w-[70%] max-w-[1200px] rounded-3xl shadow-lg bg-white relative">
           <button
             className="absolute top-4 right-4 text-xl text-gray-500 hover:text-gray-700"
             onClick={handleClose}
           >
             ✖
           </button>
-          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Criar Novo Pedido</h2>
-          <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+          <div className="flex flex-col w-full">
+            <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+              <div className="mb-6">
+                <InputFieldForm
+                  label="Nome do Produto:"
+                  id="produtoName"
+                  placeholder="Produto"
+                  value={productName}
+                  onChange={(e) => setProductName(e.target.value)}
+                  error={!!errors.productName}
+                />
+                {errors.productName && <p className="text-red-500">{errors.productName}</p>}
+              </div>
 
-                  <InputFieldForm
-                    label="Nome do Produto:"
-                    id="produtoName"
-                    placeholder="Produto"
-                    value={productName}
-                    onChange={(e) => setProductName(e.target.value)}
-                  />
-                  <InputFieldForm
-                    label="Localização:"
-                    id="localizacao"
-                    placeholder="Localização"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
+              <div className="mb-6">
+                <InputFieldForm
+                  label="Localização:"
+                  id="localizacao"
+                  placeholder="Localização"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  error={!!errors.location}
+                />
+                {errors.location && <p className="text-red-500">{errors.location}</p>}
+              </div>
 
-                <div className="flex gap-1 items-center">
-                      <NumberPicker
-                        label="Quantidade:"
-                        value={quantity}
-                        onChange={(e) => setQuantity(Number(e.target.value))}
-                      />
-                      <select
-                        value={unit}
-                        onChange={(e) => setUnit(e.target.value)}
-                        className="w-20 px-2 py-1 text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
-                      >
-                        <option value="kg">kg</option>
-                        <option value="g">g</option>
-                        <option value="un">un</option>
-                        <option value="l">l</option>
-                        <option value="ml">ml</option>
-                      </select>
-                    </div>
+              <div className="flex gap-6 items-center mb-8">
+                <NumberPicker
+                  label="Quantidade:"
+                  value={quantity}
+                  onChange={(e) => {
+                    setQuantity(Number(e.target.value));
+                    setErrors((prev) => ({ ...prev, quantity: '' }));
+                  }}
+                  error={!!errors.quantity}
+                />
+                <select
+                  value={unit}
+                  onChange={(e) => setUnit(e.target.value)}
+                  className="w-20 px-2 py-1 text-base font-semibold text-center bg-white rounded border border-lime-800 border-solid text-lime-800 placeholder-opacity-50 placeholder-gray-400"
+                >
+                  <option value="kg">kg</option>
+                  <option value="g">g</option>
+                  <option value="un">un</option>
+                  <option value="l">l</option>
+                  <option value="ml">ml</option>
+                </select>
+              </div>
+              {errors.quantity && <p className="text-red-500">{errors.quantity}</p>}
 
-                <div className="text-right">
-                  <Button
-                    primary
-                    onClick={openPopUp}
-                    className="px-6 py-3 text-white bg-green-500 rounded-md hover:bg-green-600"
-                  >
-                    {editMode ? 'Atualizar' : 'Criar'}
-                  </Button>
-                </div>
-              </form>
+              <div className="flex justify-end">
+                <Button
+                  primary
+                  onClick={openPopUp}
+                  className="px-6 py-3 text-white bg-green-500 rounded-md hover:bg-green-600"
+                >
+                  {editMode ? 'Atualizar' : 'Criar'}
+                </Button>
+              </div>
+            </form>
+          </div>
         </section>
       )}
     </div>
